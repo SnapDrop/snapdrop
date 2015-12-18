@@ -1,8 +1,8 @@
-# Use Polymer Starter Kit on Chrome Dev Editor
+# Use Share With Me on Chrome Dev Editor
 
 If you are using a Chromebook, one of the few IDE you can use is [Chrome Dev Editor](https://github.com/GoogleChrome/chromedeveditor).
 
-To use the Polymer Starter Kit you have to download the [latest release](https://github.com/PolymerElements/polymer-starter-kit/releases) in the `light` flavor (the additional tools can't be used from CDE).
+To use the Share With Me you have to download the [latest release](https://github.com/PolymerElements/polymer-starter-kit/releases) in the `light` flavor (the additional tools can't be used from CDE).
 
 After downloading the `polymer-starter-kit-light-*.zip` file unpack it in a new folder (for Example `psk-light`) you should have a directory structure like 
 

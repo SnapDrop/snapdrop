@@ -1,6 +1,6 @@
 # Deploy to Firebase using Pretty URLs
 
-Firebase is a very simple and secure way to deploy a Polymer Starter Kit site. You can sign up for a free account and deploy your application in less than 5 minutes.
+Firebase is a very simple and secure way to deploy a Share With Me site. You can sign up for a free account and deploy your application in less than 5 minutes.
 
 The instructions below are based on the [Firebase hosting quick start
 guide](https://www.firebase.com/docs/hosting/quickstart.html).
@@ -64,4 +64,4 @@ guide](https://www.firebase.com/docs/hosting/quickstart.html).
 
     The URL to your live site is listed in the output.
 
-You can see a demo of Polymer Starter Kit hosted on Firebase using pretty URLs at https://polymer-starter-kit.firebaseapp.com.
+You can see a demo of Share With Me hosted on Firebase using pretty URLs at https://polymer-starter-kit.firebaseapp.com.

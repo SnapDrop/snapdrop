@@ -1,6 +1,6 @@
 # Deploy to Github Pages
 
-You can deploy to github pages with a couple minor changes to Polymer Starter Kit:
+You can deploy to github pages with a couple minor changes to Share With Me:
 
 1. Uncomment this line  `// app.baseUrl = '/polymer-starter-kit/';` in app.js near the top
 
@@ -19,5 +19,5 @@ You can deploy to github pages with a couple minor changes to Polymer Starter Ki
 
 ### Notes
 
-* When deploying to Github Pages we recommend using hashbangs which is Polymer Starter Kit default.
+* When deploying to Github Pages we recommend using hashbangs which is Share With Me default.
 * This method should work for most hosting providers when using a subfolder.

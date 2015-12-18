@@ -1,21 +1,21 @@
-# Use Polymer Starter Kit for [Mobile Chrome Apps](https://github.com/MobileChromeApps/mobile-chrome-apps)
+# Use Share With Me for [Mobile Chrome Apps](https://github.com/MobileChromeApps/mobile-chrome-apps)
 
 ## Getting started
 
-Polymer Starter Kit could be fully adapted to Mobile Chrome Apps through mobile-friendly features. Mobile Chrome Apps, is based on Apache Cordova, and requires mobile application SDKs such as Android and iOS. so please make sure that installation development tool by following [installation guide](https://github.com/MobileChromeApps/mobile-chrome-apps/blob/master/docs/Installation.md) of Mobile Chrome Apps. And then, You do some further steps to resolve some of restrictions and configurations to use Polymer Starter Kit on Cordova. Looking for a [guide video](https://www.youtube.com/watch?v=-ifgyobPLVg) below to better understand.
+Share With Me could be fully adapted to Mobile Chrome Apps through mobile-friendly features. Mobile Chrome Apps, is based on Apache Cordova, and requires mobile application SDKs such as Android and iOS. so please make sure that installation development tool by following [installation guide](https://github.com/MobileChromeApps/mobile-chrome-apps/blob/master/docs/Installation.md) of Mobile Chrome Apps. And then, You do some further steps to resolve some of restrictions and configurations to use Share With Me on Cordova. Looking for a [guide video](https://www.youtube.com/watch?v=-ifgyobPLVg) below to better understand.
 
 [![](https://camo.githubusercontent.com/7c498c4d60113dd1ea072576df897283100428b6/687474703a2f2f696d672e796f75747562652e636f6d2f76692f2d696667796f62504c56672f302e6a7067)](https://www.youtube.com/watch?v=-ifgyobPLVg)
 
-## Download Polymer Starter Kit into your workspace
+## Download Share With Me into your workspace
 
-To download and preparation, follow this [guide of Polymer Starter Kit](https://github.com/PolymerElements/polymer-starter-kit#getting-started). Make sure that install all of dependencies of npm and Bower.
+To download and preparation, follow this [guide of Share With Me](https://github.com/PolymerElements/polymer-starter-kit#getting-started). Make sure that install all of dependencies of npm and Bower.
 
 ## Create a Cordova project
 
 Create a Cordova project in path `polymer-starter-kit` by following command. `platform` is the path for Cordova project files, `com.your.app` is the project name/id and next following string is the description for your app.
 
 ```sh
-cca create platform com.your.app "Your Polymer Starter Kit App"
+cca create platform com.your.app "Your Share With Me App"
 ```
 
 If you have no problems while creating a project you will seeing the message of  installing successful coming from Cordova and have the tree of the project below.
@@ -52,7 +52,7 @@ You need to have some changes of configuration to fit for Mobile Chrome Apps as 
 
 ### Configure path for app built by gulp
 
-- Change the path `dist` in `gulpfile.js` from `dist` to `platform/www/app`, then the app built with Polymer Starter Kit will be placed under `platform/www` will be used by Cordova.
+- Change the path `dist` in `gulpfile.js` from `dist` to `platform/www/app`, then the app built with Share With Me will be placed under `platform/www` will be used by Cordova.
   ```js
   var DIST = 'platform/www/app';
   ```
@@ -118,7 +118,7 @@ You need to have some changes of configuration to fit for Mobile Chrome Apps as 
 
 ## Build and run app
 
-After done of above steps. run this command on root path that let you see Chrome Apps built with Polymer Starter Kit.
+After done of above steps. run this command on root path that let you see Chrome Apps built with Share With Me.
 
 ```sh
 gulp && cd platform && cca run chrome

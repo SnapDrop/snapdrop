@@ -2,7 +2,7 @@
 
 Although support for ES2015 (formerly ES6) is improving in modern browsers, the majority do not yet support the full set of features. To benefit from the awesomeness of the new ES2015 syntax while keeping backwards compatibility with Polymer's supported browsers, you'll need to transpile your JS code from ES2015 to ES5
 
-This recipe focuses on adding an ES2015 to ES5 transpile step to Polymer Starter Kit's build pipeline using [BabelJS](https://babeljs.io/).
+This recipe focuses on adding an ES2015 to ES5 transpile step to Share With Me's build pipeline using [BabelJS](https://babeljs.io/).
 
 
 ## Create a transpile gulp task
