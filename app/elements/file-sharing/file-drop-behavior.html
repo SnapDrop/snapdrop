@@ -1,0 +1,37 @@
+<script>
+'use strict';
+Chat = window.Chat || {};
+Chat.FileDropBehavior = {
+    attached: function() {
+        var dropZone = this;
+
+        // Optional.   Show the copy icon when dragging over.  Seems to only work for chrome.
+        dropZone.addEventListener('dragover', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+            this.style.transform = 'scale(1.2)';
+        });
+
+        // Get file data on drop
+        dropZone.addEventListener('drop', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var files = e.dataTransfer.files; // Array of all files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                reader.onload = function(e2) {
+                    // finished reading file data.
+                    console.log('file dropped');
+                    this.fire('file-uploaded', {
+                        url: e2.target.result,
+                        name: file.name
+                    });
+                }.bind(this);
+                reader.readAsDataURL(file); // start reading the file data.
+            }
+        });
+    }
+}
+</script>

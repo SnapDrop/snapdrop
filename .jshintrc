@@ -19,6 +19,7 @@
     "Polymer": true,
     "Platform": true,
     "page": true,
-    "app": true
+    "app": true,
+    "Chat": true
   }
 }

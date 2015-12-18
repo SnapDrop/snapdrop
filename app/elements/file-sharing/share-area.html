@@ -1,0 +1,18 @@
+<link rel="import" href="file-drop-behavior.html">
+<dom-module id="share-area">
+    <template>
+        <style>
+        :host {
+            display: block;
+        }
+        </style>
+        <content></content>
+    </template>
+    <script>
+    'use strict';
+    Polymer({
+        is: 'share-area',
+        behaviors: [Chat.FileDropBehavior]
+    });
+    </script>
+</dom-module>

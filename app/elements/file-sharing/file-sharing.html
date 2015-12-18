@@ -1,0 +1,48 @@
+<link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="file-reader.html">
+<dom-module id="file-sharing">
+    <template>
+        <style>
+        :host {
+            display: block;
+            position: fixed;
+            z-index: 100;
+        }
+        </style>
+        <paper-dialog id="dialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdro>
+            <h2>File Received</h2>
+            <p>You received file {{file.name}}</p>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Dismiss</paper-button>
+                <paper-button dialog-confirm on-tap="_download">Download</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+    <script>
+    'use strict';
+    Polymer({
+        is: 'file-sharing',
+        attached: function() {
+            document.querySelector('x-app').addEventListener('file-received', function(e) {
+                this.fileReceived(e.detail);
+            }.bind(this), false);
+        },
+        fileReceived: function(file) {
+            this.set('file', file);
+            this.$.dialog.open();
+        },
+        _download: function() {
+            var link = document.createElement('a');
+            link.download = this.file.name;
+            // Construct the uri
+            var uri = this.file.url;
+            link.href = uri;
+            document.body.appendChild(link);
+            link.click();
+            // Cleanup the DOM
+            document.body.removeChild(link);
+            //delete link;
+        }
+    });
+    </script>
+</dom-module>

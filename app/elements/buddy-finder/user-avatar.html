@@ -1,0 +1,43 @@
+<link rel="import" href="../contact-item/anonymous-contact-behavior.html">
+<dom-module id="user-avatar">
+    <template>
+        <style>
+        :host {
+            display: block;
+            @apply(--layout-vertical);
+            @apply(--layout-center);
+            width: 120px;
+        }
+
+        .avatar {
+            display: inline-block;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #ccc;
+            @apply(--shadow-elevation-2dp);
+        }
+        .paper-font-subhead{
+        	text-align: center;
+        }
+        </style>
+        <div class="avatar" id="avatar" item-icon></div>
+        <div class="paper-font-subhead">{{_displayName}}</div>
+    </template>
+    <script>
+    'use strict';
+    Polymer({
+        is: 'user-avatar',
+        behaviors:[Chat.AnonymousContactBehavior],
+        observers:['_computeBackgroundImg(contact.*)'],
+        _computeBackgroundImg:function(){
+            console.log('avatar changed');
+            var avatar = this.anonymousAccount(this.contact).avatar;
+            var style = this.$.avatar.style;
+            style.backgroundImage='url('+avatar.url+')';
+            style.backgroundPosition=avatar.left+'px '+avatar.top+'px';
+        }
+    });
+    </script>
+</dom-module>

@@ -1,0 +1,36 @@
+<script>
+'use strict';
+Chat.FileSharingButtonBehavior = {
+    properties: {
+        file: {
+            type: String
+        }
+    },
+    get fileInput(){
+        var fileInput=document.querySelector('input');
+    },
+    attached: function() {
+        this.$.file.onchange = function(value) {
+            this.file = this.$.file.value;
+            console.log(this.file);
+            var files = this.$.file.files;
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                reader.onload = function(e2) {
+                    // finished reading file data.
+                    console.log('file dropped');
+                    this.fire('file-uploaded', {
+                        url: e2.target.result,
+                        name: file.name
+                    });
+                }.bind(this);
+                reader.readAsDataURL(file); // start reading the file data.
+            }
+        }.bind(this);
+    },
+    _upload: function() {
+        this.$.file.click();
+    }
+};
+</script>

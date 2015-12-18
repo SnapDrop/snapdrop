@@ -1,0 +1,85 @@
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../contact-item/contact-item.html">
+<link rel="import" href="../file-sharing/share-area.html">
+<link rel="import" href="user-avatar.html">
+<dom-module id="buddy-finder">
+    <template>
+        <style>
+        :host {
+            display: block;
+            background-color: white;
+            @apply(--layout-fit);
+            @apply(--layout-vertical);
+            @apply(--layout-center-center);
+            border-left: 1px solid #ccc;
+        }
+        
+        .paper-font-display1 {
+            color: black;
+            text-align: center;
+            margin-bottom: 16px;
+            display: none;
+        }
+        
+        .buddies {
+            z-index: 1;
+        }
+        
+        .buddy {
+            cursor: pointer;
+        }
+        
+        .circles {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            width: 1140px;
+            margin-left: -570px;
+            height: 700px;
+            transform-origin: 570px 570px;
+            animation: grow 1.5s ease-out;
+            fill: transparent;
+        }
+        
+        .me {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            margin-left: -60px;
+        }
+        </style>
+        <div class="paper-font-display1">People near by</div>
+        <div class="buddies">
+            <template is="dom-repeat" items="{{buddies}}">
+                <share-area>
+                    <user-avatar on-tap="_connect" contact="{{item.peerId}}" class="buddy"></user-avatar>
+                </share-area>
+            </template>
+        </div>
+        <user-avatar contact="{{me}}" class="me"></user-avatar>
+        <iron-ajax auto url="https://yawim.com/findbuddies/{{me}}" handle-as="json" last-response="{{buddies}}"></iron-ajax>
+        <svg class="circles" viewBox="-0.5 -0.5 1140 700">
+            <circle class="circle" cx="570" cy="570" r="120" stroke="rgba(160,160,160,.4)"></circle>
+            <circle class="circle" cx="570" cy="570" r="210" stroke="rgba(160,160,160,.35)"></circle>
+            <circle class="circle" cx="570" cy="570" r="300" stroke="rgba(160,160,160,.3)"></circle>
+            <circle class="circle" cx="570" cy="570" r="390" stroke="rgba(160,160,160,.2)"></circle>
+            <circle class="circle" cx="570" cy="570" r="480" stroke="rgba(160,160,160,.15)"></circle>
+        </svg>
+    </template>
+    <script>
+    'use strict';
+    Polymer({
+        is: 'buddy-finder',
+        properties: {
+            buddies: Array,
+            me: {
+                type: String,
+            }
+        },
+        _connect: function(e) {
+            Polymer.dom(document).querySelector('x-app').p2p.connectToPeer(e.model.item.peerId);
+        }
+    });
+    </script>
+</dom-module>

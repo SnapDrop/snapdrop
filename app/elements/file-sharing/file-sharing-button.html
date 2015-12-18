@@ -1,0 +1,58 @@
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="file-reader.html">
+<dom-module id="file-sharing-button">
+    <template>
+        <style>
+        :host {
+            display: inline-block;
+        }
+        
+        #file {
+            margin: 0;
+            opacity: 0;
+            padding: 0;
+            position: absolute;
+            top: -10000px;
+        }
+        </style>
+        <paper-icon-button id="btn" icon="chat:attach-file" on-tap="_upload"></paper-icon-button>
+        <input id="file" type="file" value="{{file::input}}">
+    </template>
+    <script>
+    'use strict';
+    Polymer({
+        is: 'file-sharing-button',
+        properties: {
+            file: {
+                type: String
+            }
+        },
+        attached: function() {
+            this.$.file.onchange = function(value) {
+                this.file = this.$.file.value;
+                console.log(this.file);
+
+                var files = this.$.file.files;
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var reader = new FileReader();
+                    reader.onload = function(e2) {
+                        // finished reading file data.
+                        console.log('file dropped');
+                        this.fire('file-uploaded', {
+                            url: e2.target.result,
+                            name: file.name
+                        });
+                    }.bind(this);
+                    reader.readAsDataURL(file); // start reading the file data.
+                }
+
+
+            }.bind(this);
+        },
+        _upload: function() {
+            this.$.file.click();
+        }
+    });
+    </script>
+</dom-module>

@@ -1,0 +1,245 @@
+<link rel="import" href="p2p-network-imports.html">
+<link rel="import" href="../../../bower_components/iron-localstorage/iron-localstorage.html">
+<dom-module id="p2p-network">
+    <template>
+        <iron-localstorage name="peer-id" value="{{me}}" id="meStorage">
+        </iron-localstorage>
+        <iron-localstorage name="peers" value="{{peers}}" on-iron-localstorage-load-empty="initializeDefaultPeers">
+        </iron-localstorage>
+    </template>
+    <script>
+    'use strict';
+    Polymer({
+        is: 'p2p-network',
+        properties: {
+            me: {
+                type: String,
+                notify: true,
+                observer: '_initialize'
+            },
+            peers: {
+                type: Array,
+                value: [],
+                notify: true,
+            },
+            peer: {
+                value: 'loading',
+                notify: true
+            }
+        },
+        attached: function() {
+            this._connectedPeers = {};
+            this._initCallbacks = [];
+            this._unsendMsgs = {};
+            window.onunload = window.onbeforeunload = function() {
+                if (!!this._peer && !this._peer.destroyed) {
+                    this._peer.destroy();
+                }
+            }.bind(this);
+        },
+        _initialize: function(me) {
+            if (!this.initialized && this.$.meStorage._loaded) {
+                var options = {
+                    host: 'yawim.com',
+                    port: 443 ,
+                    path:'peerjs',
+                    secure: true
+                };
+                me = me ? me : undefined;
+                me = me === 'null' ? undefined : me;
+                this._peer = new Peer(me, options);
+                this._peer.on('open', function(id) {
+                    console.log('My peer ID is: ' + id);
+                    this.set('me', id);
+                    this._peerOpen = true;
+                    this._initCallbacks.forEach(function(cb) {
+                        cb();
+                    });
+                }.bind(this));
+
+                this._peer.on('connection', this.connect.bind(this));
+                this._peer.on('error', function(err) {
+                    console.error(err);
+                    //ugly hack to find out error type
+                    if (err.message.indexOf('Could not connect to peer') > -1) {
+                        delete this._connectedPeers[this.peer];
+                        this.set('peer', 'error');
+                        return;
+                    }
+                    if (err.message.indexOf('Lost connection to server') > -1) {
+                        this._peer.destroy();
+                        this.initialized = false;
+                        this._connectedPeers = {};
+                        this.set('me', me);
+                        this._initialize(this.me);
+                        return;
+                    }
+                }.bind(this));
+
+            }
+            this.initialized = true;
+        },
+
+        connect: function(c) {
+            var peer = c.peer;
+
+            if (c.label === 'chat') {
+                c.on('data', function(data) {
+                    this.addToHistory(c.peer, data);
+                    this.sendIReceived(c.peer, data);
+                }.bind(this));
+                c.on('close', function() {
+                    console.log(c.peer + ' has left the chat.');
+                    delete this._connectedPeers[peer];
+                }.bind(this));
+
+                if(!this.peers){
+                    this.set('peers',[]);
+                }
+                var peerInContacts = this.peers.some(function(p) {
+                    return p.peer === peer;
+                });
+                if (!peerInContacts) {
+                    this.push('peers', {
+                        peer: peer
+                    });
+                }
+                this._connectedPeers[peer] = 1;
+
+                this.fire('connected-to-peer', peer);
+            }
+
+            if (c.label === 'file') {
+                c.on('data', function(data) {
+                    // If we're getting a file, create a URL for it.
+                    console.log('received!', data);
+                    this.fire('file-received', {
+                        peer: peer,
+                        url: data.url,
+                        name: data.name,
+                    });
+                }.bind(this));
+            }
+
+            if (c.label === 'received-channel') {
+                c.on('data', function(data) {
+                    this._peerReceivedMsg(c.peer, data);
+                }.bind(this));
+            }
+            //send unsend messages
+            if (this._unsendMsgs[peer]) {
+                this._unsendMsgs[peer].forEach(function(msg) {
+                    this.send(peer, msg);
+                }.bind(this));
+            }
+        },
+        connectToPeer: (function() {
+            function request(requestedPeer) {
+                return function() {
+                    var c = this._peer.connect(requestedPeer, {
+                        label: 'chat',
+                        metadata: {
+                            message: 'hi i want to chat with you!'
+                        }
+                    });
+                    c.on('open', function() {
+                        this.connect(c);
+                    }.bind(this));
+
+
+                    var c1 = this._peer.connect(requestedPeer, {
+                        label: 'received-channel',
+                    });
+                    c1.on('open', function() {
+                        this.connect(c1);
+                    }.bind(this));
+
+
+                    var f = this._peer.connect(requestedPeer, {
+                        label: 'file',
+                        reliable: true
+                    });
+                    f.on('open', function() {
+                        this.connect(f);
+                    }.bind(this));
+                    f.on('error', function(err) {
+                        console.log(err);
+                    });
+                };
+            }
+            return function(requestedPeer) {
+                if (!this._connectedPeers[requestedPeer]) {
+                    this.set('peer', 'loading');
+                    if (this._peerOpen) {
+                        request(requestedPeer).bind(this)();
+                    } else {
+                        this._initCallbacks.push(request(requestedPeer).bind(this));
+                    }
+                }
+            };
+        }()),
+        send: function(peerId, msg) {
+            var conns = this._peer.connections[peerId];
+            if (conns) {
+                for (var i = 0; i < conns.length; i++) {
+                    var conn = conns[i];
+                    if (conn.label === 'chat') {
+                        this._addToUnsendMsgs(peerId, msg);
+                        conn.send(msg);
+                        this.addToHistory(conn.peer, msg);
+                    }
+                }
+            } else {
+                this._addToUnsendMsgs(peerId, msg);
+                this.connectToPeer(peerId);
+            }
+        },
+        sendFile: function(peerId, file) {
+            var conns = this._peer.connections[peerId];
+            if (conns) {
+                for (var i = 0; i < conns.length; i++) {
+                    var conn = conns[i];
+                    if (conn.label === 'file') {
+                        conn.send(file);
+                        console.log('file send');
+                    }
+                }
+            }
+        },
+        _addToUnsendMsgs: function(peerId, msg) {
+            if (!this._unsendMsgs[peerId]) {
+                this._unsendMsgs[peerId] = [];
+            }
+            if (this._unsendMsgs[peerId].indexOf(msg) === -1) {
+                this._unsendMsgs[peerId].push(msg);
+                console.log('added unsend', msg);
+            }
+        },
+        sendIReceived: function(peerId, msg) {
+            var conns = this._peer.connections[peerId];
+            if (conns) {
+                for (var i = 0; i < conns.length; i++) {
+                    var conn = conns[i];
+                    if (conn.label === 'received-channel') {
+                        conn.send(msg);
+                    }
+                }
+            } else {
+                this.connectToPeer(peerId);
+            }
+        },
+        addToHistory: function(peerId, msg) {
+            console.log('send message', msg);
+            this.fire('new-message', msg);
+        },
+        initializeDefaultPeers: function() {
+            this.peers = [];
+        },
+        _peerReceivedMsg: function(peerId, msg) {
+            console.log('received', peerId, msg);
+            var i = this._unsendMsgs[peerId].indexOf(msg);
+            this._unsendMsgs[peerId].splice(i, 1);
+        }
+    });
+    </script>
+</dom-module>
