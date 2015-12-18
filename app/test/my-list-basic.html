@@ -1,0 +1,65 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>my-list-basic</title>
+
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+
+  <!-- Import the element to test -->
+  <link rel="import" href="../elements/my-list/my-list.html">
+
+</head>
+<body>
+
+  <test-fixture id="basic">
+    <template>
+       <my-list></my-list>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('my-list tests', function() {
+      var list, listItems;
+
+      setup(function() {
+        list = fixture('basic');
+      });
+
+      test('Item lengths should be equalled', function(done) {
+        // Test a property
+        // TODO: Fix list.items.push('Foo') causing a WeakMap exception
+        // Invalid value used as weak map key
+        list.items = [
+          'Responsive Web App boilerplate',
+          'Iron Elements and Paper Elements',
+          'End-to-end Build Tooling (including Vulcanize)',
+          'Unit testing with Web Component Tester',
+          'Routing with Page.js',
+          'Offline support with the Platinum Service Worker Elements'
+        ];
+
+        // Data bindings will stamp out new DOM asynchronously
+        // so wait to check for updates
+        flush(function() {
+          listItems = list.querySelectorAll('li');
+          assert.equal(list.items.length, listItems.length);
+          done();
+        });
+      })
+    });
+  </script>
+
+</body>
+</html>

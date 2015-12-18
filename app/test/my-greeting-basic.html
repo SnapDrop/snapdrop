@@ -1,0 +1,50 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>my-greeting-basic</title>
+
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+
+  <!-- Import the element to test -->
+  <link rel="import" href="../elements/my-greeting/my-greeting.html">
+
+</head>
+<body>
+
+  <test-fixture id="basic">
+    <template>
+      <my-greeting></my-greeting>
+    </template>
+  </test-fixture>
+
+  <script>
+
+    suite('my-greeting tests', function() {
+      var greeting, header;
+
+      setup(function() {
+        greeting = fixture('basic');
+      });
+
+      test('Welcome!', function() {
+        header = greeting.querySelector('h2');
+        assert.equal(header.textContent, 'Welcome!');
+      });
+
+    });
+  </script>
+
+</body>
+</html>
