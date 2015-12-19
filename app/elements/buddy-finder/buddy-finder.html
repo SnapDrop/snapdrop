@@ -59,11 +59,12 @@
         </div>
         <user-avatar contact="{{me}}" class="me"></user-avatar>
         <svg class="circles" viewBox="-0.5 -0.5 1140 700">
-            <circle class="circle" cx="570" cy="570" r="120" stroke="rgba(160,160,160,.4)"></circle>
-            <circle class="circle" cx="570" cy="570" r="210" stroke="rgba(160,160,160,.35)"></circle>
+            <circle class="circle" cx="570" cy="570" r="120" stroke="rgba(160,160,160,.15)"></circle>
+            <circle class="circle" cx="570" cy="570" r="210" stroke="rgba(160,160,160,.2)"></circle>
             <circle class="circle" cx="570" cy="570" r="300" stroke="rgba(160,160,160,.3)"></circle>
-            <circle class="circle" cx="570" cy="570" r="390" stroke="rgba(160,160,160,.2)"></circle>
-            <circle class="circle" cx="570" cy="570" r="480" stroke="rgba(160,160,160,.15)"></circle>
+            <circle class="circle" cx="570" cy="570" r="390" stroke="rgba(160,160,160,.35)"></circle>
+            <circle class="circle" cx="570" cy="570" r="480" stroke="rgba(160,160,160,.4)"></circle>
+            <circle class="circle" cx="570" cy="570" r="570" stroke="rgba(160,160,160,.43)"></circle>
         </svg>
         <iron-ajax id="ajax" auto url="https://yawim.com/findbuddies/{{me}}" handle-as="json" last-response="{{buddies}}"></iron-ajax>
     </template>

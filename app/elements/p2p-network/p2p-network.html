@@ -95,6 +95,7 @@
             }
             return function(requestedPeer, callback) {
                 if (this._peer.connections[requestedPeer]) {
+                    callback();
                     return;
                 }
                 this.set('loading', true);
