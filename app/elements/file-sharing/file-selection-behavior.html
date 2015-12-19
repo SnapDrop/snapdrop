@@ -1,0 +1,25 @@
+<script>
+'use strict';
+window.Chat = window.Chat || {};
+Chat.FileSelectionBehavior = {
+    notifyFilesSelection: function(files) {
+        if(!files){
+            console.log('no files selected...');
+            return;
+        }
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+            reader.onload = function(e2) {
+                // finished reading file data.
+                console.log('file dropped');
+                this.fire('file-selected', {
+                    dataURI: e2.target.result,
+                    name: file.name
+                });
+            }.bind(this);
+            reader.readAsDataURL(file); // start reading the file data.
+        }
+    }
+};
+</script>

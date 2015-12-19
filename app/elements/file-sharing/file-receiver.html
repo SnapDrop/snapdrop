@@ -1,6 +1,8 @@
-<link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="file-reader.html">
-<dom-module id="file-sharing">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<dom-module id="file-receiver">
     <template>
         <style>
         :host {
@@ -21,11 +23,13 @@
     <script>
     'use strict';
     Polymer({
-        is: 'file-sharing',
+        is: 'file-receiver',
         attached: function() {
-            document.querySelector('x-app').addEventListener('file-received', function(e) {
-                this.fileReceived(e.detail);
-            }.bind(this), false);
+            this.async(function() {
+                app.p2p.addEventListener('file-received', function(e) {
+                    this.fileReceived(e.detail);
+                }.bind(this), false);
+            },200);
         },
         fileReceived: function(file) {
             this.set('file', file);
@@ -35,7 +39,7 @@
             var link = document.createElement('a');
             link.download = this.file.name;
             // Construct the uri
-            var uri = this.file.url;
+            var uri = this.file.dataURI;
             link.href = uri;
             document.body.appendChild(link);
             link.click();

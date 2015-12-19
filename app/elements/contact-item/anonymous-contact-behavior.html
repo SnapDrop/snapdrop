@@ -1,6 +1,6 @@
 <script>
 'use strict';
-var Chat = window.Chat || {};
+window.Chat = window.Chat || {};
 var djb2Code = function(str) {
     var hash = 5381;
     for (var i = 0; i < str.length; i++) {

@@ -1,7 +1,6 @@
 <link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
-<link rel="import" href="../contact-item/contact-item.html">
-<link rel="import" href="../file-sharing/share-area.html">
+<link rel="import" href="../file-sharing/file-input.html">
 <link rel="import" href="user-avatar.html">
 <dom-module id="buddy-finder">
     <template>
@@ -10,9 +9,9 @@
             display: block;
             background-color: white;
             @apply(--layout-fit);
-            @apply(--layout-vertical);
+            @apply(--layout-horizontal);
             @apply(--layout-center-center);
-            border-left: 1px solid #ccc;
+            overflow: hidden;
         }
         
         .paper-font-display1 {
@@ -24,6 +23,7 @@
         
         .buddies {
             z-index: 1;
+            @apply(--layout-horizontal);
         }
         
         .buddy {
@@ -52,13 +52,12 @@
         <div class="paper-font-display1">People near by</div>
         <div class="buddies">
             <template is="dom-repeat" items="{{buddies}}">
-                <share-area>
-                    <user-avatar on-tap="_connect" contact="{{item.peerId}}" class="buddy"></user-avatar>
-                </share-area>
+                <file-input on-file-selected="_fileDropped">
+                    <user-avatar contact="{{item.peerId}}" class="buddy"></user-avatar>
+                </file-input>
             </template>
         </div>
         <user-avatar contact="{{me}}" class="me"></user-avatar>
-        <iron-ajax auto url="https://yawim.com/findbuddies/{{me}}" handle-as="json" last-response="{{buddies}}"></iron-ajax>
         <svg class="circles" viewBox="-0.5 -0.5 1140 700">
             <circle class="circle" cx="570" cy="570" r="120" stroke="rgba(160,160,160,.4)"></circle>
             <circle class="circle" cx="570" cy="570" r="210" stroke="rgba(160,160,160,.35)"></circle>
@@ -66,6 +65,7 @@
             <circle class="circle" cx="570" cy="570" r="390" stroke="rgba(160,160,160,.2)"></circle>
             <circle class="circle" cx="570" cy="570" r="480" stroke="rgba(160,160,160,.15)"></circle>
         </svg>
+        <iron-ajax id="ajax" auto url="https://yawim.com/findbuddies/{{me}}" handle-as="json" last-response="{{buddies}}"></iron-ajax>
     </template>
     <script>
     'use strict';
@@ -77,8 +77,20 @@
                 type: String,
             }
         },
-        _connect: function(e) {
-            Polymer.dom(document).querySelector('x-app').p2p.connectToPeer(e.model.item.peerId);
+        attached: function() {
+            //Ask server every second for changes
+            setInterval(function() {
+                this.$.ajax.generateRequest();
+            }.bind(this), 1000);
+        },
+        _fileDropped: function(e) {
+            var peerId = e.model.item.peerId;
+            var file = e.detail;
+            app.p2p.connectToPeer(peerId, function() {
+                app.p2p.sendFile(peerId, file);
+            });
+            console.log('Send:', file);
+            console.log('To:', peerId);
         }
     });
     </script>

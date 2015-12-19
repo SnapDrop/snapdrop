@@ -1,0 +1,34 @@
+<link rel="import" href="file-selection-behavior.html">
+<script>
+'use strict';
+window.Chat = window.Chat || {};
+Chat.FileButtonBehaviorImpl = {
+    get fileInput() {
+        var fileInput = Polymer.dom(this).querySelector('.fileInput');
+        if (!fileInput) {
+            fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.className = 'fileInput';
+            fileInput.style.position = 'fixed';
+            fileInput.style.top = '-10000px';
+            fileInput.style.left = '-10000px';
+            fileInput.style.opacity = 0;
+            Polymer.dom(this).appendChild(fileInput);
+        }
+        return fileInput;
+    },
+    attached: function() {
+        this.fileInput.onchange = function() {
+            var files = this.fileInput.files;
+            this.notifyFilesSelection(files);
+        }.bind(this);
+    },
+    listeners: {
+        'tap': '_openDialog'
+    },
+    _openDialog: function() {
+        this.fileInput.click();
+    }
+};
+Chat.FileButtonBehavior = [Chat.FileButtonBehaviorImpl, Chat.FileSelectionBehavior];
+</script>
