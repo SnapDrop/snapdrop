@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Share With Me!">
-    <title>Share With Me!</title>
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1">
+    <meta name="generator" content="SnapDrop!">
+    <title>SnapDrop!</title>
     <!-- Place favicon.ico in the `app/` directory -->
     <!-- Chrome for Android theme color -->
-    <meta name="theme-color" content="#2E3AA1">
+    <meta name="theme-color" content="#3367d6">
     <!-- Web Application Manifest -->
     <link rel="manifest" href="manifest.json">
     <!-- Tile color for Win8 -->
@@ -21,7 +21,7 @@
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Share With Me!">
+    <meta name="apple-mobile-web-app-title" content="SnapDrop!">
     <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
     <!-- Tile icon for Win8 (144x144) -->
     <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
@@ -29,23 +29,23 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild-->
     <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js" async></script>
     <!-- endbuild -->
     <!-- Because this project uses vulcanize this should be your only html import
        in this file. All other imports should go in elements.html -->
-    <link rel="import" href="elements/elements.html">
-    <!-- For shared styles, shared-styles.html import in elements.html -->
-    <style is="custom-style" include="shared-styles"></style>
+    <link rel="import" href="elements/elements.html" async>
+    <meta name="description" content="SnapDrop lets you instantly share files with people near by. It is a web-based clone of Apple's Airdrop.">
 </head>
 
-<body unresolved class="fullbleed layout vertical">
+<body class="fullbleed layout vertical" loading>
+    <script src="scripts/animated-bg.js" inline></script>
     <span id="browser-sync-binding"></span>
     <template is="dom-bind" id="app">
-        <buddy-finder me="{{me}}"></buddy-finder>
-        <p2p-network me="{{me}}"></p2p-network>
+        <paper-progress indeterminate hidden$="{{!loading}}"></paper-progress>
+        <buddy-finder me="{{me}}" active$="{{loading}}" buddies="{{buddies}}"></buddy-finder>
+        <connection-wrapper me="{{me}}" loading="{{loading}}" buddies="{{buddies}}"></connection-wrapper>
         <file-receiver></file-receiver>
-        <paper-toast id="toast">
-            <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
+        <paper-toast id="toast" duration="6000">
         </paper-toast>
         <!-- Uncomment next block to enable Service Worker support (1/2) -->
         <paper-toast id="caching-complete" duration="6000" text="Caching complete! This app will work offline.">

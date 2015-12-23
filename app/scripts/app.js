@@ -21,17 +21,25 @@
         }
     };
 
+    app.displayToast = function(msg) {
+        var toast = Polymer.dom(document).querySelector('#toast');
+        toast.text = msg;
+        toast.show();
+    };
+
     // Listen for template bound event to know when bindings
     // have resolved and content has been stamped to the page
     app.addEventListener('dom-change', function() {
         console.log('Our app is ready to rock!');
+        app.p2p = document.querySelector('connection-wrapper');
     });
 
     // See https://github.com/Polymer/polymer/issues/1381
     window.addEventListener('WebComponentsReady', function() {
         // imports are loaded and elements have been registered
-                app.p2p = document.querySelector('p2p-network');
 
     });
+
+
 
 })(document);

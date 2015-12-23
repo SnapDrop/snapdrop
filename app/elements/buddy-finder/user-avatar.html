@@ -1,4 +1,4 @@
-<link rel="import" href="../contact-item/anonymous-contact-behavior.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <dom-module id="user-avatar">
     <template>
         <style>
@@ -9,35 +9,121 @@
             width: 120px;
             height: 120px;
         }
-
-        .avatar {
+        
+        paper-icon-button {
             display: inline-block;
-            width: 52px;
-            height: 52px;
+            width: 64px !important;
+            height: 64px !important;
             border-radius: 50%;
             overflow: hidden;
-            background: #ccc;
-            @apply(--shadow-elevation-2dp);
+            padding: 12px;
+            margin-bottom: 4px;
+            background-color: #4285f4;
+            color: white;
         }
-        .paper-font-subhead{
-        	text-align: center;
+        
+        :host:hover paper-icon-button {
+            transform: scale(1.05);
+        }
+        
+        .paper-font-subhead {
+            text-align: center;
+        }
+        
+        .paper-font-body1 {
+            text-align: center;
+            width: 100%;
+            font-size: 13px;
+            color: grey;
+            margin-top: 2px;
+        }
+        
+        :host,
+        .paper-font-subhead,
+        .paper-font-body1 {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            margin: 4px;
         }
         </style>
-        <div class="avatar" id="avatar" item-icon></div>
+        <paper-icon-button icon="{{_displayIcon}}"></paper-icon-button>
         <div class="paper-font-subhead">{{_displayName}}</div>
+        <div class="paper-font-body1">{{status}}</div>
     </template>
     <script>
     'use strict';
     Polymer({
         is: 'user-avatar',
-        behaviors:[Chat.AnonymousContactBehavior],
-        observers:['_computeBackgroundImg(contact.*)'],
-        _computeBackgroundImg:function(){
-            console.log('avatar changed');
-            var avatar = this.anonymousAccount(this.contact).avatar;
-            var style = this.$.avatar.style;
-            style.backgroundImage='url('+avatar.url+')';
-            style.backgroundPosition=avatar.left+'px '+avatar.top+'px';
+        properties: {
+            contact: Object,
+            _displayName: {
+                computed: '_computeDisplayName(contact)'
+            },
+            _displayIcon: {
+                computed: '_computeDisplayIcon(contact)'
+            },
+            status: {
+                type: String,
+                value: ''
+            }
+        },
+        _computeDisplayName: function(contact) {
+            contact = contact.name;
+            if (contact.model) {
+                return contact.os + ' ' + contact.model;
+            }
+            contact.os = contact.os.replace('Mac OS', 'Mac');
+            return contact.os + ' ' + contact.browser;
+        },
+        _computeDisplayIcon: function(contact) {
+            contact = contact.name;
+            if (contact.type === 'mobile') {
+                return 'chat:phone-iphone';
+            }
+            if (contact.type === 'tablet') {
+                return 'chat:tablet-mac';
+            }
+
+            return 'chat:desktop-mac';
+        },
+        attached: function() {
+            this.async(function() {
+                app.p2p.addEventListener('file-offered', function(e) {
+                    if (e.detail.to === this.contact.peerId) {
+                        this.status = 'Waiting to accept...';
+                    }
+                }.bind(this), false);
+                app.p2p.addEventListener('upload-started', function(e) {
+                    if (e.detail.to === this.contact.peerId) {
+                        this.status = 'Uploading...';
+                    }
+                }.bind(this), false);
+                app.p2p.addEventListener('download-started', function(e) {
+                    if (e.detail.from === this.contact.peerId) {
+                        this.status = 'Downloading...';
+                    }
+                }.bind(this), false);
+                app.p2p.addEventListener('upload-complete', function(e) {
+                    if (e.detail.from === this.contact.peerId) {
+                        this.status = '';
+                    }
+                }.bind(this), false);
+                app.p2p.addEventListener('download-complete', function(e) {
+                    if (e.detail.from === this.contact.peerId) {
+                        this.status = '';
+                    }
+                }.bind(this), false);
+                app.p2p.addEventListener('file-declined', function(e) {
+                    if (e.detail.from === this.contact.peerId) {
+                        this.status = '';
+                    }
+                }.bind(this), false);
+                app.p2p.addEventListener('upload-error', function(e) {
+                    this.status = '';
+                }.bind(this), false);
+            }, 200);
         }
     });
     </script>

@@ -1,0 +1,59 @@
+<link rel="import" href="p2p-network.html">
+<link rel="import" href="web-socket.html">
+<dom-module id="connection-wrapper">
+    <template>
+        <p2p-network id="p2p" me="{{me}}"></p2p-network>
+        <web-socket id="ws" me="{{me}}"></web-socket>
+    </template>
+    <script>
+    'use strict';
+    (function() {
+        function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
+        }
+        var webRTCSupported = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection || window.webkitRTCPeerConnection;
+
+        function rtcConnectionSupported(peerId) {
+            return webRTCSupported && (peerId.indexOf('rtc_') === 0);
+        }
+        Polymer({
+            is: 'connection-wrapper',
+            properties: {
+                me: {
+                    notify: true,
+                    value: (webRTCSupported ? 'rtc_' : 'ws_') + guid()
+                }
+            },
+            behaviors: [Chat.FileTransferProtocol],
+            _sendFile: function(toPeer, file) {
+                if (!rtcConnectionSupported(toPeer)) {
+                    this.$.ws._sendFile(toPeer, file);
+                } else {
+                    this.$.p2p._sendFile(toPeer, file);
+                }
+            },
+            _sendSystemEvent: function(toPeer, event) {
+                console.log('system event', toPeer, event);
+                if (!rtcConnectionSupported(toPeer)) {
+                    this.$.ws._sendSystemEvent(toPeer, event);
+                } else {
+                    this.$.p2p._sendSystemEvent(toPeer, event);
+                }
+            },
+            connectToPeer: function(toPeer, callback) {
+                if (!rtcConnectionSupported(toPeer)) {
+                    callback();
+                } else {
+                    this.$.p2p.connectToPeer(toPeer,callback);
+                }
+            },
+        });
+    })();
+    </script>
+</dom-module>

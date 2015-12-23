@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../styles/icons.html">
+<dom-module id="personal-avatar">
+    <template>
+        <style>
+        :host {
+            @apply(--layout-vertical);
+            @apply(--layout-center);
+            width: 360px;
+        }
+        
+        iron-icon {
+            width: 80px;
+            height: 80px;
+            color: #4285f4;
+        }
+        
+        .paper-font-body1 {
+            font-size: 13px;
+            margin-top: 6px;
+        }
+        
+        .discover {
+            color: #4285f4;
+        }
+        </style>
+        <iron-icon icon="chat:wifi-tethering"></iron-icon>
+        <div class="paper-font-body1">
+            SnapDrop lets you share instantly with people near by.
+        </div>
+        <div class="paper-font-body1 discover">
+            Allow me to be discovered by: Everyone in this network.
+        </div>
+    </template>
+    <script>
+    'use strict';
+    Polymer({
+        is: 'personal-avatar'
+    });
+    </script>
+</dom-module>

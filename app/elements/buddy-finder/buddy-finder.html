@@ -1,97 +1,100 @@
-<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../file-sharing/file-input.html">
 <link rel="import" href="user-avatar.html">
+<link rel="import" href="personal-avatar.html">
 <dom-module id="buddy-finder">
     <template>
         <style>
         :host {
-            display: block;
-            background-color: white;
+            background-color: transparent;
             @apply(--layout-fit);
             @apply(--layout-horizontal);
             @apply(--layout-center-center);
             overflow: hidden;
-        }
-        
-        .paper-font-display1 {
-            color: black;
-            text-align: center;
-            margin-bottom: 16px;
-            display: none;
+            position: relative;
+            height: 100%;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            margin: 0;
         }
         
         .buddies {
             z-index: 1;
             @apply(--layout-horizontal);
+            @apply(--layout-center-center);
+            @apply(--layout-wrap);
         }
         
         .buddy {
             cursor: pointer;
         }
         
-        .circles {
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            width: 1140px;
-            margin-left: -570px;
-            height: 700px;
-            transform-origin: 570px 570px;
-            animation: grow 1.5s ease-out;
-            fill: transparent;
-        }
-        
         .me {
             position: absolute;
-            bottom: 30px;
+            bottom: 24px;
             left: 50%;
-            margin-left: -60px;
+            margin-left: -180px;
+        }
+        
+        .explanation {
+            @apply(--paper-font-headline);
+            color: #4285f4;
+            text-align: center;
         }
         </style>
-        <div class="paper-font-display1">People near by</div>
         <div class="buddies">
             <template is="dom-repeat" items="{{buddies}}">
-                <file-input on-file-selected="_fileDropped">
-                    <user-avatar contact="{{item.peerId}}" class="buddy"></user-avatar>
+                <file-input on-file-selected="_fileSelected">
+                    <user-avatar contact="{{item}}" class="buddy"></user-avatar>
                 </file-input>
             </template>
         </div>
-        <user-avatar contact="{{me}}" class="me"></user-avatar>
-        <svg class="circles" viewBox="-0.5 -0.5 1140 700">
-            <circle class="circle" cx="570" cy="570" r="120" stroke="rgba(160,160,160,.15)"></circle>
-            <circle class="circle" cx="570" cy="570" r="210" stroke="rgba(160,160,160,.2)"></circle>
-            <circle class="circle" cx="570" cy="570" r="300" stroke="rgba(160,160,160,.3)"></circle>
-            <circle class="circle" cx="570" cy="570" r="390" stroke="rgba(160,160,160,.35)"></circle>
-            <circle class="circle" cx="570" cy="570" r="480" stroke="rgba(160,160,160,.4)"></circle>
-            <circle class="circle" cx="570" cy="570" r="570" stroke="rgba(160,160,160,.43)"></circle>
-        </svg>
-        <iron-ajax id="ajax" auto url="https://yawim.com/findbuddies/{{me}}" handle-as="json" last-response="{{buddies}}"></iron-ajax>
+        <div hidden$="{{buddies.length}}" class="explanation">
+            Open this page on another device
+            <wbr>to share files.
+        </div>
+        <personal-avatar class="me"></personal-avatar>
+        <!-- <iron-ajax id="ajax" auto url="https://yawim.com/findbuddies/{{me}}" handle-as="json" last-response="{{buddies}}"></iron-ajax> -->
     </template>
     <script>
     'use strict';
     Polymer({
         is: 'buddy-finder',
         properties: {
-            buddies: Array,
+            buddies: {
+                type: Array,
+                value: []
+            },
             me: {
                 type: String,
             }
         },
         attached: function() {
             //Ask server every second for changes
-            setInterval(function() {
-                this.$.ajax.generateRequest();
-            }.bind(this), 1000);
+            var ajax = this.$.ajax;
+
+            function request() {
+                //ajax.generateRequest();
+            }
+            var intervalId = setInterval(request, 1000);
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    clearInterval(intervalId);
+                    intervalId = 0;
+                } else {
+                    if (!intervalId) {
+                        intervalId = setInterval(request, 1000);
+                    }
+                }
+            });
         },
-        _fileDropped: function(e) {
+        _fileSelected: function(e) {
             var peerId = e.model.item.peerId;
             var file = e.detail;
-            app.p2p.connectToPeer(peerId, function() {
-                app.p2p.sendFile(peerId, file);
-            });
-            console.log('Send:', file);
-            console.log('To:', peerId);
+            app.p2p.sendFile(peerId, file);
         }
     });
     </script>

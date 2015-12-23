@@ -25,7 +25,7 @@ Chat.FileDropBehaviorImpl = {
         dropZone.addEventListener('drop', function(event) {
             event.stopPropagation();
             event.preventDefault();
-            
+
             //call dragend
             dragEnd();
 
@@ -36,5 +36,13 @@ Chat.FileDropBehaviorImpl = {
         });
     }
 };
+document.body.addEventListener('dragover', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+}, false);
+document.body.addEventListener('drop', function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+});
 Chat.FileDropBehavior = [Chat.FileDropBehaviorImpl, Chat.FileSelectionBehavior];
 </script>

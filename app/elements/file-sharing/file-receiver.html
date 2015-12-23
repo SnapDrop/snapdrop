@@ -2,51 +2,94 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <dom-module id="file-receiver">
     <template>
         <style>
         :host {
             display: block;
-            position: fixed;
-            z-index: 100;
+        }
+        
+        #dialog,
+        #download {
+            width: 300px;
+            z-index: 101;
+        }
+        
+        b {
+            word-break: break-word;
         }
         </style>
-        <paper-dialog id="dialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdro>
-            <h2>File Received</h2>
-            <p>You received file {{file.name}}</p>
+        <paper-dialog id="dialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop modal>
+            <h2>Download File</h2>
+            <p><b>{{file.name}}</b></p>
             <div class="buttons">
-                <paper-button dialog-dismiss>Dismiss</paper-button>
-                <paper-button dialog-confirm on-tap="_download">Download</paper-button>
+                <paper-button dialog-dismiss on-tap="_decline">Discard</paper-button>
+                <paper-button dialog-confirm on-tap="_accept" autofocus>Download</paper-button>
+            </div>
+        </paper-dialog>
+        <paper-dialog id="download" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop modal>
+            <h2>File Received</h2>
+            <p>Right Click and "Save as"...</p>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Discard</paper-button>
+                <a href="{{dataUri}}" target="_blank">
+                    <paper-button dialog-confirm autofocus>Download</paper-button>
+                </a>
             </div>
         </paper-dialog>
     </template>
     <script>
     'use strict';
-    Polymer({
-        is: 'file-receiver',
-        attached: function() {
-            this.async(function() {
-                app.p2p.addEventListener('file-received', function(e) {
-                    this.fileReceived(e.detail);
-                }.bind(this), false);
-            },200);
-        },
-        fileReceived: function(file) {
-            this.set('file', file);
-            this.$.dialog.open();
-        },
-        _download: function() {
-            var link = document.createElement('a');
-            link.download = this.file.name;
-            // Construct the uri
-            var uri = this.file.dataURI;
-            link.href = uri;
-            document.body.appendChild(link);
-            link.click();
-            // Cleanup the DOM
-            document.body.removeChild(link);
-            //delete link;
-        }
-    });
+    (function() {
+        Polymer({
+            is: 'file-receiver',
+            attached: function() {
+                this.async(function() {
+                    app.p2p.addEventListener('file-offer', function(e) {
+                        this.file = e.detail;
+                        this.$.dialog.open();
+                    }.bind(this), false);
+                    app.p2p.addEventListener('file-received', function(e) {
+                        this._fileReceived(e.detail);
+                    }.bind(this), false);
+                    app.p2p.addEventListener('file-declined', function(e) {
+                        app.displayToast('User declined file ' + e.detail.name);
+                    }.bind(this), false);
+                    app.p2p.addEventListener('upload-complete', function(e) {
+                        app.displayToast('User received file ' + e.detail.name);
+                    }.bind(this), false);
+                    app.p2p.addEventListener('upload-error', function(e) {
+                        app.displayToast('The other device did not respond. Please try again.');
+                    }.bind(this), false);
+                }, 200);
+            },
+            _fileReceived: function(file) {
+                this.downloadURI(file);
+            },
+            _decline: function() {
+                app.p2p.decline(this.file);
+            },
+            _accept: function() {
+                app.p2p.accept(this.file);
+            },
+            downloadURI: function(file) {
+                var link = document.createElement('a');
+                var uri = (window.URL || window.webkitURL).createObjectURL(file.blob);
+                if (typeof link.download !== 'undefined') {
+                    //download attribute is supported
+                    link.href = uri;
+                    link.download = file.name || 'blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    this.dataUri = uri;
+                    this.$.download.open();
+                }
+            }
+        });
+    }());
     </script>
 </dom-module>

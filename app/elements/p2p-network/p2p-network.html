@@ -1,4 +1,5 @@
-<script src="../../../bower_components/peerjs/peer.min.js"></script>
+<script src="../../bower_components/peerjs/peer.min.js"></script>
+<link rel="import" href="file-transfer-protocol.html">
 <dom-module id="p2p-network">
     <template>
     </template>
@@ -30,7 +31,7 @@
                 path: 'peerjs',
                 secure: true
             };
-            this._peer = new Peer(options);
+            this._peer = new Peer(this.me,options);
             this._peer.on('open', function(id) {
                 console.log('My peer ID is: ' + id);
                 this.set('me', id);
@@ -65,12 +66,22 @@
 
             if (c.label === 'file') {
                 c.on('data', function(data) {
-                    console.log('received!', data);
+                    console.log(data);
+                    var dataView = new Uint8Array(data.file);
+                    var dataBlob = new Blob([dataView]);
                     this.fire('file-received', {
-                        peer: peer,
-                        dataURI: data.dataURI,
+                        from: peer,
+                        blob: dataBlob,
                         name: data.name,
                     });
+
+                }.bind(this));
+            }
+
+            if (c.label === 'system') {
+                c.on('data', function(data) {
+                    data.from = peer;
+                    this.fire('system-event', data);
                 }.bind(this));
             }
         },
@@ -78,15 +89,32 @@
             function request(requestedPeer, callback) {
                 return function() {
 
+                    //system messages channel
+                    var s = this._peer.connect(requestedPeer, {
+                        label: 'system'
+                    });
+
+                    s.on('open', function() {
+                        this.connect(s);
+                        if (callback) {
+                            callback();
+                        }
+                    }.bind(this));
+                    s.on('error', function(err) {
+                        console.log(err);
+                        if (err.message.indexOf('Connection is not open') > -1) {
+                            console.err('Handle this error!!');
+                        }
+                    });
+
+                    //files channel
                     var f = this._peer.connect(requestedPeer, {
                         label: 'file',
                         reliable: true
                     });
                     f.on('open', function() {
                         this.connect(f);
-                        if (callback) {
-                            callback();
-                        }
+
                     }.bind(this));
                     f.on('error', function(err) {
                         console.log(err);
@@ -98,7 +126,6 @@
                     callback();
                     return;
                 }
-                this.set('loading', true);
                 if (this._peerOpen) {
                     request(requestedPeer, callback).bind(this)();
                 } else {
@@ -107,7 +134,7 @@
 
             };
         }()),
-        sendFile: function(peerId, file) {
+        _sendFile: function(peerId, file) {
             var conns = this._peer.connections[peerId];
             if (conns) {
                 conns.forEach(function(conn) {
@@ -115,7 +142,17 @@
                         conn.send(file);
                         console.log('file send');
                     }
-                });
+                }.bind(this));
+            }
+        },
+        _sendSystemEvent: function(peerId, msg) {
+            var conns = this._peer.connections[peerId];
+            if (conns) {
+                conns.forEach(function(conn) {
+                    if (conn.label === 'system') {
+                        conn.send(msg);
+                    }
+                }.bind(this));
             }
         }
     });

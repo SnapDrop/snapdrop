@@ -13,6 +13,7 @@
     "gulp-html-extract": "^0.0.3",
     "gulp-if": "^2.0.0",
     "gulp-imagemin": "^2.2.1",
+    "gulp-inline-source": "^2.1.0",
     "gulp-jscs": "^3.0.0",
     "gulp-jscs-stylish": "^1.1.2",
     "gulp-jshint": "^1.6.3",
@@ -39,5 +40,11 @@
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "binaryjs": "^0.2.1",
+    "express": "^4.13.3",
+    "ua-parser-js": "^0.7.10",
+    "ws": "^0.8.1"
   }
 }
