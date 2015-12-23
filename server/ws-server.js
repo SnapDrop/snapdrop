@@ -7,14 +7,14 @@ var express = require('express');
 var app = express();
 app.use(express.static(__dirname + '/public'));
 
-var https = require('https');
-var server = https.createServer({
-    key: fs.readFileSync('/var/www/sharewithme/ssl/privkey.pem').toString(),
-    cert: fs.readFileSync('/var/www/sharewithme/ssl/fullchain.pem').toString()
-}, app);
+// var https = require('https');
+// var server = https.createServer({
+//     key: fs.readFileSync('/var/www/sharewithme/ssl/privkey.pem').toString(),
+//     cert: fs.readFileSync('/var/www/sharewithme/ssl/fullchain.pem').toString()
+// }, app);
 
-// var http = require('http');
-// var server = http.createServer(app);
+var http = require('http');
+var server = http.createServer(app);
 
 // Start Binary.js server
 var BinaryServer = require('binaryjs').BinaryServer;
