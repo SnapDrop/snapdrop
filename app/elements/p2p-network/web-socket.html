@@ -15,13 +15,13 @@
             this.init();
         },
         init: function() {
-            var websocketUrl = (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + document.location.hostname + ':9001';
+            var websocketUrl = (window.debug ? 'ws://' + window.location.hostname + ':3002' : 'wss://snapdrop.net') + '/binary';
             this.client = new BinaryClient(websocketUrl);
             this.client.on('stream', function(stream, meta) {
                 // collect stream data
                 var parts = [];
                 stream.on('data', function(data) {
-                    console.log('part received', meta, data);
+                    //console.log('part received', meta, data);
                     if (data.isSystemEvent) {
                         if (meta) {
                             data.from = meta.from;
@@ -45,22 +45,22 @@
                 }.bind(this));
             }.bind(this));
             this.client.on('open', function(e) {
+                this.cancelAsync(this.reconnectTimer);
                 console.log(e);
                 this.client.send({}, {
-                    handshake: this.me
+                    serverMsg: 'rtc-support',
+                    rtc: window.webRTCSupported
                 });
             }.bind(this));
             this.client.on('error', function(e) {
-                console.log(e);
-            });
+                this._reconnect(e);
+            }.bind(this));
             this.client.on('close', function(e) {
-                console.log(e);
-                //try to reconnect after 3s 
-                this.async(this.init, 3000);
+                this._reconnect(e);
             }.bind(this));
         },
         _sendFile: function(toPeer, file) {
-            console.log('send file!', file);
+            console.log('send file via WebSocket', file);
             this.client.send(file.file, {
                 name: file.file.name,
                 type: file.file.type,
@@ -76,6 +76,11 @@
             this.client.send(event, {
                 toPeer: toPeer
             });
+        },
+        _reconnect: function(e) {
+            console.log('disconnected', e);
+            //try to reconnect after 3s 
+            this.reconnectTimer = this.async(this.init, 3000);
         }
     });
     </script>

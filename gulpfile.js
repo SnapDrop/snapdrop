@@ -16,6 +16,9 @@ var packageJson = require('./package.json');
 var crypto = require('crypto');
 var ensureFiles = require('./tasks/ensure-files.js');
 var inlinesource = require('gulp-inline-source');
+var proxy = require('proxy-middleware');
+var url = require('url');
+var minifyHTML = require('gulp-minify-html');
 
 // var ghPages = require('gulp-gh-pages');
 
@@ -190,6 +193,7 @@ gulp.task('vulcanize', function() {
             inlineCss: true,
             inlineScripts: true
         }))
+        .pipe(minifyHTML({ empty: true }))
         .pipe(gulp.dest(dist('elements')))
         .pipe($.size({
             title: 'vulcanize'
@@ -240,6 +244,10 @@ gulp.task('clean', function() {
 
 // Watch files for changes & reload
 gulp.task('serve', ['styles', 'elements', 'images'], function() {
+    var peerjsProxy = url.parse('http://localhost:3002/peerjs');
+    peerjsProxy.route = '/peerjs';
+    var websocketProxy = url.parse('http://localhost:3002/binary');
+    websocketProxy.route = '/binary';
     browserSync({
         port: 5000,
         notify: false,
@@ -259,7 +267,7 @@ gulp.task('serve', ['styles', 'elements', 'images'], function() {
         // https: true,
         server: {
             baseDir: ['.tmp', 'app'],
-            middleware: [historyApiFallback()]
+            middleware: [proxy(peerjsProxy),proxy(websocketProxy), historyApiFallback()]
         }
     });
 

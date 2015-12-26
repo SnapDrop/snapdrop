@@ -40,6 +40,10 @@
 
     });
 
-
-
+    app._showAbout=function(){
+        document.querySelector('#pages').select(1);
+    };
+    app._showAbout=function(){
+        document.querySelector('#pages').select(0);
+    };
 })(document);

@@ -1,5 +1,5 @@
 ![](https://cloud.githubusercontent.com/assets/110953/7877439/6a69d03e-0590-11e5-9fac-c614246606de.png)
-## Share With Me
+## Snapdrop
 
 > A starting point for building web applications with Polymer 1.0
 
@@ -14,11 +14,11 @@
 * [Recipes](/docs/README.md/) for ES2015 support, Polymer performance, using Chrome Dev Editor, Deploying to GitHub Pages, Deploying to Firebase, and Mobile Chrome Apps
 
 ### Demo
-See latest Share With Me Demo (from master) at http://polymerelements.github.io/polymer-starter-kit
+See latest Snapdrop Demo (from master) at http://polymerelements.github.io/polymer-starter-kit
 
 ### Tutorials
 
-Check out the Share With Me tutorials on [polymer-project.org](https://polymer-project.org):
+Check out the Snapdrop tutorials on [polymer-project.org](https://polymer-project.org):
 
 * [Set up the PSK](https://www.polymer-project.org/1.0/docs/start/psk/set-up.html)
 * [Create a page](https://www.polymer-project.org/1.0/docs/start/psk/create-a-page.html)
@@ -26,7 +26,7 @@ Check out the Share With Me tutorials on [polymer-project.org](https://polymer-p
 
 ## Getting Started
 
-To take advantage of Share With Me you need to:
+To take advantage of Snapdrop you need to:
 
 1. Get a copy of the code.
 2. Install the dependencies if you don't already have them.
@@ -35,21 +35,21 @@ To take advantage of Share With Me you need to:
 
 ### Get the code
 
-[Download](https://github.com/polymerelements/polymer-starter-kit/releases/latest) and extract Share With Me to where you want to work. The project comes in two flavours - Light and Full.
+[Download](https://github.com/polymerelements/polymer-starter-kit/releases/latest) and extract Snapdrop to where you want to work. The project comes in two flavours - Light and Full.
 
-**Beginners**: Try Share With Me Light. This doesn't require any extra dependencies nor knowledge of modern front-end tooling. This option is good for prototyping if you haven't build a Polymer app before.
+**Beginners**: Try Snapdrop Light. This doesn't require any extra dependencies nor knowledge of modern front-end tooling. This option is good for prototyping if you haven't build a Polymer app before.
 
-**Intermediate - Advanced**: Use the full version of Share With Me. This comes with all the build tools you'll need for testing and productionising your app so it's nice and lean. You'll need to run a few extra commands to install the tools we recommend but it's worth it to make sure your final app is super optimised.
+**Intermediate - Advanced**: Use the full version of Snapdrop. This comes with all the build tools you'll need for testing and productionising your app so it's nice and lean. You'll need to run a few extra commands to install the tools we recommend but it's worth it to make sure your final app is super optimised.
 
-:warning: **Important**: Share With Me, and Share With Me Light, both contain dotfiles (files starting with a `.`). If you're copying the contents of the Starter Kit to a new location make sure you bring along these dotfiles as well! On Mac, [enable showing hidden files](http://ianlunn.co.uk/articles/quickly-showhide-hidden-files-mac-os-x-mavericks/), then try extracting/copying Share With Me again. This time the dotfiles needed should be visible so you can copy them over without issues.
+:warning: **Important**: Snapdrop, and Snapdrop Light, both contain dotfiles (files starting with a `.`). If you're copying the contents of the Starter Kit to a new location make sure you bring along these dotfiles as well! On Mac, [enable showing hidden files](http://ianlunn.co.uk/articles/quickly-showhide-hidden-files-mac-os-x-mavericks/), then try extracting/copying Snapdrop again. This time the dotfiles needed should be visible so you can copy them over without issues.
 
-Rob Dodson has a fantastic [PolyCast video](https://www.youtube.com/watch?v=xz-yixRxZN8) available that walks through using Share With Me. An [end-to-end with Polymer](https://www.youtube.com/watch?v=1f_Tj_JnStA) and Share With Me talk is also available.
+Rob Dodson has a fantastic [PolyCast video](https://www.youtube.com/watch?v=xz-yixRxZN8) available that walks through using Snapdrop. An [end-to-end with Polymer](https://www.youtube.com/watch?v=1f_Tj_JnStA) and Snapdrop talk is also available.
 
 ### Install dependencies
 
 #### Quick-start (for experienced users)
 
-With Node.js installed, run the following one liner from the root of your Share With Me download:
+With Node.js installed, run the following one liner from the root of your Snapdrop download:
 
 ```sh
 npm install -g gulp bower && npm install && bower install
@@ -154,7 +154,7 @@ These style files are located in the [styles folder](app/styles/).
 
 ## Unit Testing
 
-Web apps built with Share With Me come configured with support for [Web Component Tester](https://github.com/Polymer/web-component-tester) - Polymer's preferred tool for authoring and running unit tests. This makes testing your element based applications a pleasant experience.
+Web apps built with Snapdrop come configured with support for [Web Component Tester](https://github.com/Polymer/web-component-tester) - Polymer's preferred tool for authoring and running unit tests. This makes testing your element based applications a pleasant experience.
 
 [Read more](https://github.com/Polymer/web-component-tester#html-suites) about using Web Component tester.
 
@@ -181,13 +181,13 @@ Components installed by Bower live in the `app/bower_components` directory. This
 
 ## Service Worker
 
-Share With Me offers an optional offline experience thanks to Service Worker and the [Platinum Service Worker elements](https://github.com/PolymerElements/platinum-sw). New to Service Worker? Read the following [introduction](http://www.html5rocks.com/en/tutorials/service-worker/introduction/) to understand how it works.
+Snapdrop offers an optional offline experience thanks to Service Worker and the [Platinum Service Worker elements](https://github.com/PolymerElements/platinum-sw). New to Service Worker? Read the following [introduction](http://www.html5rocks.com/en/tutorials/service-worker/introduction/) to understand how it works.
 
 Our optional offline setup should work well for relatively simple applications. For more complex apps, we recommend learning how Service Worker works so that you can make the most of the Platinum Service Worker element abstractions.
 
 ### Enable Service Worker support?
 
-To enable Service Worker support for Share With Me project use these 3 steps:
+To enable Service Worker support for Snapdrop project use these 3 steps:
 
 1. Uncomment Service Worker code in index.html
   ```HTML
@@ -272,16 +272,16 @@ If you find anything to still be stale, you can also try navigating to `chrome:s
 
 #### Disable Service Worker support after you enabled it
 
-If for any reason you need to disable Service Worker support after previously enabling it, you can remove it from your Share With Me project using these 4 steps:
+If for any reason you need to disable Service Worker support after previously enabling it, you can remove it from your Snapdrop project using these 4 steps:
 
 1. Remove references to the platinum-sw elements from your application [index](https://github.com/PolymerElements/polymer-starter-kit/blob/master/app/index.html).
 2. Remove the two Platinum Service Worker elements (platinum-sw/..) in [app/elements/elements.html](https://github.com/PolymerElements/polymer-starter-kit/blob/master/app/elements/elements.html)
 3. Remove 'precache' from the list in the 'default' gulp task ([gulpfile.js](https://github.com/PolymerElements/polymer-starter-kit/blob/master/gulpfile.js))
-4. Navigate to `chrome://serviceworker-internals` and unregister any Service Workers registered by Share With Me for your app just in case there's a copy of it cached.
+4. Navigate to `chrome://serviceworker-internals` and unregister any Service Workers registered by Snapdrop for your app just in case there's a copy of it cached.
 
 ## Yeoman support
 
-[generator-polymer](https://github.com/yeoman/generator-polymer/releases) now includes support for Share With Me out of the box.
+[generator-polymer](https://github.com/yeoman/generator-polymer/releases) now includes support for Snapdrop out of the box.
 
 ## Frequently Asked Questions
 
@@ -308,7 +308,7 @@ own local setup.
 ### Where can I find the application layouts from your Google I/O 2015 talk?
 
 App layouts live in a separate repository called [app-layout-templates](https://github.com/PolymerElements/app-layout-templates).
-You can select a template and copy over the relevant parts you would like to reuse to Share With Me.
+You can select a template and copy over the relevant parts you would like to reuse to Snapdrop.
 
 You will probably need to change paths to where your Iron and Paper dependencies can be found to get everything working.
 This can be done by adding them to the [`elements.html`](https://github.com/PolymerElements/polymer-starter-kit/blob/master/app/elements/elements.html) import.
@@ -366,14 +366,14 @@ If you are not using the build-blocks, but still wish for additional files (e.g 
 
 ### I'm finding the installation/tooling here overwhelming. What should I do?
 
-Don't worry! We've got your covered. Share With Me tries to offer everything you need to build and optimize your apps for production, which is why we include the tooling we do. We realise however that our tooling setup may not be for everyone.
+Don't worry! We've got your covered. Snapdrop tries to offer everything you need to build and optimize your apps for production, which is why we include the tooling we do. We realise however that our tooling setup may not be for everyone.
 
-If you find that you just want the simplest setup possible, we recommend using Share With Me light, which is available from the [Releases](https://github.com/PolymerElements/polymer-starter-kit/releases) page. This takes next to no time to setup.
+If you find that you just want the simplest setup possible, we recommend using Snapdrop light, which is available from the [Releases](https://github.com/PolymerElements/polymer-starter-kit/releases) page. This takes next to no time to setup.
 
 ## Licensing
 
-Like other Google projects, Share With Me includes Google license headers at the top of several of our source files. Google's open-source licensing requires that this header be kept in place (sorry!), however we acknowledge that you may need to add your own licensing to files you modify. This can be done by appending your own extensions to these headers.
+Like other Google projects, Snapdrop includes Google license headers at the top of several of our source files. Google's open-source licensing requires that this header be kept in place (sorry!), however we acknowledge that you may need to add your own licensing to files you modify. This can be done by appending your own extensions to these headers.
 
 ## Contributing
 
-Share With Me is a new project and is an ongoing effort by the Web Component community. We welcome your bug reports, PRs for improvements, docs and anything you think would improve the experience for other Polymer developers.
+Snapdrop is a new project and is an ongoing effort by the Web Component community. We welcome your bug reports, PRs for improvements, docs and anything you think would improve the experience for other Polymer developers.

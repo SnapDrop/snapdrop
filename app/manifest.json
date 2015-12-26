@@ -1,6 +1,6 @@
 {
-    "name": "SnapDrop",
-    "short_name": "SnapDrop",
+    "name": "Snapdrop",
+    "short_name": "Snapdrop",
     "icons": [{
         "src": "images/touch/icon-128x128.png",
         "sizes": "128x128",

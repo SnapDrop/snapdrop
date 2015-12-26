@@ -52,12 +52,10 @@
                 </file-input>
             </template>
         </div>
-        <div hidden$="{{buddies.length}}" class="explanation">
-            Open this page on another device
-            <wbr>to share files.
+        <div hidden$="{{buddies.0}}" class="explanation">
+            Open this page on other devices<br> to send files.
         </div>
         <personal-avatar class="me"></personal-avatar>
-        <!-- <iron-ajax id="ajax" auto url="https://yawim.com/findbuddies/{{me}}" handle-as="json" last-response="{{buddies}}"></iron-ajax> -->
     </template>
     <script>
     'use strict';
@@ -66,30 +64,11 @@
         properties: {
             buddies: {
                 type: Array,
-                value: []
+                notify: true
             },
             me: {
                 type: String,
-            }
-        },
-        attached: function() {
-            //Ask server every second for changes
-            var ajax = this.$.ajax;
-
-            function request() {
-                //ajax.generateRequest();
-            }
-            var intervalId = setInterval(request, 1000);
-            document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
-                    clearInterval(intervalId);
-                    intervalId = 0;
-                } else {
-                    if (!intervalId) {
-                        intervalId = setInterval(request, 1000);
-                    }
-                }
-            });
+            },
         },
         _fileSelected: function(e) {
             var peerId = e.model.item.peerId;

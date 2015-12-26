@@ -1,0 +1,138 @@
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles-classes.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<dom-module id="x-card">
+    <template>
+        <style>
+        :host {
+            display: block;
+            overflow: hidden;
+            color: white;
+            z-index: 3
+        }
+        
+        #placeholder {
+            opacity: 0;
+            background-color: #4285f4;
+            @apply(--layout-fit);
+        }
+        
+        paper-icon-button {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 2;
+        }
+        
+        #container {
+            @apply(--layout-fit);
+            @apply(--layout-vertical);
+            @apply(--layout-center-center);
+            background-color: #4285f4;
+            padding: 64px 32px 64px 32px;
+            box-sizing: border-box;
+        }
+        
+        iron-icon {
+            width: 80px;
+            height: 80px;
+        }
+        
+        .paper-font-subhead {
+            text-align: center;
+        }
+        
+        a {
+            text-decoration: none;
+            color: white;
+            @apply(--layout-self-end);
+        }
+        
+        .center {
+            @apply(--layout-vertical);
+            @apply(--layout-center-center);
+        }
+        
+        #footer {
+            position: absolute;
+            left: 50%;
+            margin-left: -160px;
+            width: 320px;
+            bottom: 24px;
+            text-align: center;
+        }
+        </style>
+        <paper-icon-button id="btn" icon="chat:close" on-tap="_switch"></paper-icon-button>
+        <div id="placeholder"></div>
+        <div id="container">
+            <div class="center">
+                <iron-icon icon="chat:wifi-tethering"></iron-icon>
+                <div class="paper-font-headline">Snapdrop</div>
+                <div class="paper-font-subhead">The easiest way to send files across devices.</div>
+            </div>
+            <span id="footer">Built with &#9829; by <a href="mailto:robin@capira.de">Robin Linus</a></span>
+        </div>
+    </template>
+</dom-module>
+<script>
+(function() {
+    Polymer({
+        is: 'x-card',
+        behaviors: [
+            Polymer.NeonSharedElementAnimatableBehavior
+        ],
+        properties: {
+            animationConfig: {
+                value: function() {
+                    return {
+                        'entry': [{
+                            name: 'ripple-animation',
+                            id: 'ripple',
+                            toPage: this
+                        }, {
+                            name: 'fade-out-animation',
+                            node: this.$.placeholder,
+                            timing: {
+                                delay: 250
+                            }
+                        }, {
+                            name: 'fade-in-animation',
+                            node: this.$.container,
+                            timing: {
+                                delay: 50
+                            }
+                        }],
+                        'exit': [{
+                            name: 'opaque-animation',
+                            node: this.$.placeholder
+                        }, {
+                            name: 'fade-out-animation',
+                            node: this.$.container,
+                            timing: {
+                                duration: 0
+                            }
+                        }, {
+                            name: 'reverse-ripple-animation',
+                            id: 'reverse-ripple',
+                            fromPage: this
+                        }]
+                    };
+                }
+            },
+            sharedElements: {
+                value: function() {
+                    return {
+                        'ripple': this.$.placeholder,
+                        'reverse-ripple': this.$.placeholder
+                    };
+                }
+            }
+        },
+        _switch: function() {
+            document.querySelector('#pages').select(0);
+        }
+    });
+})();
+</script>

@@ -8,27 +8,17 @@
     <script>
     'use strict';
     (function() {
-        function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                s4() + '-' + s4() + s4() + s4();
-        }
-        var webRTCSupported = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection || window.webkitRTCPeerConnection;
+        window.webRTCSupported = !!(window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection || window.webkitRTCPeerConnection);
 
         function rtcConnectionSupported(peerId) {
-            return webRTCSupported && (peerId.indexOf('rtc_') === 0);
+            return window.webRTCSupported && (peerId.indexOf('rtc_') === 0);
         }
         Polymer({
             is: 'connection-wrapper',
             properties: {
                 me: {
-                    notify: true,
-                    value: (webRTCSupported ? 'rtc_' : 'ws_') + guid()
-                }
+                    notify: true
+                },
             },
             behaviors: [Chat.FileTransferProtocol],
             _sendFile: function(toPeer, file) {
@@ -50,9 +40,17 @@
                 if (!rtcConnectionSupported(toPeer)) {
                     callback();
                 } else {
-                    this.$.p2p.connectToPeer(toPeer,callback);
+                    this.$.p2p.connectToPeer(toPeer, callback);
                 }
             },
+            _onHandshake: function(event) {
+                var me = event.uuid;
+                console.log('i am');
+                this.set('me', me);
+                if (window.webRTCSupported) {
+                    this.$.p2p.initialize();
+                }
+            }
         });
     })();
     </script>

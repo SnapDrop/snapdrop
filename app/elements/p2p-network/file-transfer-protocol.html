@@ -22,6 +22,9 @@ Chat.FileTransferProtocol = {
         console.log('FTP received sysMsg:', msg);
 
         switch (msg.type) {
+            case 'handshake':
+                this._onHandshake(msg);
+                break;
             case 'offer':
                 this._onOffered(msg);
                 break;

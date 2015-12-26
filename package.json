@@ -1,11 +1,11 @@
 {
   "private": true,
   "devDependencies": {
-    "browser-sync": "^2.7.7",
+    "browser-sync": "^2.10.1",
     "connect-history-api-fallback": "^1.1.0",
     "del": "^2.0.2",
     "glob-all": "^3.0.1",
-    "gulp": "^3.8.5",
+    "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cache": "^0.4.0",
     "gulp-changed": "^1.0.0",
@@ -19,7 +19,7 @@
     "gulp-jshint": "^1.6.3",
     "gulp-load-plugins": "^1.1.0",
     "gulp-minify-css": "^1.2.1",
-    "gulp-minify-html": "^1.0.2",
+    "gulp-minify-html": "^1.0.5",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.4",
     "gulp-size": "^2.0.0",
@@ -28,8 +28,10 @@
     "gulp-vulcanize": "^6.0.0",
     "jshint-stylish": "^2.0.0",
     "merge-stream": "^1.0.0",
+    "proxy-middleware": "^0.15.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.0.2",
+    "url": "^0.11.0",
     "vulcanize": ">= 1.4.2",
     "web-component-tester": "^4.0.0"
   },
@@ -43,7 +45,9 @@
   },
   "dependencies": {
     "binaryjs": "^0.2.1",
+    "compression": "^1.6.0",
     "express": "^4.13.3",
+    "peer": "^0.2.8",
     "ua-parser-js": "^0.7.10",
     "ws": "^0.8.1"
   }

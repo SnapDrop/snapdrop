@@ -7,7 +7,7 @@
             @apply(--layout-vertical);
             @apply(--layout-center);
             width: 120px;
-            height: 120px;
+            height: 152px;
         }
         
         paper-icon-button {
@@ -45,7 +45,7 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            margin: 4px;
+            margin-top: 4px;
         }
         </style>
         <paper-icon-button icon="{{_displayIcon}}"></paper-icon-button>
@@ -85,7 +85,6 @@
             if (contact.type === 'tablet') {
                 return 'chat:tablet-mac';
             }
-
             return 'chat:desktop-mac';
         },
         attached: function() {

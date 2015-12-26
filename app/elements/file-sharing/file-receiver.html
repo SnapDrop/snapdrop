@@ -17,13 +17,14 @@
             z-index: 101;
         }
         
-        b {
+        .filename {
+            word-break: break-all;
             word-break: break-word;
         }
         </style>
         <paper-dialog id="dialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop modal>
             <h2>Download File</h2>
-            <p><b>{{file.name}}</b></p>
+            <p><b class="filename">{{file.name}}</b></p>
             <div class="buttons">
                 <paper-button dialog-dismiss on-tap="_decline">Discard</paper-button>
                 <paper-button dialog-confirm on-tap="_accept" autofocus>Download</paper-button>
@@ -31,11 +32,11 @@
         </paper-dialog>
         <paper-dialog id="download" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop modal>
             <h2>File Received</h2>
-            <p>Right Click and "Save as"...</p>
+            <p>Open File or Right Click and "Save as"...</p>
             <div class="buttons">
                 <paper-button dialog-dismiss>Discard</paper-button>
                 <a href="{{dataUri}}" target="_blank">
-                    <paper-button dialog-confirm autofocus>Download</paper-button>
+                    <paper-button dialog-confirm autofocus>Open File</paper-button>
                 </a>
             </div>
         </paper-dialog>

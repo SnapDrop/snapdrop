@@ -1,106 +1,131 @@
 'use strict';
-var fs = require('fs');
 var parser = require('ua-parser-js');
-
-// Serve client side statically
-var express = require('express');
-var app = express();
-app.use(express.static(__dirname + '/public'));
-
-// var https = require('https');
-// var server = https.createServer({
-//     key: fs.readFileSync('/var/www/sharewithme/ssl/privkey.pem').toString(),
-//     cert: fs.readFileSync('/var/www/sharewithme/ssl/fullchain.pem').toString()
-// }, app);
-
-var http = require('http');
-var server = http.createServer(app);
 
 // Start Binary.js server
 var BinaryServer = require('binaryjs').BinaryServer;
 
-// link it to express
-var bs = BinaryServer({
-    server: server
-});
+exports.create = function(server) {
 
-function getDeviceName(req) {
-    var ua = parser(req.headers['user-agent']);
-    return {
-        model: ua.device.model,
-        os: ua.os.name,
-        browser: ua.browser.name,
-        type: ua.device.type
-    };
-}
-// Wait for new user connections
-bs.on('connection', function(client) {
-    console.log('connection received!');
+    // link it to express
+    var bs = BinaryServer({
+        server: server,
+        path: '/binary'
+    });
 
-
-    client.deviceName = getDeviceName(client._socket.upgradeReq);
-
-    // Incoming stream from browsers
-    client.on('stream', function(stream, meta) {
-        console.log('stream received!', meta);
-        if (meta.handshake) {
-            client.uuid = meta.handshake;
-            return;
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
         }
-        meta.from = client.uuid;
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+    }
 
-        // broadcast to all other clients
-        for (var id in bs.clients) {
-            if (bs.clients.hasOwnProperty(id)) {
-                var otherClient = bs.clients[id];
-                if (otherClient !== client && meta.toPeer === otherClient.uuid) {
-                    var send = otherClient.createStream(meta);
-                    stream.pipe(send, meta);
+    function getDeviceName(req) {
+        var ua = parser(req.headers['user-agent']);
+        return {
+            model: ua.device.model,
+            os: ua.os.name,
+            browser: ua.browser.name,
+            type: ua.device.type
+        };
+    }
+    // Wait for new user connections
+    bs.on('connection', function(client) {
+        console.log('connection received!', client._socket.upgradeReq.connection.remoteAddress);
+
+        client.uuidRaw = guid();
+
+        client.deviceName = getDeviceName(client._socket.upgradeReq);
+
+        // Incoming stream from browsers
+        client.on('stream', function(stream, meta) {
+            console.log('stream received!', meta);
+            if (meta && meta.serverMsg === 'rtc-support') {
+                client.uuid = (meta.rtc ? 'rtc_' : '') + client.uuidRaw;
+                client.send({
+                    isSystemEvent: true,
+                    type: 'handshake',
+                    uuid: client.uuid
+                });
+                return;
+            }
+            meta.from = client.uuid;
+
+            // broadcast to the other client
+            for (var id in bs.clients) {
+                if (bs.clients.hasOwnProperty(id)) {
+                    var otherClient = bs.clients[id];
+                    if (otherClient !== client && meta.toPeer === otherClient.uuid) {
+                        var send = otherClient.createStream(meta);
+                        stream.pipe(send, meta);
+                    }
                 }
             }
-        }
+        });
     });
-});
 
-
-
-function forEachClient(fn) {
-    for (var id in bs.clients) {
-        if (bs.clients.hasOwnProperty(id)) {
-            var client = bs.clients[id];
-            fn(client);
+    function forEachClient(fn) {
+        for (var id in bs.clients) {
+            if (bs.clients.hasOwnProperty(id)) {
+                var client = bs.clients[id];
+                fn(client);
+            }
         }
     }
-}
 
-function getIP(socket) {
-    return socket.upgradeReq.headers['x-forwarded-for'] || socket.upgradeReq.connection.remoteAddress;
-}
+    function getIP(socket) {
+        return socket.upgradeReq.headers['x-forwarded-for'] || socket.upgradeReq.connection.remoteAddress;
+    }
 
-function notifyBuddies() {
-    //TODO: This should be possible in linear time
-    forEachClient(function(client1) {
-        var buddies = [];
-        var myIP = getIP(client1._socket);
-        forEachClient(function(client2) {
-            var otherIP = getIP(client2._socket);
-            console.log(myIP, otherIP);
-            if (client1 !== client2 && myIP === otherIP) {
-                buddies.push({
-                    peerId: client2.uuid,
-                    name: client2.deviceName
-                });
-            }
+    function hash(text) {
+        // A string hashing function based on Daniel J. Bernstein's popular 'times 33' hash algorithm.
+        var h = 5381,
+            index = text.length;
+        while (index) {
+            h = (h * 33) ^ text.charCodeAt(--index);
+        }
+        return h >>> 0;
+    }
+
+    function notifyBuddiesX() {
+        var locations = {};
+        //group all clients by location (by public ip address)
+        forEachClient(function(client) {
+            //ip is hashed to prevent injections by spoofing the 'x-forwarded-for' header
+            var ip = hash(getIP(client._socket));
+            locations[ip] = locations[ip] || [];
+            locations[ip].push({
+                socket: client,
+                contact: {
+                    peerId: client.uuid,
+                    name: client.deviceName,
+                }
+            });
         });
-        var msg = {
-            buddies: buddies,
-            isSystemEvent: true,
-            type: 'buddies'
-        };
-        client1.send(msg);
-    });
-}
-setInterval(notifyBuddies, 4000);
+        //notify every location
+        Object.keys(locations).forEach(function(locationKey) {
+            //notify every client of all other clients in this location
+            var location = locations[locationKey];
+            location.forEach(function(client) {
+                //all other clients
+                var buddies = location.reduce(function(result, otherClient) {
+                    if (otherClient !== client) {
+                        result.push(otherClient.contact);
+                    }
+                    return result;
+                }, []);
+                //protocol
+                var msg = {
+                    buddies: buddies,
+                    isSystemEvent: true,
+                    type: 'buddies'
+                };
+                client.socket.send(msg);
+            });
+        });
+    }
 
-server.listen(9001);
-console.log('HTTP and BinaryJS server started on port 9001');
+    setInterval(notifyBuddiesX, 5000);
+};

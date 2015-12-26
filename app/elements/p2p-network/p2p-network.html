@@ -9,8 +9,7 @@
         is: 'p2p-network',
         properties: {
             me: {
-                type: String,
-                notify: true,
+                type: String
             }
         },
         attached: function() {
@@ -22,16 +21,24 @@
                     this._peer.destroy();
                 }
             }.bind(this);
-            this._initialize();
         },
-        _initialize: function() {
-            var options = {
-                host: 'yawim.com',
-                port: 443,
-                path: 'peerjs',
-                secure: true
-            };
-            this._peer = new Peer(this.me,options);
+        initialize: function() {
+            var options;
+            if (window.debug) {
+                options = {
+                    host: window.location.hostname,
+                    port: 3002,
+                    path: 'peerjs'
+                };
+            } else {
+                options = {
+                    host: 'snapdrop.net',
+                    port: 443,
+                    path: 'peerjs',
+                    secure: true
+                };
+            }
+            this._peer = new Peer(this.me, options);
             this._peer.on('open', function(id) {
                 console.log('My peer ID is: ' + id);
                 this.set('me', id);
@@ -53,12 +60,10 @@
                 if (err.message.indexOf('Lost connection to server') > -1) {
                     this._peer.destroy();
                     this.set('me', this.me);
-                    this._initialize();
+                    this.async(this._initialize, 3000);
                     return;
                 }
             }.bind(this));
-
-
         },
 
         connect: function(c) {
@@ -140,7 +145,7 @@
                 conns.forEach(function(conn) {
                     if (conn.label === 'file') {
                         conn.send(file);
-                        console.log('file send');
+                        console.log('file send via WebRTC');
                     }
                 }.bind(this));
             }
