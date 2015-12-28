@@ -31,19 +31,21 @@
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild-->
-    <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.js" async="1"></script>
+    <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js async foo="1" -->
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <!-- endbuild -->
     <!-- Because this project uses vulcanize this should be your only html import
        in this file. All other imports should go in elements.html -->
     <link rel="import" href="elements/elements.html" async>
+    <!-- build:js -->
+    <script>
+    window.debug = true;
+    </script>
+    <!-- endbuild -->
 </head>
 
 <body class="fullbleed layout vertical" loading>
     <script src="scripts/animated-bg.js" inline></script>
-    <script>
-    window.debug = true;
-    </script>
     <span id="browser-sync-binding"></span>
     <template is="dom-bind" id="app">
         <connection-wrapper me="{{me}}" loading="{{loading}}" buddies="{{buddies}}"></connection-wrapper>
