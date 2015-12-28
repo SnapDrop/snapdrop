@@ -28,6 +28,7 @@ Chat.FileButtonBehaviorImpl = {
         'tap': '_openDialog'
     },
     _openDialog: function() {
+        this.fileInput.value = null;
         this.fileInput.click();
     }
 };
