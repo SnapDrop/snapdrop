@@ -126,7 +126,15 @@ exports.create = function(server) {
                     isSystemEvent: true,
                     type: 'buddies'
                 };
-                client.socket.send(msg);
+                if (buddies.length) {
+                    client.socket.send(msg);
+                    client.notifiedEmpty = false;
+                    return;
+                }
+                if (!client.notifiedEmpty) {
+                    client.notifiedEmpty = true;
+                    client.socket.send(msg);
+                }
             });
         });
     }
