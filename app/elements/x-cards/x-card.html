@@ -34,20 +34,25 @@
             padding: 64px 32px 64px 32px;
             box-sizing: border-box;
         }
+     
         
-        iron-icon {
+        .logo {
             width: 80px;
             height: 80px;
         }
         
-        .paper-font-subhead {
+        .slogan{
             text-align: center;
+        }
+
+        .paper-font-headline {
+            margin-bottom: 8px;
+            font-size: 32px;
         }
         
         a {
             text-decoration: none;
             color: white;
-            @apply(--layout-self-end);
         }
         
         .center {
@@ -63,16 +68,36 @@
             bottom: 24px;
             text-align: center;
         }
+        
+        a {
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .donate-icon {
+            padding-top: 32px;
+            width: 32px;
+            height: 32px;
+        }
+        
+        .paper-font-subhead {
+            font-size: 20px;
+        }
+        
+        a.paper-font-subhead {
+            padding-top: 32px;
+        }
         </style>
         <paper-icon-button id="btn" icon="chat:close" on-tap="_switch"></paper-icon-button>
         <div id="placeholder"></div>
         <div id="container">
             <div class="center">
-                <iron-icon icon="chat:wifi-tethering"></iron-icon>
+                <iron-icon icon="chat:wifi-tethering" class="logo"></iron-icon>
                 <div class="paper-font-headline">Snapdrop</div>
-                <div class="paper-font-subhead">The easiest way to send files across devices.</div>
+                <div class="slogan">The easiest way to transfer files accross devices.</div>
+                <a class="paper-font-subhead" href="https://github.com/capira12/snapdrop/blob/master/faq.md" target="_blank">Frequently Asked Questions</a>
             </div>
-            <span id="footer">Built with &#9829; by <a href="mailto:robin@capira.de">Robin Linus</a></span>
+            <span id="footer">Built with &#9829; by <a href="https://twitter.com/capira42" target="_blank">Robin Linus</a></span>
         </div>
     </template>
 </dom-module>
