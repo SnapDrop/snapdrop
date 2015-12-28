@@ -2,6 +2,8 @@
 <link rel="import" href="../../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../../styles/icons.html">
 <dom-module id="x-cards">
     <template>
         <style>
@@ -17,20 +19,68 @@
         }
         
         paper-icon-button {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            z-index: 2;
-            color: #313131;
+            color: #52524F;
         }
         
         paper-icon-button:hover {
             color: #4285f4;
         }
+        
+        .share {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 10;
+        }
+        
+        .share a {
+            color: #52524F;
+            text-decoration: none;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+        
+        .share a:hover,
+        #btn:hover {
+            color: #4285f4;
+        }
+        
+        @media all and (max-height: 640px) {
+            .github {
+                display: none;
+            }
+        }
         </style>
         <div id="placeholder"></div>
         <div id="container">
-            <paper-icon-button id="btn" icon="chat:info-outline" on-tap="_switch"></paper-icon-button>
+            <div class="share">
+                <a href="https://twitter.com/capira42" target="_blank">
+                    <iron-icon icon="chat:twitter"></iron-icon>
+                    <paper-tooltip for="" position="bottom" offset="14">
+                        Contact us on Twitter!
+                    </paper-tooltip>
+                </a>
+                <a href="https://www.facebook.com/snapdrop.net/" target="_blank">
+                    <iron-icon icon="chat:facebook"></iron-icon>
+                    <paper-tooltip for="" position="bottom" offset="14">
+                        Like us on Facebook!
+                    </paper-tooltip>
+                </a>
+                <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FDAHZJH3228D6" target="_blank">
+                    <iron-icon icon="chat:local-cafe"></iron-icon>
+                    <paper-tooltip for="" position="bottom" offset="14">
+                        You like Snapdrop?
+                        <br> Buy me a cup of coffee!
+                    </paper-tooltip>
+                </a>
+                <a href="https://github.com/capira12/snapdrop" target="_blank" class="github">
+                    <iron-icon icon="chat:github" ></iron-icon>
+                    <paper-tooltip for="" position="bottom" offset="14">
+                        Get involved!
+                    </paper-tooltip>
+                </a>
+                <paper-icon-button id="btn" icon="chat:info-outline" on-tap="_switch"></paper-icon-button>
+            </div>
             <content select="div"></content>
         </div>
     </template>
