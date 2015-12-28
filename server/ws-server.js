@@ -31,17 +31,32 @@ exports.create = function(server) {
             type: ua.device.type
         };
     }
+
+    function hash(text) {
+        // A string hashing function based on Daniel J. Bernstein's popular 'times 33' hash algorithm.
+        var h = 5381,
+            index = text.length;
+        while (index) {
+            h = (h * 33) ^ text.charCodeAt(--index);
+        }
+        return h >>> 0;
+    }
+
+    function getIP(socket) {
+        return socket.upgradeReq.headers['x-forwarded-for'] || socket.upgradeReq.connection.remoteAddress;
+    }
     // Wait for new user connections
     bs.on('connection', function(client) {
-        console.log('connection received!', client._socket.upgradeReq.connection.remoteAddress);
+        //console.log('connection received!', client._socket.upgradeReq.connection.remoteAddress);
 
         client.uuidRaw = guid();
+        //ip is hashed to prevent injections by spoofing the 'x-forwarded-for' header
+        client.hashedIp = hash(getIP(client._socket));
 
         client.deviceName = getDeviceName(client._socket.upgradeReq);
 
         // Incoming stream from browsers
         client.on('stream', function(stream, meta) {
-            console.log('stream received!', meta);
             if (meta && meta.serverMsg === 'rtc-support') {
                 client.uuid = (meta.rtc ? 'rtc_' : '') + client.uuidRaw;
                 client.send({
@@ -75,26 +90,15 @@ exports.create = function(server) {
         }
     }
 
-    function getIP(socket) {
-        return socket.upgradeReq.headers['x-forwarded-for'] || socket.upgradeReq.connection.remoteAddress;
-    }
 
-    function hash(text) {
-        // A string hashing function based on Daniel J. Bernstein's popular 'times 33' hash algorithm.
-        var h = 5381,
-            index = text.length;
-        while (index) {
-            h = (h * 33) ^ text.charCodeAt(--index);
-        }
-        return h >>> 0;
-    }
+
+
 
     function notifyBuddiesX() {
         var locations = {};
         //group all clients by location (by public ip address)
         forEachClient(function(client) {
-            //ip is hashed to prevent injections by spoofing the 'x-forwarded-for' header
-            var ip = hash(getIP(client._socket));
+            var ip = client.hashedIp;
             locations[ip] = locations[ip] || [];
             locations[ip].push({
                 socket: client,
