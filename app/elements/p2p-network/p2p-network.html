@@ -23,49 +23,47 @@
             }.bind(this);
         },
         initialize: function() {
-            if (window.isActive) {
-                clearInterval(this.reconnectTimer);
-                this.reconnectTimer = undefined;
-                var options;
-                if (window.debug) {
-                    options = {
-                        host: window.location.hostname,
-                        port: 3002,
-                        path: 'peerjs'
-                    };
-                } else {
-                    options = {
-                        host: 'snapdrop.net',
-                        port: 443,
-                        path: 'peerjs',
-                        secure: true
-                    };
-                }
-                this._peer = new Peer(this.me, options);
-                this._peer.on('open', function(id) {
-                    console.log('My peer ID is: ' + id);
-                    this.set('me', id);
-                    this._peerOpen = true;
-                    this._initCallbacks.forEach(function(cb) {
-                        cb();
-                    });
-                }.bind(this));
-
-                this._peer.on('connection', this.connect.bind(this));
-                this._peer.on('error', function(err) {
-                    console.error(err);
-                    //ugly hack to find out error type
-                    if (err.message.indexOf('Could not connect to peer') > -1) {
-                        delete this._connectedPeers[this.peer];
-                        return;
-                    }
-                    if (err.message.indexOf('Lost connection to server') > -1) {
-                        this._peer.destroy();
-                        this._reconnect();
-                        return;
-                    }
-                }.bind(this));
+            clearInterval(this.reconnectTimer);
+            this.reconnectTimer = undefined;
+            var options;
+            if (window.debug) {
+                options = {
+                    host: window.location.hostname,
+                    port: 3002,
+                    path: 'peerjs'
+                };
+            } else {
+                options = {
+                    host: 'snapdrop.net',
+                    port: 443,
+                    path: 'peerjs',
+                    secure: true
+                };
             }
+            this._peer = new Peer(this.me, options);
+            this._peer.on('open', function(id) {
+                console.log('My peer ID is: ' + id);
+                this.set('me', id);
+                this._peerOpen = true;
+                this._initCallbacks.forEach(function(cb) {
+                    cb();
+                });
+            }.bind(this));
+
+            this._peer.on('connection', this.connect.bind(this));
+            this._peer.on('error', function(err) {
+                console.error(err);
+                //ugly hack to find out error type
+                if (err.message.indexOf('Could not connect to peer') > -1) {
+                    delete this._connectedPeers[this.peer];
+                    return;
+                }
+                if (err.message.indexOf('Lost connection to server') > -1) {
+                    this._peer.destroy();
+                    this._reconnect();
+                    return;
+                }
+            }.bind(this));
         },
 
         connect: function(c) {
