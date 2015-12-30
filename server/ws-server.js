@@ -120,24 +120,22 @@ exports.create = function(server) {
                     }
                     return result;
                 }, []);
+                var currState = hash(buddies.toString());
+                var socket = client.socket;
                 //protocol
                 var msg = {
                     buddies: buddies,
                     isSystemEvent: true,
                     type: 'buddies'
                 };
-                if (buddies.length) {
-                    client.socket.send(msg);
-                    client.notifiedEmpty = false;
+                if (currState !== socket.lastState) {
+                    socket.send(msg);
+                    socket.lastState = currState;
                     return;
-                }
-                if (!client.notifiedEmpty) {
-                    client.notifiedEmpty = true;
-                    client.socket.send(msg);
                 }
             });
         });
     }
 
-    setInterval(notifyBuddiesX, 5000);
+    setInterval(notifyBuddiesX, 3000);
 };
