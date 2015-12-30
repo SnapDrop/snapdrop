@@ -94,7 +94,7 @@ exports.create = function(server) {
 
 
 
-    function notifyBuddiesX() {
+    function notifyBuddies() {
         var locations = {};
         //group all clients by location (by public ip address)
         forEachClient(function(client) {
@@ -120,7 +120,8 @@ exports.create = function(server) {
                     }
                     return result;
                 }, []);
-                var currState = hash(buddies.toString());
+                var currState = hash(JSON.stringify(buddies));
+                console.log(currState);
                 var socket = client.socket;
                 //protocol
                 var msg = {
@@ -137,5 +138,5 @@ exports.create = function(server) {
         });
     }
 
-    setInterval(notifyBuddiesX, 3000);
+    setInterval(notifyBuddies, 3000);
 };
