@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../file-sharing/file-input.html">
-<link rel="import" href="user-avatar.html">
+<link rel="import" href="buddy-avatar.html">
 <link rel="import" href="personal-avatar.html">
 <dom-module id="buddy-finder">
     <template>
@@ -64,7 +64,7 @@
         <div class="buddies">
             <template is="dom-repeat" items="{{buddies}}">
                 <file-input on-file-selected="_fileSelected" only$="{{!buddies.1}}">
-                    <user-avatar contact="{{item}}" class="buddy"></user-avatar>
+                    <buddy-avatar contact="{{item}}" class="buddy"></buddy-avatar>
                 </file-input>
             </template>
         </div>
