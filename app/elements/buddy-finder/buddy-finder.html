@@ -53,10 +53,16 @@
         .url {
             color: #4285f4;
         }
+        
+        [only] {
+            @apply(--layout-fit);
+            @apply(--layout-horizontal);
+            @apply(--layout-center-center);
+        }
         </style>
         <div class="buddies">
             <template is="dom-repeat" items="{{buddies}}">
-                <file-input on-file-selected="_fileSelected">
+                <file-input on-file-selected="_fileSelected" only$="{{!buddies.1}}">
                     <user-avatar contact="{{item}}" class="buddy"></user-avatar>
                 </file-input>
             </template>
