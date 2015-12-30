@@ -19,6 +19,7 @@ var inlinesource = require('gulp-inline-source');
 var proxy = require('proxy-middleware');
 var url = require('url');
 var minifyHTML = require('gulp-minify-html');
+var replace = require('gulp-replace');
 
 // var ghPages = require('gulp-gh-pages');
 
@@ -91,6 +92,7 @@ var optimizeHtmlTask = function(src, dest) {
             spare: true
         })))
         .pipe($.if('*.html', inlinesource()))
+        .pipe(replace('window.debug = true;', ''))
         // Output files
         .pipe(gulp.dest(dest))
         .pipe($.size({
@@ -193,7 +195,9 @@ gulp.task('vulcanize', function() {
             inlineCss: true,
             inlineScripts: true
         }))
-        .pipe(minifyHTML({ empty: true }))
+        .pipe(minifyHTML({
+            empty: true
+        }))
         .pipe(gulp.dest(dist('elements')))
         .pipe($.size({
             title: 'vulcanize'
@@ -267,7 +271,7 @@ gulp.task('serve', ['styles', 'elements', 'images'], function() {
         // https: true,
         server: {
             baseDir: ['.tmp', 'app'],
-            middleware: [proxy(peerjsProxy),proxy(websocketProxy), historyApiFallback()]
+            middleware: [proxy(peerjsProxy), proxy(websocketProxy), historyApiFallback()]
         }
     });
 
