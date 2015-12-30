@@ -19,6 +19,10 @@
             -ms-user-select: none;
             user-select: none;
             margin: 0;
+            --paper-tooltip: {
+                font-size: 14px;
+                background-color: #4285f4;
+            }
         }
         
         .buddies {
@@ -41,17 +45,13 @@
         
         .explanation {
             @apply(--paper-font-headline);
-            color: #4E4E4E;
+            color: #4285f4;
             text-align: center;
         }
         
         .short {
             @apply(--paper-font-body1);
             color: #333;
-        }
-        
-        .url {
-            color: #4285f4;
         }
         
         [only] {
@@ -69,8 +69,11 @@
             </template>
         </div>
         <div hidden$="{{buddies.0}}" class="explanation">
-            Open <span class="url">dropc.at</span> on other devices
+            Open Snapdrop on other devices
             <br> to send files.
+            <paper-tooltip offset="14">
+                short url: dropc.at
+            </paper-tooltip>
         </div>
         <personal-avatar class="me"></personal-avatar>
     </template>
