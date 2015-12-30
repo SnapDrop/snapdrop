@@ -45,7 +45,6 @@
             },
             _onHandshake: function(event) {
                 var me = event.uuid;
-                console.log('i am');
                 this.set('me', me);
                 if (window.webRTCSupported) {
                     this.$.p2p.initialize();
