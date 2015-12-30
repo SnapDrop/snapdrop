@@ -41,8 +41,17 @@
         
         .explanation {
             @apply(--paper-font-headline);
-            color: #4285f4;
+            color: #4E4E4E;
             text-align: center;
+        }
+        
+        .short {
+            @apply(--paper-font-body1);
+            color: #333;
+        }
+        
+        .url {
+            color: #4285f4;
         }
         </style>
         <div class="buddies">
@@ -53,7 +62,8 @@
             </template>
         </div>
         <div hidden$="{{buddies.0}}" class="explanation">
-            Open this page on other devices<br> to send files.
+            Open <span class="url">dropc.at</span> on other devices
+            <br> to send files.
         </div>
         <personal-avatar class="me"></personal-avatar>
     </template>

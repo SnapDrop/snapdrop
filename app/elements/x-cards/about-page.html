@@ -3,7 +3,7 @@
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles-classes.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<dom-module id="x-card">
+<dom-module id="about-page">
     <template>
         <style>
         :host {
@@ -18,13 +18,12 @@
             background-color: #4285f4;
             @apply(--layout-fit);
         }
-        
-        paper-icon-button {
+        /*        paper-icon-button {
             position: absolute;
             top: 16px;
             right: 16px;
             z-index: 2;
-        }
+        }*/
         
         #container {
             @apply(--layout-fit);
@@ -34,17 +33,16 @@
             padding: 64px 32px 64px 32px;
             box-sizing: border-box;
         }
-     
         
         .logo {
             width: 80px;
             height: 80px;
         }
         
-        .slogan{
+        .slogan {
             text-align: center;
         }
-
+        
         .paper-font-headline {
             margin-bottom: 8px;
             font-size: 32px;
@@ -87,24 +85,74 @@
         a.paper-font-subhead {
             padding-top: 32px;
         }
+        
+        .share {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 10;
+        }
+        
+        #btn,
+        .share a {
+            color: #52524F;
+        }
+        
+        .share a {
+            text-decoration: none;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+        
+        .share a:hover,
+        #btn:hover {
+            color: white;
+        }
         </style>
-        <paper-icon-button id="btn" icon="chat:close" on-tap="_switch"></paper-icon-button>
         <div id="placeholder"></div>
         <div id="container">
+            <div class="share">
+                <a href="https://twitter.com/snapdrop42" target="_blank">
+                    <iron-icon icon="chat:twitter"></iron-icon>
+                    <paper-tooltip for="" position="bottom" offset="14">
+                        Contact us on Twitter!
+                    </paper-tooltip>
+                </a>
+                <a href="https://www.facebook.com/snapdrop.net/" target="_blank">
+                    <iron-icon icon="chat:facebook"></iron-icon>
+                    <paper-tooltip for="" position="bottom" offset="14">
+                        Contact us on Facebook!
+                    </paper-tooltip>
+                </a>
+                <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FDAHZJH3228D6" target="_blank">
+                    <iron-icon icon="chat:local-cafe"></iron-icon>
+                    <paper-tooltip for="" position="bottom" offset="14">
+                        You like Snapdrop?
+                        <br> Buy me a cup of coffee!
+                    </paper-tooltip>
+                </a>
+                <a href="https://github.com/capira12/snapdrop" target="_blank" class="github">
+                    <iron-icon icon="chat:github"></iron-icon>
+                    <paper-tooltip for="" position="bottom" offset="14">
+                        Get involved!
+                    </paper-tooltip>
+                </a>
+                <paper-icon-button id="btn" icon="chat:close" on-tap="_switch"></paper-icon-button>
+            </div>
             <div class="center">
                 <iron-icon icon="chat:wifi-tethering" class="logo"></iron-icon>
                 <div class="paper-font-headline">Snapdrop</div>
-                <div class="slogan">The easiest way to transfer files accross devices.</div>
+                <div class="slogan">The easiest way to transfer files across devices.</div>
                 <a class="paper-font-subhead" href="https://github.com/capira12/snapdrop/blob/master/faq.md" target="_blank">Frequently Asked Questions</a>
             </div>
-            <span id="footer">Built with &#9829; by <a href="https://twitter.com/snapdrop42" target="_blank">Robin Linus</a></span>
+            <span id="footer">Built with &#9829; by <a href="https://twitter.com/capira42" target="_blank">Robin Linus</a></span>
         </div>
     </template>
 </dom-module>
 <script>
 (function() {
     Polymer({
-        is: 'x-card',
+        is: 'about-page',
         behaviors: [
             Polymer.NeonSharedElementAnimatableBehavior
         ],
