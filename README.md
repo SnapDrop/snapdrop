@@ -15,6 +15,12 @@ Snapdrop is inspired by Apple's Airdrop, but is a Progressive Web App built with
 
 ### Frequently Asked Questions
 
+### Instructions
+* [Video Instructions](https://www.youtube.com/watch?v=4XN02GkcHUM) (Big thanks to [TheiTeckHq](https://www.youtube.com/channel/UC_DUzWMb8gZZnAbISQjmAfQ))
+* [English](http://thenextweb.com/insider/2015/12/27/snapdrop-is-a-handy-web-based-replacement-for-apples-fiddly-airdrop-file-transfer-tool/)
+* [German](http://www.winboard.org/artikel-ratgeber/6253-dateien-vom-desktop-pc-mit-anderen-plattformen-teilen-mit-snapdrop.html)
+* [免費資源網路社群](https://free.com.tw/snapdrop/?utm_content=buffere6987&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer)
+
 ##### What about the connection? Is it a P2P-connection directly from device to device or is there any third-party-server?
 It uses a P2P connection if WebRTC is supported by the browser. (WebRTC needs a Signaling Server, but it is only used to establish a connection and is not involved in the file transfer).
 
@@ -24,22 +30,23 @@ If WebRTC isn’t supported (Safari, IE) it uses a Web Sockets fallback for the 
 ##### What about privacy? Will files be saved on third-party-servers?
 None of your files are ever saved on any server. 
 Snapdrop doesn't even use cookies or a database. If you are curious have a look [at the Server](https://github.com/capira12/snapdrop/blob/master/server/ws-server.js)
-It does use Google Analytics. 
+But it does use Google Analytics. 
 
 ##### Is SnapDrop a fork of ShareDrop?
 No. ShareDrop is built with ember. Snapdrop is built with Polymer. 
-I wanted to play around with Progressive Web Apps and then I got the idea to clone Apple’s Airdrop. By doing research on this idea I found and analysed ShareDrop. 
+I wanted to play around with Progressive Web Apps and then I got the idea to clone Apple’s Airdrop. By doing research on this idea I found and analysed ShareDrop. I liked it and thought about how to improve it.
 ShareDrop uses WebRTC only and isn't compatible with Safari Browsers. Snapdrop uses a Websocket fallback and some hacks to make Snapdrop work due to the download restrictions on iDevices. 
 
 
 ### Snapdrop is awesome! How can I support it? 
+* File Bugs, Give Feedback, Suggestions
+* Share Snapdrop on your social media.
 * [Buy me a cup of coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FDAHZJH3228D6)
-* Help me to scale the server! My server is going crazy in the last hour. If you know how to scale nodejs apps (maybe heroku expert?) please write me at robin@capira.de ! 
 * Fix bugs and do a Pull Request. This is my first open source project, so I am not very used to the common workflow, but we'll figure it out!
-)
+* Do Security Analysis and suggestions
 
 
-## Run the project
+## Run the project on your device
 * Install npm, bower, gulp and the dependencies as described [here](https://github.com/PolymerElements/polymer-starter-kit#install-dependencies)
 * run `gulp serve`
 * In a second shell run `node index.js`
