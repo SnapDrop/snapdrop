@@ -1,6 +1,6 @@
 # Snapdrop
 
-Snapdrop is inspired by Apple's Airdrop, but is a Progressive Web App built with Polymer and Web RTC.
+[Snapdrop](https://snapdrop.net) is inspired by Apple's Airdrop, but is a Progressive Web App built with Polymer and Web RTC.
 
 #### Snapdrop is built with the following awesome technologies:
 * [Polymer](https://www.polymer-project.org)
