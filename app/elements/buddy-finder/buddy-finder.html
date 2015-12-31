@@ -36,19 +36,34 @@
             cursor: pointer;
         }
         
-
-        
         .explanation {
             @apply(--paper-font-headline);
             color: #4285f4;
             text-align: center;
+                cursor: default;
         }
         
         .short {
-            @apply(--paper-font-body1);
-            color: #333;
+            font-size: 14px;
+            line-height: 18px;
+            color: #505050;
         }
         
+        .short a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+        
+        .explanation:hover a {
+            transform: scale(1.1);
+        }
+        
+        @media all and (max-width: 600px) {
+            .explanation {
+                width: 340px;
+            }
+        }
+
         [only] {
             @apply(--layout-fit);
             @apply(--layout-horizontal);
@@ -64,11 +79,10 @@
             </template>
         </div>
         <div hidden$="{{buddies.0}}" class="explanation">
-            Open Snapdrop on other devices
-            <br> to send files.
-            <paper-tooltip offset="14">
-                short url: yg.gl
-            </paper-tooltip>
+            Open Snapdrop on other devices to send files.
+            <div class="short">
+                Short link: <a href="http://yg.gl" target="_blank">yg.gl</a>
+            </div>
         </div>
         <personal-avatar class="me"></personal-avatar>
     </template>
