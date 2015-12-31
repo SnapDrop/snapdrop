@@ -89,37 +89,37 @@
         },
         attached: function() {
             this.async(function() {
-                app.p2p.addEventListener('file-offered', function(e) {
+                app.conn.addEventListener('file-offered', function(e) {
                     if (e.detail.to === this.contact.peerId) {
                         this.status = 'Waiting to accept...';
                     }
                 }.bind(this), false);
-                app.p2p.addEventListener('upload-started', function(e) {
+                app.conn.addEventListener('upload-started', function(e) {
                     if (e.detail.to === this.contact.peerId) {
                         this.status = 'Uploading...';
                     }
                 }.bind(this), false);
-                app.p2p.addEventListener('download-started', function(e) {
+                app.conn.addEventListener('download-started', function(e) {
                     if (e.detail.from === this.contact.peerId) {
                         this.status = 'Downloading...';
                     }
                 }.bind(this), false);
-                app.p2p.addEventListener('upload-complete', function(e) {
+                app.conn.addEventListener('upload-complete', function(e) {
                     if (e.detail.from === this.contact.peerId) {
                         this.status = '';
                     }
                 }.bind(this), false);
-                app.p2p.addEventListener('download-complete', function(e) {
+                app.conn.addEventListener('download-complete', function(e) {
                     if (e.detail.from === this.contact.peerId) {
                         this.status = '';
                     }
                 }.bind(this), false);
-                app.p2p.addEventListener('file-declined', function(e) {
+                app.conn.addEventListener('file-declined', function(e) {
                     if (e.detail.from === this.contact.peerId) {
                         this.status = '';
                     }
                 }.bind(this), false);
-                app.p2p.addEventListener('upload-error', function(e) {
+                app.conn.addEventListener('upload-error', function(e) {
                     this.status = '';
                 }.bind(this), false);
             }, 200);

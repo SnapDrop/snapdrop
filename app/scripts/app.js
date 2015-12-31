@@ -31,7 +31,7 @@
     // have resolved and content has been stamped to the page
     app.addEventListener('dom-change', function() {
         console.log('Our app is ready to rock!');
-        app.p2p = document.querySelector('connection-wrapper');
+        app.conn = document.querySelector('connection-wrapper');
     });
 
     // See https://github.com/Polymer/polymer/issues/1381

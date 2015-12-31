@@ -88,7 +88,7 @@
         _fileSelected: function(e) {
             var peerId = e.model.item.peerId;
             var file = e.detail;
-            app.p2p.sendFile(peerId, file);
+            app.conn.sendFile(peerId, file);
         }
     });
     </script>

@@ -48,20 +48,20 @@
             is: 'file-receiver',
             attached: function() {
                 this.async(function() {
-                    app.p2p.addEventListener('file-offer', function(e) {
+                    app.conn.addEventListener('file-offer', function(e) {
                         this.file = e.detail;
                         this.$.dialog.open();
                     }.bind(this), false);
-                    app.p2p.addEventListener('file-received', function(e) {
+                    app.conn.addEventListener('file-received', function(e) {
                         this._fileReceived(e.detail);
                     }.bind(this), false);
-                    app.p2p.addEventListener('file-declined', function(e) {
+                    app.conn.addEventListener('file-declined', function(e) {
                         app.displayToast('User declined file ' + e.detail.name);
                     }.bind(this), false);
-                    app.p2p.addEventListener('upload-complete', function(e) {
+                    app.conn.addEventListener('upload-complete', function(e) {
                         app.displayToast('User received file ' + e.detail.name);
                     }.bind(this), false);
-                    app.p2p.addEventListener('upload-error', function(e) {
+                    app.conn.addEventListener('upload-error', function(e) {
                         app.displayToast('The other device did not respond. Please try again.');
                     }.bind(this), false);
                 }, 200);
@@ -70,10 +70,10 @@
                 this.downloadURI(file);
             },
             _decline: function() {
-                app.p2p.decline(this.file);
+                app.conn.decline(this.file);
             },
             _accept: function() {
-                app.p2p.accept(this.file);
+                app.conn.accept(this.file);
             },
             downloadURI: function(file) {
                 var link = document.createElement('a');
