@@ -17,8 +17,9 @@ Snapdrop is inspired by Apple's Airdrop, but is a Progressive Web App built with
 
 ### Instructions
 * [Video Instructions](https://www.youtube.com/watch?v=4XN02GkcHUM) (Big thanks to [TheiTeckHq](https://www.youtube.com/channel/UC_DUzWMb8gZZnAbISQjmAfQ))
-* [English](http://thenextweb.com/insider/2015/12/27/snapdrop-is-a-handy-web-based-replacement-for-apples-fiddly-airdrop-file-transfer-tool/)
-* [German](http://www.winboard.org/artikel-ratgeber/6253-dateien-vom-desktop-pc-mit-anderen-plattformen-teilen-mit-snapdrop.html)
+* [idownloadblog](http://www.idownloadblog.com/2015/12/29/snapdrop/)
+* [thenextweb](http://thenextweb.com/insider/2015/12/27/snapdrop-is-a-handy-web-based-replacement-for-apples-fiddly-airdrop-file-transfer-tool/)
+* [winboard](http://www.winboard.org/artikel-ratgeber/6253-dateien-vom-desktop-pc-mit-anderen-plattformen-teilen-mit-snapdrop.html)
 * [免費資源網路社群](https://free.com.tw/snapdrop/?utm_content=buffere6987&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer)
 
 ##### What about the connection? Is it a P2P-connection directly from device to device or is there any third-party-server?
