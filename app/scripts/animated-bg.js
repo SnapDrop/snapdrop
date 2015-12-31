@@ -19,8 +19,9 @@
         h = window.innerHeight;
         c.width = w;
         c.height = h;
+        var offset = h > 370 ? 103 : 65;
         x0 = w / 2;
-        y0 = h - 103;
+        y0 = h - offset;
         dw = Math.max(w, h, 1000) / 13;
         drawCircles();
     }
@@ -28,7 +29,7 @@
 
     function drawCicrle(radius) {
         ctx.beginPath();
-        var color = Math.round(255 * (1- radius / Math.max(w, h)));
+        var color = Math.round(255 * (1 - radius / Math.max(w, h)));
         ctx.strokeStyle = 'rgba(' + color + ',' + color + ',' + color + ',0.1)';
         ctx.arc(x0, y0, radius, 0, 2 * Math.PI);
         ctx.stroke();

@@ -7,6 +7,10 @@
             @apply(--layout-vertical);
             @apply(--layout-center);
             width: 360px;
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            margin-left: -180px;
         }
         
         iron-icon {
@@ -23,12 +27,16 @@
         .discover {
             color: #4285f4;
         }
-
-         @media all and (max-height: 370px) {
-            iron-icon{
+        
+        @media all and (max-height: 370px) {
+            :host {
+                bottom: 8px;
+            }
+            iron-icon {
                 width: 32px;
                 height: 32px;
-            }   
+                margin-bottom: 2px;
+            }
         }
         </style>
         <iron-icon icon="chat:wifi-tethering"></iron-icon>
