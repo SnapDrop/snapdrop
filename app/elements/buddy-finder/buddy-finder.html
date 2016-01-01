@@ -11,9 +11,6 @@
             @apply(--layout-fit);
             @apply(--layout-horizontal);
             @apply(--layout-center-center);
-            overflow: hidden;
-            position: relative;
-            height: 100%;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -40,12 +37,12 @@
             @apply(--paper-font-headline);
             color: #4285f4;
             text-align: center;
-                cursor: default;
+            cursor: default;
         }
         
         .short {
             font-size: 14px;
-            line-height: 18px;
+            line-height: 20px;
             color: #505050;
         }
         
@@ -63,7 +60,7 @@
                 width: 340px;
             }
         }
-
+        
         [only] {
             @apply(--layout-fit);
             @apply(--layout-horizontal);
