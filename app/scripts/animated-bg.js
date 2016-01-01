@@ -19,7 +19,7 @@
         h = window.innerHeight;
         c.width = w;
         c.height = h;
-        var offset = h > 370 ? 103 : 65;
+        var offset = h > 370 ? 100 : 65;
         x0 = w / 2;
         y0 = h - offset;
         dw = Math.max(w, h, 1000) / 13;
