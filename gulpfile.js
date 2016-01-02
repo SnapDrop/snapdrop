@@ -192,6 +192,7 @@ gulp.task('vulcanize', function() {
     return gulp.src('app/elements/elements.html')
         .pipe($.vulcanize({
             stripComments: true,
+            stripExclude:['app/bower_components/font-roboto/roboto.html'],
             inlineCss: true,
             inlineScripts: true
         }))
