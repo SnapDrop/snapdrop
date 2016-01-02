@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../sound-notification/sound-notification-behavior.html">
 <dom-module id="file-receiver">
     <template>
         <style>
@@ -13,8 +14,9 @@
         
         #dialog,
         #download {
-            width: 300px;
+            width: 324px;
             z-index: 101;
+            margin: 16px;
         }
         
         .filename {
@@ -46,11 +48,13 @@
     (function() {
         Polymer({
             is: 'file-receiver',
+            behaviors: [Chat.SoundNotificationBehavior],
             attached: function() {
                 this.async(function() {
                     app.conn.addEventListener('file-offer', function(e) {
                         this.file = e.detail;
                         this.$.dialog.open();
+                        this.playSound();
                     }.bind(this), false);
                     app.conn.addEventListener('file-received', function(e) {
                         this._fileReceived(e.detail);
