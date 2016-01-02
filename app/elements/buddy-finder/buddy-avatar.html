@@ -1,14 +1,16 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../file-sharing/file-input-behavior.html">
+<link rel="import" href="../text-sharing/text-input-behavior.html">
 <dom-module id="buddy-avatar">
     <template>
         <style>
         :host {
             display: block;
             @apply(--layout-vertical);
-            @apply(--layout-center);
+            @apply(--layout-center-center);
             width: 120px;
-            height: 152px;
+            height: 124px;
+            cursor: pointer;
         }
         
         paper-icon-button {
@@ -29,6 +31,8 @@
         
         .paper-font-subhead {
             text-align: center;
+            line-height: 22px;
+            margin-top: 2px;
         }
         
         .paper-font-body1 {
@@ -36,7 +40,7 @@
             width: 100%;
             font-size: 13px;
             color: grey;
-            margin-top: 2px;
+            line-height: 13px;
         }
         
         :host,
@@ -46,25 +50,34 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            margin-top: 4px;
         }
-
+        
         :host([only1]) {
             @apply(--layout-fit);
             @apply(--layout-horizontal);
             @apply(--layout-center-center);
             cursor: pointer;
         }
+        
+        .container {
+            @apply(--layout-vertical);
+            @apply(--layout-center);
+            height: 112px;
+            padding-top: 16px;
+            display: block;
+        }
         </style>
-        <paper-icon-button icon="{{_displayIcon}}"></paper-icon-button>
-        <div class="paper-font-subhead">{{_displayName}}</div>
-        <div class="paper-font-body1">{{status}}</div>
+        <div class="container">
+            <paper-icon-button icon="{{_displayIcon}}"></paper-icon-button>
+            <div class="paper-font-subhead">{{_displayName}}</div>
+            <div class="paper-font-body1">{{status}}</div>
+        </div>
     </template>
     <script>
     'use strict';
     Polymer({
         is: 'buddy-avatar',
-        behaviors: [Chat.FileInputBehavior],
+        behaviors: [Chat.FileInputBehavior, Chat.TextInputBehavior],
         properties: {
             contact: Object,
             _displayName: {

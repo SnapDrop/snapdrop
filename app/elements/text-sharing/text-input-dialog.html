@@ -4,7 +4,10 @@
 <link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
-<link rel="import" href="../../bower_components/paper-spinner/paper-textarea.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="linkify.html">
+<link rel="import" href="clipboard-behavior.html">
+<link rel="import" href="../sound-notification/sound-notification-behavior.html">
 <dom-module id="text-input-dialog">
     <template>
         <style>
@@ -12,92 +15,147 @@
             display: block;
         }
         
-        #dialog,
-        #download {
-            width: 300px;
+        #sendDialog,
+        #receiveDialog {
+            width: 324px;
             z-index: 101;
+            max-height: 320px;
+            overflow: hidden;
+            margin: 16px;
         }
         
-        .filename {
+        @media all and (max-height: 600px) {
+            #sendDialog {
+                padding-top: 24px;
+                top:0px !important;
+            }
+        }
+        
+        #receivedText {
             word-break: break-all;
             word-break: break-word;
         }
-
+        
         paper-textarea {
-            height: 200px;
+            max-height: 200px;
+            width: calc(100% - 48px);
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        
+        #receivedText {
+            max-height: 200px;
+            overflow: hidden;
+            width: calc(100% - 48px);
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 9;
+            clamp: 9;
         }
         </style>
-        <paper-dialog id="dialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop modal>
+        <paper-dialog id="sendDialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop modal>
             <h2>Send Text</h2>
-            <paper-textarea label="Enter Text"></paper-textarea>
-            <div class="buttons">
-                <paper-button dialog-dismiss on-tap="_decline">Discard</paper-button>
-                <paper-button dialog-confirm on-tap="_accept" autofocus>Send</paper-button>
-            </div>
-        </paper-dialog>
-        <paper-dialog id="download" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop modal>
-            <h2>Text Received</h2>
-            <p>Open File or Right Click and "Save as"...</p>
+            <paper-textarea id="textInput" label="Enter Text" value="{{textToSend}}" autofocus></paper-textarea>
             <div class="buttons">
                 <paper-button dialog-dismiss>Discard</paper-button>
-                <a href="{{dataUri}}" target="_blank">
-                    <paper-button dialog-confirm autofocus>Open File</paper-button>
+                <paper-button dialog-dismiss on-tap="_send">Send</paper-button>
+            </div>
+        </paper-dialog>
+        <paper-dialog id="receiveDialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop modal>
+            <h2>Text Received</h2>
+            <div>
+                <div id="receivedText">
+                </div>
+            </div>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Discard</paper-button>
+                <a href="tel:{{tel}}" hidden$="{{!tel}}">
+                    <paper-button dialog-dismiss>Call</paper-button>
                 </a>
+                <paper-button on-tap="_copy" autofocus>Copy</paper-button>
             </div>
         </paper-dialog>
     </template>
     <script>
     'use strict';
     (function() {
+        /* 
+         *   
+         *   /^\+?[0-9x]*$/ is the first usuful Text sent via Snapdrop 2015/1/2 5:30 
+         *
+         */
+        var phoneNumbers = /^\+?[0-9x/ ]*$/;
         Polymer({
             is: 'text-input-dialog',
-            open: function() {
-                this.$.dialog.open();
+            behaviors: [Chat.ClipboardBehavior,Chat.SoundNotificationBehavior],
+            properties: {
+                textToSend: {
+                    type: String
+                },
+                receivedText: {
+                    type: String
+                },
+                contact: {
+                    type: Object
+                },
+                tel: {
+                    computed: '_isPhoneNumber(receivedText)',
+                    value: false
+                }
+            },
+            open: function(contact) {
+                this.contact = contact;
+                this.$.sendDialog.open();
             },
             attached: function() {
-                // this.async(function() {
-                //     app.conn.addEventListener('file-offer', function(e) {
-                //         this.file = e.detail;
-                //         this.$.dialog.open();
-                //     }.bind(this), false);
-                //     app.conn.addEventListener('file-received', function(e) {
-                //         this._fileReceived(e.detail);
-                //     }.bind(this), false);
-                //     app.conn.addEventListener('file-declined', function(e) {
-                //         app.displayToast('User declined file ' + e.detail.name);
-                //     }.bind(this), false);
-                //     app.conn.addEventListener('upload-complete', function(e) {
-                //         app.displayToast('User received file ' + e.detail.name);
-                //     }.bind(this), false);
-                //     app.conn.addEventListener('upload-error', function(e) {
-                //         app.displayToast('The other device did not respond. Please try again.');
-                //     }.bind(this), false);
-                // }, 200);
+                this.async(function() {
+                    app.conn.addEventListener('text-received', function(e) {
+                        var receivedText = e.detail.text;
+                        this.receivedText = receivedText;
+                        this.$.receivedText.textContent = receivedText;
+                        window.linkifyElement(this.$.receivedText, {}, document);
+                        this.$.receiveDialog.open();
+                        this.playSound();
+                    }.bind(this), false);
+                }, 200);
+
+                this.$.textInput.addEventListener('keypress', function(e) {
+                    if (e.which === 13 || e.charCode === 13) {
+                        var key;
+                        var isShift;
+                        if (window.event) {
+                            key = window.event.keyCode;
+                            isShift = !!window.event.shiftKey; // typecast to boolean
+                        } else {
+                            key = e.which;
+                            isShift = !!e.shiftKey;
+                        }
+                        if (!isShift) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this._send();
+                        }
+                    }
+                }.bind(this), false);
             },
-            _fileReceived: function(file) {
-                this.downloadURI(file);
+            _send: function() {
+                this.$.sendDialog.close();
+                app.conn.sendText(this.contact.peerId, this.textToSend);
             },
-            _decline: function() {
-                app.conn.decline(this.file);
+            _copy: function() {
+                this.copyToClipboard(this.receivedText);
+
+                this.$.receiveDialog.close();
+                console.log('text copied', this.receivedText);
             },
-            _accept: function() {
-                app.conn.accept(this.file);
-            },
-            downloadURI: function(file) {
-                var link = document.createElement('a');
-                var uri = (window.URL || window.webkitURL).createObjectURL(file.blob);
-                if (typeof link.download !== 'undefined') {
-                    //download attribute is supported
-                    link.href = uri;
-                    link.download = file.name || 'blank';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                } else {
-                    this.dataUri = uri;
-                    this.$.download.open();
+            _isPhoneNumber: function(text) {
+                if (!text || text.length < 5 || text.length > 100) {
+                    return false;
                 }
-            }
+                if (phoneNumbers.test(text)) {
+                    return text;
+                }
+
+            },
         });
     }());
     </script>

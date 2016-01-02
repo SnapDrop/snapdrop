@@ -23,13 +23,14 @@ Chat.FileButtonBehaviorImpl = {
             var files = this.fileInput.files;
             this.notifyFilesSelection(files);
         }.bind(this);
-    },
-    listeners: {
-        'tap': '_openDialog'
-    },
-    _openDialog: function() {
-        this.fileInput.value = null;
-        this.fileInput.click();
+        this.addEventListener('click', function(e) {
+            var button = e.which || e.button;
+            if (button !== 1) {
+                return;
+            }
+            this.fileInput.value = null;
+            this.fileInput.click();
+        }.bind(this), false);
     }
 };
 Chat.FileButtonBehavior = [Chat.FileButtonBehaviorImpl, Chat.FileSelectionBehavior];

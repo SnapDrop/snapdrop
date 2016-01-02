@@ -1,34 +1,59 @@
+<link rel="import" href="text-input-dialog.html">
 <script>
 'use strict';
 window.Chat = window.Chat || {};
-Chat.TextInputBehavior = {
-    get textInput() {
-        var textInput = Polymer.dom(this).querySelector('.textInput');
-        if (!textInput) {
-            textInput = document.createElement('input');
-            textInput.type = 'file';
-            textInput.multiple = 'true';
-            textInput.className = 'textInput';
-            textInput.style.position = 'fixed';
-            textInput.style.top = '-10000px';
-            textInput.style.left = '-10000px';
-            textInput.style.opacity = 0;
-            Polymer.dom(this).appendChild(textInput);
+(function() {
+    var textInput = Polymer.Base.create('text-input-dialog');
+    textInput.className = 'textInput';
+    document.body.appendChild(textInput);
+    Chat.TextInputBehavior = {
+        properties: {
+            contact: Object,
+        },
+        get textInput() {
+            var textInput = Polymer.dom(document).querySelector('.textInput');
+            return textInput;
+        },
+        openTextDialog: function() {
+            this.textInput.open(this.contact);
+        },
+
+        listeners: {
+            'contextmenu': '_handleContextMenu',
+            'down': '_handleDown',
+            'up': '_handleUp',
+        },
+        _handleContextMenu: function(ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            ev.cancelBubble = true;
+            this.cancelAsync(this.pressTimer);
+            this.openTextDialog();
+            return false;
+        },
+        _handleUp: function(e) {
+            this.cancelAsync(this.pressTimer);
+        },
+        _handleDown: function(ev) {
+            this.pressTimer = this.async(function() {
+                this.openTextDialog();
+                ev.preventDefault();
+                ev.stopPropagation();
+                ev.cancelBubble = true;
+                return false;
+            }, 1100);
+        },
+
+        attached: function() {
+            // this.addEventListener('mousedown', function(e) {
+            //     clearTimeout(this.pressTimer);
+            // }.bind(this), false);
+            // this.addEventListener('mousup', function(e) {
+            //     this.pressTimer = window.setTimeout(function() {
+            //         this.openTextDialog();
+            //     }, 1500);
+            // }.bind(this), false);
         }
-        return textInput;
-    },
-    attached: function() {
-        this.textInput.onchange = function() {
-            var files = this.textInput.files;
-            this.notifyFilesSelection(files);
-        }.bind(this);
-    },
-    listeners: {
-        'tap': '_openDialog'
-    },
-    _openDialog: function() {
-        this.textInput.value = null;
-        this.textInput.click();
-    }
-};
+    };
+}());
 </script>

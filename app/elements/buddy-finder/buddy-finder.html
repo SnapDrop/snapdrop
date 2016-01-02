@@ -28,10 +28,6 @@
             @apply(--layout-wrap);
         }
         
-        .buddy {
-            cursor: pointer;
-        }
-        
         .explanation {
             @apply(--paper-font-headline);
             color: #4285f4;
@@ -60,10 +56,37 @@
             }
         }
         
+        @media all and (max-height: 440px) {
+            .buddies {
+                padding-top: 48px;
+                @apply(--layout-self-start);
+            }
+        }
+        
+        .explanation2 {
+            display: none;
+        }
+        
+        @media all and (min-height: 640px) {
+            .explanation2 {
+                display: block;
+                position: absolute;
+                top: 128px;
+                width: 296px;
+                margin-left: -148px;
+                left: 50%;
+                @apply(--paper-font-title);
+                color: #7baaf7;
+                text-align: center;
+            }
+        }
         </style>
+        <div class="explanation2" hidden$="{{!buddies.0}}">
+            Tap to send File.<br>Long Press to send Text.
+        </div>
         <div class="buddies">
             <template is="dom-repeat" items="{{buddies}}">
-                <buddy-avatar on-file-selected="_fileSelected" only$="{{!buddies.1}}" contact="{{item}}" class="buddy"></buddy-avatar>
+                <buddy-avatar on-file-selected="_fileSelected" only$="{{!buddies.1}}" contact="{{item}}"></buddy-avatar>
             </template>
         </div>
         <div hidden$="{{buddies.0}}" class="explanation">

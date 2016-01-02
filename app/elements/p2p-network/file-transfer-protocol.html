@@ -43,6 +43,9 @@ Chat.FileTransferProtocol = {
             case 'buddies':
                 this._onBuddies(msg);
                 break;
+            case 'text':
+                this._onTextReceived(msg);
+                break;
         }
     },
     sendFile: function(peerId, file) {
@@ -135,6 +138,19 @@ Chat.FileTransferProtocol = {
     },
     _onBuddies: function(msg) {
         this.set('buddies', msg.buddies);
+    },
+    sendText: function(toPeer, text) {
+        console.log('FTP send text:', text, 'To:', toPeer);
+        this.connectToPeer(toPeer, function() {
+            this._sendSystemEvent(toPeer, {
+                type: 'text',
+                text: text
+            });
+        }.bind(this));
+
+    },
+    _onTextReceived: function(msg) {
+        this.fire('text-received', msg);
     }
 };
 </script>
