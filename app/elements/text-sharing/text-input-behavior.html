@@ -1,0 +1,34 @@
+<script>
+'use strict';
+window.Chat = window.Chat || {};
+Chat.TextInputBehavior = {
+    get textInput() {
+        var textInput = Polymer.dom(this).querySelector('.textInput');
+        if (!textInput) {
+            textInput = document.createElement('input');
+            textInput.type = 'file';
+            textInput.multiple = 'true';
+            textInput.className = 'textInput';
+            textInput.style.position = 'fixed';
+            textInput.style.top = '-10000px';
+            textInput.style.left = '-10000px';
+            textInput.style.opacity = 0;
+            Polymer.dom(this).appendChild(textInput);
+        }
+        return textInput;
+    },
+    attached: function() {
+        this.textInput.onchange = function() {
+            var files = this.textInput.files;
+            this.notifyFilesSelection(files);
+        }.bind(this);
+    },
+    listeners: {
+        'tap': '_openDialog'
+    },
+    _openDialog: function() {
+        this.textInput.value = null;
+        this.textInput.click();
+    }
+};
+</script>

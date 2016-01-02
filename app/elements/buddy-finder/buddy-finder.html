@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
-<link rel="import" href="../file-sharing/file-input.html">
 <link rel="import" href="buddy-avatar.html">
 <link rel="import" href="personal-avatar.html">
 <dom-module id="buddy-finder">
@@ -61,18 +60,10 @@
             }
         }
         
-        [only] {
-            @apply(--layout-fit);
-            @apply(--layout-horizontal);
-            @apply(--layout-center-center);
-            cursor: pointer;
-        }
         </style>
         <div class="buddies">
             <template is="dom-repeat" items="{{buddies}}">
-                <file-input on-file-selected="_fileSelected" only$="{{!buddies.1}}">
-                    <buddy-avatar contact="{{item}}" class="buddy"></buddy-avatar>
-                </file-input>
+                <buddy-avatar on-file-selected="_fileSelected" only$="{{!buddies.1}}" contact="{{item}}" class="buddy"></buddy-avatar>
             </template>
         </div>
         <div hidden$="{{buddies.0}}" class="explanation">

@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../file-sharing/file-input-behavior.html">
 <dom-module id="buddy-avatar">
     <template>
         <style>
@@ -47,6 +48,13 @@
             user-select: none;
             margin-top: 4px;
         }
+
+        :host([only1]) {
+            @apply(--layout-fit);
+            @apply(--layout-horizontal);
+            @apply(--layout-center-center);
+            cursor: pointer;
+        }
         </style>
         <paper-icon-button icon="{{_displayIcon}}"></paper-icon-button>
         <div class="paper-font-subhead">{{_displayName}}</div>
@@ -56,6 +64,7 @@
     'use strict';
     Polymer({
         is: 'buddy-avatar',
+        behaviors: [Chat.FileInputBehavior],
         properties: {
             contact: Object,
             _displayName: {
