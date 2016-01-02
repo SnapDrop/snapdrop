@@ -52,3 +52,7 @@ ShareDrop uses WebRTC only and isn't compatible with Safari Browsers. Snapdrop u
     * `npm install & bower install`
 * run `gulp serve`
 * In a second shell run `node index.js`
+
+
+## Licences
+* Thanks to [Mark DiAngelo]() for the [Blop Sound](http://soundbible.com/2067-Blop.html)

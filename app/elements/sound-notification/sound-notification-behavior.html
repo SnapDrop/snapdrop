@@ -1,0 +1,24 @@
+<link rel="import" href="sound-notification.html">
+<script>
+'use strict';
+Chat = window.Chat || {};
+Chat.SoundNotificationBehavior = {
+    sounds: function() {
+        var sounds = document.querySelector('sound-notification');
+        if (!sounds) {
+            sounds = Polymer.Base.create('sound-notification');
+            document.body.appendChild(sounds);
+        }
+        return sounds;
+    },
+    attached: function() {
+        //lazy load sound files
+        setTimeout(function() {
+            this.sounds();
+        }.bind(this), 1000);
+    },
+    playSound: function(e) {
+        this.sounds().play();
+    }
+};
+</script>
