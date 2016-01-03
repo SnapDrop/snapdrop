@@ -58,33 +58,56 @@
         
         @media all and (max-height: 440px) {
             .buddies {
-                padding-top: 48px;
+                padding-top: 56px;
+                @apply(--layout-self-start);
+            }
+        }
+        
+        @media all and (max-height: 600px) {
+            .buddies[two-lines] {
+                padding-top: 56px;
                 @apply(--layout-self-start);
             }
         }
         
         .explanation2 {
             display: none;
+            position: absolute;
+            width: 296px;
+            margin-left: -148px;
+            left: 50%;
+            @apply(--paper-font-title);
+            color: rgba(66, 133, 244, 0.65);
+            text-align: center;
+            opacity: 0;
+            -webkit-transition: opacity 500ms ease-out;
+            -moz-transition: opacity 500ms ease-out;
+            -o-transition: opacity 500ms ease-out;
+            transition: opacity 500ms ease-out;
+            z-index: 0;
         }
         
-        @media all and (min-height: 640px) {
+        @media all and (min-height: 441px) and (max-height: 559px) {
             .explanation2 {
                 display: block;
-                position: absolute;
+                top: 64px;
+                opacity: 1;
+            }
+        }
+        
+        @media all and (min-height: 560px) {
+            .explanation2 {
+                display: block;
                 top: 128px;
-                width: 296px;
-                margin-left: -148px;
-                left: 50%;
-                @apply(--paper-font-title);
-                color: #7baaf7;
-                text-align: center;
+                opacity: 1;
             }
         }
         </style>
-        <div class="explanation2" hidden$="{{!buddies.0}}">
-            Tap to send File.<br>Long Press to send Text.
+        <div class="explanation2" hidden$="{{!_showExplanation}}">
+            Tap to send File.
+            <br> Long Press to send Text.
         </div>
-        <div class="buddies">
+        <div class="buddies" two-lines$="{{twoLinesOfBuddies}}">
             <template is="dom-repeat" items="{{buddies}}">
                 <buddy-avatar on-file-selected="_fileSelected" only$="{{!buddies.1}}" contact="{{item}}"></buddy-avatar>
             </template>
@@ -109,11 +132,33 @@
             me: {
                 type: String,
             },
+            _showExplanation: {
+                computed: '_computeShowExplanation(buddies.length)',
+                value: false
+            },
+            twoLinesOfBuddies: {
+                value: false
+            }
         },
+        observers: [
+            '_buddiesChanged(buddies.splices)'
+        ],
         _fileSelected: function(e) {
             var peerId = e.model.item.peerId;
             var file = e.detail;
             app.conn.sendFile(peerId, file);
+        },
+        _computeShowExplanation: function(nBuddies) {
+            if (!nBuddies || nBuddies === 0) {
+                return false;
+            }
+            if (nBuddies < 3) {
+                return true;
+            }
+        },
+        _buddiesChanged: function() {
+            var length = window.innerWidth / 120;
+            this.set('twoLinesOfBuddies', (this.buddies.length > length));
         }
     });
     </script>
