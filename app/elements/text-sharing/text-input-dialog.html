@@ -27,7 +27,7 @@
         @media all and (max-height: 600px) {
             #sendDialog {
                 padding-top: 24px;
-                top:0px !important;
+                top: 0px !important;
             }
         }
         
@@ -68,10 +68,13 @@
             </div>
             <div class="buttons">
                 <paper-button dialog-dismiss>Discard</paper-button>
+                <paper-button on-tap="_copy" autofocus hidden$="{{!clipboardSupported}}">Copy</paper-button>
                 <a href="tel:{{tel}}" hidden$="{{!tel}}">
-                    <paper-button dialog-dismiss>Call</paper-button>
+                    <paper-button autofocus dialog-dismiss>Call</paper-button>
                 </a>
-                <paper-button on-tap="_copy" autofocus>Copy</paper-button>
+                <a href="{{url}}" hidden$="{{!url}}" target="_blank">
+                    <paper-button autofocus dialog-dismiss>Open</paper-button>
+                </a>
             </div>
         </paper-dialog>
     </template>
@@ -84,9 +87,11 @@
          *
          */
         var phoneNumbers = /^\+?[0-9x/ ]*$/;
+        var urls = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
+
         Polymer({
             is: 'text-input-dialog',
-            behaviors: [Chat.ClipboardBehavior,Chat.SoundNotificationBehavior],
+            behaviors: [Chat.ClipboardBehavior, Chat.SoundNotificationBehavior],
             properties: {
                 textToSend: {
                     type: String
@@ -100,6 +105,17 @@
                 tel: {
                     computed: '_isPhoneNumber(receivedText)',
                     value: false
+                },
+                url: {
+                    computed: '_isUrl(receivedText)',
+                    value: false
+                },
+                clipboardSupported: {
+                    value: false
+                },
+                fallback: {
+                    computed: '_isFallback(url,tel,clipboardSupported)',
+                    value: false
                 }
             },
             open: function(contact) {
@@ -107,9 +123,27 @@
                 this.$.sendDialog.open();
             },
             attached: function() {
+                // clipboard must be initalized by user interaction
+                var that = this;
+                var hackListener = function() {
+                    document.body.removeEventListener('touchstart', hackListener, false);
+                    document.body.removeEventListener('click', hackListener, false);
+                    // wait 1s to tell the ui that copy is supported
+                    that.async(function() {
+                        that.clipboardSupported = document.queryCommandSupported && document.queryCommandSupported('copy');
+                    }, 1000);
+                };
+                document.body.addEventListener('touchstart', hackListener, false);
+                document.body.addEventListener('click', hackListener, false);
+
+
                 this.async(function() {
                     app.conn.addEventListener('text-received', function(e) {
                         var receivedText = e.detail.text;
+                        if (!receivedText || receivedText.trim() === '') {
+                            this.playSound();
+                            return;
+                        }
                         this.receivedText = receivedText;
                         this.$.receivedText.textContent = receivedText;
                         window.linkifyElement(this.$.receivedText, {}, document);
@@ -136,6 +170,8 @@
                         }
                     }
                 }.bind(this), false);
+
+
             },
             _send: function() {
                 this.$.sendDialog.close();
@@ -156,6 +192,18 @@
                 }
 
             },
+            _isUrl: function(text) {
+                if (!text) {
+                    return false;
+                }
+                if (urls.test(text)) {
+                    return text;
+                }
+
+            },
+            _isFallback: function(url, tel, clipboardSupported) {
+                return (!url && !tel && !clipboardSupported);
+            }
         });
     }());
     </script>
