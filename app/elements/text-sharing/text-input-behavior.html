@@ -41,19 +41,8 @@ window.Chat = window.Chat || {};
                 ev.stopPropagation();
                 ev.cancelBubble = true;
                 return false;
-            }, 1100);
+            }, 800);
         },
-
-        attached: function() {
-            // this.addEventListener('mousedown', function(e) {
-            //     clearTimeout(this.pressTimer);
-            // }.bind(this), false);
-            // this.addEventListener('mousup', function(e) {
-            //     this.pressTimer = window.setTimeout(function() {
-            //         this.openTextDialog();
-            //     }, 1500);
-            // }.bind(this), false);
-        }
     };
 }());
 </script>
