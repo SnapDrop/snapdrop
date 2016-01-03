@@ -52,11 +52,10 @@
             user-select: none;
         }
         
-        :host([only1]) {
-            @apply(--layout-fit);
-            @apply(--layout-horizontal);
-            @apply(--layout-center-center);
-            cursor: pointer;
+        @media all and (min-height: 440px) {
+            :host([only]) {
+                padding: 20vh;
+            }
         }
         
         .container {
