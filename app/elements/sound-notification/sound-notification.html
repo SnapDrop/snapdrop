@@ -18,6 +18,7 @@ Polymer({
         }
     },
     attached: function() {
+        // mobiles don't like autoplay - the first play must be triggert by user interaction
         var that = this;
         var hackListener = function() {
             that.volumes.blop = 0.1;
