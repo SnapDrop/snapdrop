@@ -9,7 +9,8 @@
     "platinum-elements": "PolymerElements/platinum-elements#^1.1.0",
     "polymer": "Polymer/polymer#^1.2.0",
     "paper-menu": "PolymerElements/paper-menu#4fecb43601",
-    "peerjs": "~0.3.14"
+    "peerjs": "~0.3.14",
+    "clipboard": "~1.5.5"
   },
   "devDependencies": {
     "web-component-tester": "*"
