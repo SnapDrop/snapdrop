@@ -49,6 +49,9 @@
                 if (window.webRTCSupported) {
                     this.$.p2p.initialize();
                 }
+            },
+            notifyServer: function(msg) {
+                this.$.ws.client.send({}, msg);
             }
         });
     })();

@@ -31,8 +31,8 @@
         
         .paper-font-subhead {
             text-align: center;
-            line-height: 22px;
-            margin-top: 2px;
+            margin-top: 0px;
+            line-height: 18px;
         }
         
         .paper-font-body1 {
@@ -40,7 +40,8 @@
             width: 100%;
             font-size: 13px;
             color: grey;
-            line-height: 13px;
+            margin-top: 0px !important;
+            line-height: 16px;
         }
         
         :host,
@@ -91,11 +92,19 @@
             },
             status: {
                 type: String,
-                value: ''
+                value: '',
+            },
+            defaultStatus: {
+                computed: '_computeDefaultStatus(contact)'
             }
         },
         _computeDisplayName: function(contact) {
-            contact = contact.name;
+            if (!contact.name.os) {
+                return contact.name;
+            }
+            return this._computeDeviceName(contact.name);
+        },
+        _computeDeviceName: function(contact) {
             if (contact.model) {
                 return contact.os + ' ' + contact.model;
             }
@@ -103,7 +112,7 @@
             return contact.os + ' ' + contact.browser;
         },
         _computeDisplayIcon: function(contact) {
-            contact = contact.name;
+            contact = contact.device || contact.name;
             if (contact.type === 'mobile') {
                 return 'chat:phone-iphone';
             }
@@ -111,6 +120,11 @@
                 return 'chat:tablet-mac';
             }
             return 'chat:desktop-mac';
+        },
+        _computeDefaultStatus: function(contact) {
+            var status = contact.device ? this._computeDeviceName(contact.device) : '';
+            this.status = status;
+            return status;
         },
         attached: function() {
             this.async(function() {
@@ -131,21 +145,21 @@
                 }.bind(this), false);
                 app.conn.addEventListener('upload-complete', function(e) {
                     if (e.detail.from === this.contact.peerId) {
-                        this.status = '';
+                        this.status = this.defaultStatus;
                     }
                 }.bind(this), false);
                 app.conn.addEventListener('download-complete', function(e) {
                     if (e.detail.from === this.contact.peerId) {
-                        this.status = '';
+                        this.status = this.defaultStatus;
                     }
                 }.bind(this), false);
                 app.conn.addEventListener('file-declined', function(e) {
                     if (e.detail.from === this.contact.peerId) {
-                        this.status = '';
+                        this.status = this.defaultStatus;
                     }
                 }.bind(this), false);
                 app.conn.addEventListener('upload-error', function(e) {
-                    this.status = '';
+                    this.status = this.defaultStatus;
                 }.bind(this), false);
             }, 200);
         }

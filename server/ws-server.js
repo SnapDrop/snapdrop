@@ -47,11 +47,11 @@ exports.create = function(server) {
     }
     // Wait for new user connections
     bs.on('connection', function(client) {
-        //console.log('connection received!', client._socket.upgradeReq.connection.remoteAddress);
 
         client.uuidRaw = guid();
         //ip is hashed to prevent injections by spoofing the 'x-forwarded-for' header
-        client.hashedIp = hash(getIP(client._socket));
+        client.hashedIp = 1; 
+        // client.hashedIp = hash(getIP(client._socket));
 
         client.deviceName = getDeviceName(client._socket.upgradeReq);
 
@@ -62,10 +62,20 @@ exports.create = function(server) {
                 client.send({
                     isSystemEvent: true,
                     type: 'handshake',
+                    name: client.deviceName,
                     uuid: client.uuid
                 });
                 return;
             }
+            if (meta && meta.serverMsg === 'device-name') {
+                //max name length = 40
+                if (meta.name && meta.name.length > 40) {
+                    return;
+                }
+                client.name = meta.name;
+                return;
+            }
+
             meta.from = client.uuid;
 
             // broadcast to the other client
@@ -104,7 +114,8 @@ exports.create = function(server) {
                 socket: client,
                 contact: {
                     peerId: client.uuid,
-                    name: client.deviceName,
+                    name: client.name || client.deviceName,
+                    device: client.name ? client.deviceName : undefined
                 }
             });
         });
@@ -129,6 +140,7 @@ exports.create = function(server) {
                     isSystemEvent: true,
                     type: 'buddies'
                 };
+                //send only if state changed
                 if (currState !== socket.lastState) {
                     socket.send(msg);
                     socket.lastState = currState;
