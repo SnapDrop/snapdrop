@@ -63,7 +63,11 @@
                     this._nameChanged(name);
                     return;
                 }
-                this._sendNameToServer(name);
+                try {
+                    this._sendNameToServer(name);
+                } catch (e) {
+                    this._nameChanged(name);
+                }
 
             }, 300);
 
