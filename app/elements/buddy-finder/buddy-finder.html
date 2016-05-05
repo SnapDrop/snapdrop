@@ -102,11 +102,10 @@
                 opacity: 1;
             }
         }
-        
         </style>
         <div class="explanation2" hidden$="{{!_showExplanation}}">
-            Tap to send File.
-            <br> Long Press to send Text.
+            {{_clickExplanation1}} Device to send File.
+            <br> {{_clickExplanation2}} to send a Text.
         </div>
         <div class="buddies" two-lines$="{{twoLinesOfBuddies}}">
             <template is="dom-repeat" items="{{buddies}}">
@@ -123,44 +122,66 @@
     </template>
     <script>
     'use strict';
-    Polymer({
-        is: 'buddy-finder',
-        properties: {
-            buddies: {
-                type: Array,
-                notify: true
+    (function() {
+        var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        Polymer({
+            is: 'buddy-finder',
+            properties: {
+                buddies: {
+                    type: Array,
+                    notify: true
+                },
+                me: {
+                    type: String,
+                },
+                _showExplanation: {
+                    computed: '_computeShowExplanation(buddies.length)',
+                    value: false
+                },
+                twoLinesOfBuddies: {
+                    value: false
+                },
+                _clickExplanation1: {
+                    value: (function() {
+                        if (isMobile) {
+                            return 'Tap';
+                        } else {
+                            return 'Click';
+                        }
+                    })
+                },
+                _clickExplanation2: {
+                    value: (function() {
+                        if (isMobile) {
+                            return 'Long Press';
+                        } else {
+                            return 'Right Click';
+                        }
+                    })
+                }
             },
-            me: {
-                type: String,
+            observers: [
+                '_buddiesChanged(buddies.splices)'
+            ],
+            _fileSelected: function(e) {
+                var peerId = e.model.item.peerId;
+                var file = e.detail;
+                app.conn.sendFile(peerId, file);
+                //document.querySelector('#ads').open();
             },
-            _showExplanation: {
-                computed: '_computeShowExplanation(buddies.length)',
-                value: false
+            _computeShowExplanation: function(nBuddies) {
+                if (!nBuddies || nBuddies === 0) {
+                    return false;
+                }
+                if (nBuddies < 3) {
+                    return true;
+                }
             },
-            twoLinesOfBuddies: {
-                value: false
+            _buddiesChanged: function() {
+                var length = window.innerWidth / 120;
+                this.set('twoLinesOfBuddies', (this.buddies.length > length));
             }
-        },
-        observers: [
-            '_buddiesChanged(buddies.splices)'
-        ],
-        _fileSelected: function(e) {
-            var peerId = e.model.item.peerId;
-            var file = e.detail;
-            app.conn.sendFile(peerId, file);
-        },
-        _computeShowExplanation: function(nBuddies) {
-            if (!nBuddies || nBuddies === 0) {
-                return false;
-            }
-            if (nBuddies < 3) {
-                return true;
-            }
-        },
-        _buddiesChanged: function() {
-            var length = window.innerWidth / 120;
-            this.set('twoLinesOfBuddies', (this.buddies.length > length));
-        }
-    });
+        });
+    }());
     </script>
 </dom-module>

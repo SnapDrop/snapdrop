@@ -20,7 +20,7 @@
             border-radius: 50%;
             overflow: hidden;
             padding: 12px;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             background-color: #4285f4;
             color: white;
         }
@@ -127,39 +127,50 @@
             return status;
         },
         attached: function() {
+            // var adsDialog = document.querySelector('#ads');
             this.async(function() {
                 app.conn.addEventListener('file-offered', function(e) {
                     if (e.detail.to === this.contact.peerId) {
                         this.status = 'Waiting to accept...';
+                        //adsDialog.open();
                     }
                 }.bind(this), false);
                 app.conn.addEventListener('upload-started', function(e) {
                     if (e.detail.to === this.contact.peerId) {
                         this.status = 'Uploading...';
+                        // adsDialog.setState('Uploading...');
                     }
                 }.bind(this), false);
                 app.conn.addEventListener('download-started', function(e) {
                     if (e.detail.from === this.contact.peerId) {
                         this.status = 'Downloading...';
+                        //adsDialog.open();
+                        // adsDialog.setState('Downloading...');
                     }
                 }.bind(this), false);
                 app.conn.addEventListener('upload-complete', function(e) {
                     if (e.detail.from === this.contact.peerId) {
                         this.status = this.defaultStatus;
+                        adsDialog.setState('Transfer Complete');
+                        // adsDialog.close();
                     }
                 }.bind(this), false);
                 app.conn.addEventListener('download-complete', function(e) {
                     if (e.detail.from === this.contact.peerId) {
                         this.status = this.defaultStatus;
+                        adsDialog.setState('Transfer Complete');
+                        // adsDialog.close();
                     }
                 }.bind(this), false);
                 app.conn.addEventListener('file-declined', function(e) {
                     if (e.detail.from === this.contact.peerId) {
                         this.status = this.defaultStatus;
+                        // adsDialog.close(true);
                     }
                 }.bind(this), false);
                 app.conn.addEventListener('upload-error', function(e) {
                     this.status = this.defaultStatus;
+                    // adsDialog.close();
                 }.bind(this), false);
             }, 200);
         }

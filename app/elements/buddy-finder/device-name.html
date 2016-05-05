@@ -14,7 +14,7 @@
             text-align: center;
             cursor: pointer;
             width: 160px;
-            line-height: 18px !important;
+            line-height: 12px !important;
         }
         
         :root {
@@ -37,7 +37,7 @@
             text-align: left;
         }
         </style>
-        <div class="name-label" hidden$="{{name}}">My Name</div>
+        <div class="name-label" hidden$="{{name}}">My Device</div>
         <div class="name-label" hidden$="{{!name}}">{{name}}</div>
         <iron-localstorage name="device-name" value="{{name}}" iron-localstorage-load="_nameChanged"></iron-localstorage>
     </template>

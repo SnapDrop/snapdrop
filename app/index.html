@@ -3,11 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Snapdrop is an easy way to transfer files. Instantly share images, video, PDF, and links across devices. Peer2Peer, Private, Secure and Open Source. No Setup, No Signup.">
     <meta name="viewport" content="width=device-width initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="generator" content="Snapdrop">
     <title>Snapdrop</title>
-    <link rel="shortcut icon" href="favicon.ico?v=2"/>
+    <link rel="shortcut icon" href="favicon.ico?v=3" />
     <!-- Place favicon.ico in the `app/` directory -->
     <!-- Chrome for Android theme color -->
     <meta name="theme-color" content="#3367d6">
@@ -20,8 +19,16 @@
     <meta name="application-name" content="PSK">
     <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
     <link rel="fluid-icon" type="image/png" href="images/touch/chrome-touch-icon-192x192.png">
-    <meta property="og:image" content="https://snapdrop.net/images/touch/chrome-touch-icon-192x192.png" />
-    <meta name="twitter:image" content="https://snapdrop.net/images/touch/chrome-touch-icon-192x192.png" />
+    <meta name="description" content="Snapdrop is an easy way to transfer files. Instantly share images, video, PDF, and links across devices. Peer2Peer, Private, Secure and Open Source. No Setup, No Signup.">
+    <meta property="og:image" content="https://snapdrop.net/images/touch/chrome-splashscreen-icon-384x384.png" />
+    <meta property="og:url" content="https://snapdrop.net/" />
+    <meta name="twitter:image" content="https://snapdrop.net/images/touch/chrome-splashscreen-icon-384x384.png" />
+    <meta name="twitter:author" content="@RobinLinus" />
+    <meta property="og:type" content="article" />
+    <meta property="og:author" content="https://facebook.com/RobinLinus" />
+    <meta property="fb:pages" content="451189218422617" />
+    <meta property="fb:profile_id" content="451189218422617" />
+    <meta name="twitter:description" content="Snapdrop is an easy way to transfer files. Instantly share images, video, PDF, and links across devices. Peer2Peer, Private, Secure and Open Source. No Setup, No Signup.">
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -63,6 +70,7 @@
         </paper-toast>
         <paper-toast id="caching-complete" duration="6000" text="Caching complete! This app will work offline.">
         </paper-toast>
+        <donate-dialog></donate-dialog>
         <platinum-sw-register auto-register clients-claim skip-waiting base-uri="bower_components/platinum-sw/bootstrap" on-service-worker-installed="displayInstalledToast">
             <platinum-sw-cache default-cache-strategy="fastest" cache-config-file="cache-config.json">
             </platinum-sw-cache>
@@ -87,6 +95,20 @@
     ga('create', 'UA-71686975-1', 'auto');
     ga('send', 'pageview');
     </script>
+    <!--     <div id="ads">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle" style="display:inline-block;width:320px;height:100px" data-ad-client="ca-pub-9914824802194583" data-ad-slot="1331757352"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    <div id="ads2">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle" style="display:inline-block;width:120px;height:600px" data-ad-client="ca-pub-9914824802194583" data-ad-slot="4027871759"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div> -->
 </body>
 
 </html>
