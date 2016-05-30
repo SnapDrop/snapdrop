@@ -14,6 +14,14 @@
         // app.baseUrl = '/polymer-starter-kit/';
     }
 
+    // don't display the install prompt if the user has *already* installed
+    window.addEventListener('beforeinstallprompt', function(event) {
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        return event.preventDefault();
+      }
+    });
+
+
     app.displayInstalledToast = function() {
         // Check to make sure caching is actually enabled—it won't be in the dev environment.
         if (!Polymer.dom(document).querySelector('platinum-sw-cache').disabled) {
