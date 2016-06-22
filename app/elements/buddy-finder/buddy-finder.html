@@ -167,7 +167,6 @@
                 var peerId = e.model.item.peerId;
                 var file = e.detail;
                 app.conn.sendFile(peerId, file);
-                //document.querySelector('#ads').open();
             },
             _computeShowExplanation: function(nBuddies) {
                 if (!nBuddies || nBuddies === 0) {

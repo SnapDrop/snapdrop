@@ -1,18 +1,11 @@
 (function(document) {
     'use strict';
 
-    // Grab a reference to our auto-binding template
-    // and give it some initial binding values
-    // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
     var app = document.querySelector('#app');
 
     // Sets app default base URL
     app.baseUrl = '/';
-    if (window.location.port === '') { // if production
-        // Uncomment app.baseURL below and
-        // set app.baseURL to '/your-pathname/' if running from folder in production
-        // app.baseUrl = '/polymer-starter-kit/';
-    }
+
 
     // don't display the install prompt if the user has *already* installed
     window.addEventListener('beforeinstallprompt', function(event) {
@@ -48,9 +41,6 @@
 
     });
 
-    app._showAbout=function(){
-        document.querySelector('#pages').select(1);
-    };
     app._showAbout=function(){
         document.querySelector('#pages').select(0);
     };

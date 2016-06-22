@@ -50,8 +50,8 @@ exports.create = function(server) {
 
         client.uuidRaw = guid();
         //ip is hashed to prevent injections by spoofing the 'x-forwarded-for' header
-        client.hashedIp = 1; 
-        // client.hashedIp = hash(getIP(client._socket));
+        // client.hashedIp = 1;  //use this to test locally
+        client.hashedIp = hash(getIP(client._socket));
 
         client.deviceName = getDeviceName(client._socket.upgradeReq);
 

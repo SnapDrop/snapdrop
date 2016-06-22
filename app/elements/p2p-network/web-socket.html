@@ -33,7 +33,6 @@
                         parts.push(data);
                     }
                 }.bind(this));
-                // when finished, set it as the background image
                 stream.on('end', function() {
                     var blob = new Blob(parts, {
                         type: meta.type
