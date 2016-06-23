@@ -1,8 +1,8 @@
 <link rel="import" href="file-selection-behavior.html">
 <script>
 'use strict';
-window.Chat = window.Chat || {};
-Chat.FileDropBehaviorImpl = {
+window.Snapdrop = window.Snapdrop || {};
+Snapdrop.FileDropBehaviorImpl = {
     attached: function() {
         var dropZone = this;
 
@@ -44,5 +44,5 @@ document.body.addEventListener('drop', function(event) {
     event.stopPropagation();
     event.preventDefault();
 });
-Chat.FileDropBehavior = [Chat.FileDropBehaviorImpl, Chat.FileSelectionBehavior];
+Snapdrop.FileDropBehavior = [Snapdrop.FileDropBehaviorImpl, Snapdrop.FileSelectionBehavior];
 </script>

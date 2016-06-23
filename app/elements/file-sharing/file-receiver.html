@@ -48,7 +48,7 @@
     (function() {
         Polymer({
             is: 'file-receiver',
-            behaviors: [Chat.SoundNotificationBehavior],
+            behaviors: [Snapdrop.SoundNotificationBehavior],
             attached: function() {
                 this.async(function() {
                     app.conn.addEventListener('file-offer', function(e) {

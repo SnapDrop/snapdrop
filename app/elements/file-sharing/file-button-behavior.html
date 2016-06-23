@@ -1,8 +1,8 @@
 <link rel="import" href="file-selection-behavior.html">
 <script>
 'use strict';
-window.Chat = window.Chat || {};
-Chat.FileButtonBehaviorImpl = {
+window.Snapdrop = window.Snapdrop || {};
+Snapdrop.FileButtonBehaviorImpl = {
     get fileInput() {
         var fileInput = Polymer.dom(this).querySelector('.fileInput');
         if (!fileInput) {
@@ -33,5 +33,5 @@ Chat.FileButtonBehaviorImpl = {
         }.bind(this), false);
     }
 };
-Chat.FileButtonBehavior = [Chat.FileButtonBehaviorImpl, Chat.FileSelectionBehavior];
+Snapdrop.FileButtonBehavior = [Snapdrop.FileButtonBehaviorImpl, Snapdrop.FileSelectionBehavior];
 </script>

@@ -20,7 +20,7 @@
                     notify: true
                 },
             },
-            behaviors: [Chat.FileTransferProtocol],
+            behaviors: [Snapdrop.FileTransferProtocol],
             _sendFile: function(toPeer, file) {
                 if (!rtcConnectionSupported(toPeer)) {
                     this.$.ws._sendFile(toPeer, file);
