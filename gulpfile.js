@@ -18,7 +18,7 @@ var ensureFiles = require('./tasks/ensure-files.js');
 var inlinesource = require('gulp-inline-source');
 var proxy = require('proxy-middleware');
 var url = require('url');
-var minifyHTML = require('gulp-minify-html');
+var minifyHTML = require('gulp-htmlmin');
 var replace = require('gulp-replace');
 
 // var ghPages = require('gulp-gh-pages');
