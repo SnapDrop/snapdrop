@@ -9,8 +9,10 @@
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cache": "^0.4.0",
     "gulp-changed": "^1.0.0",
+    "gulp-clean-css": "^2.0.13",
     "gulp-gh-pages": "^0.5.4",
     "gulp-html-extract": "^0.0.3",
+    "gulp-htmlmin": "^3.0.0",
     "gulp-if": "^2.0.0",
     "gulp-imagemin": "^2.2.1",
     "gulp-inline-source": "^2.1.0",
@@ -18,8 +20,6 @@
     "gulp-jscs-stylish": "^1.1.2",
     "gulp-jshint": "^1.6.3",
     "gulp-load-plugins": "^1.1.0",
-    "gulp-minify-css": "^1.2.1",
-    "gulp-minify-html": "^1.0.5",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.4",
     "gulp-size": "^2.0.0",
@@ -49,6 +49,6 @@
     "express": "^4.13.3",
     "peer": "^0.2.8",
     "ua-parser-js": "^0.7.10",
-    "ws": "^0.8.1"
+    "ws": "^1.1.1"
   }
 }

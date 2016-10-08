@@ -9,9 +9,9 @@
 * [WebRTC](http://webrtc.org/)
   * [PeerJS](http://peerjs.com)
 * [WebSockets](http://www.websocket.org/) fallback (iDevices don't support WebRTC)
-  * [BinaryJs](http://binaryjs.com/)
+  * [BinaryJs](https://github.com/binaryjs/binaryjs)
 * [NodeJS](https://nodejs.org/en/)
-* [Material Design](http://www.google.com/design/spec/material-design/introduction.html)
+* [Material Design](https://material.google.com/)
 
 ### Frequently Asked Questions
 
