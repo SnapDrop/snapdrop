@@ -30,25 +30,25 @@ If WebRTC isn’t supported (Safari, IE) it uses a Web Sockets fallback for the 
 
 ##### What about privacy? Will files be saved on third-party-servers?
 None of your files are ever saved on any server. 
-Snapdrop doesn't even use cookies or a database. If you are curious have a look [at the Server](https://github.com/capira12/snapdrop/blob/master/server/ws-server.js)
+Snapdrop doesn't even use cookies or a database. If you are curious have a look [at the Server](https://github.com/RobinLinus/snapdrop/blob/master/server/ws-server.js).
 But it does use Google Analytics. 
 
 ##### Is SnapDrop a fork of ShareDrop?
-No. ShareDrop is built with ember. Snapdrop is built with Polymer. 
-I wanted to play around with Progressive Web Apps and then I got the idea to clone Apple’s Airdrop. By doing research on this idea I found and analysed ShareDrop. I liked it and thought about how to improve it.
+No. ShareDrop is built with Ember. Snapdrop is built with Polymer. 
+I wanted to play around with Progressive Web Apps and then I got the idea to clone Apple's Airdrop. By doing research on this idea I found and analysed ShareDrop. I liked it and thought about how to improve it.
 ShareDrop uses WebRTC only and isn't compatible with Safari Browsers. Snapdrop uses a Websocket fallback and some hacks to make Snapdrop work due to the download restrictions on iDevices. 
 
 
 ### Snapdrop is awesome! How can I support it? 
-* File Bugs, Give Feedback, Suggestions
+* [File bugs, give feedback, submit suggestions](https://github.com/RobinLinus/snapdrop/issues)
 * Share Snapdrop on your social media.
 * [Buy me a cup of coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R9C5E42UYEQCN)
-* Fix bugs and do a Pull Request. This is my first open source project, so I am not very used to the common workflow, but we'll figure it out!
+* Fix bugs and make a Pull Request. This is my first open source project, so I am not very used to the common workflow, but we'll figure it out!
 * Do Security Analysis and suggestions
 
 
 ## Run the project on your device
-* Install npm, bower, gulp and the dependencies as described [here](https://github.com/PolymerElements/polymer-starter-kit#install-dependencies)
+* Install the `npm`, `bower`, and `gulp` [dependencies of Polymer Starter Kit](https://github.com/PolymerElements/polymer-starter-kit/blob/cd1c6227537c369b2b53c6abe814466f3bbb4187/README.md#install-dependencies)
     * `npm install & bower install`
 * run `gulp serve`
 * In a second shell run `node index.js`
