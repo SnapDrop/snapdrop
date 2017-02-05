@@ -1,9 +1,22 @@
 'use strict';
 
 // Include Gulp & tools we'll use
+var autoprefixer = require('gulp-autoprefixer');
+var useref = require('gulp-useref');
+var vulcanize = require('vulcanize');
+var size = require('gulp-size');
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
+var ghPages = require('gulp-gh-pages');
+var gulpIf = require('gulp-if');
+var jscs = require('gulp-jscs');
+var jscsStylish = require('gulp-jscs-stylish');
+var htmlExtract = require('gulp-html-extract');
+var imagemin = require('gulp-imagemin');
+var cleanCSS = require('gulp-clean-css');
+var changed = require('gulp-changed');
 var del = require('del');
+var uglify = require('gulp-uglify');
+var jshint = require('gulp-jshint');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
@@ -45,57 +58,57 @@ var styleTask = function(stylesPath, srcs) {
     return gulp.src(srcs.map(function(src) {
             return path.join('app', stylesPath, src);
         }))
-        .pipe($.changed(stylesPath, {
+        .pipe(changed(stylesPath, {
             extension: '.css'
         }))
-        .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
+        .pipe(autoprefixer(AUTOPREFIXER_BROWSERS))
         .pipe(gulp.dest('.tmp/' + stylesPath))
-        .pipe($.minifyCss())
+        .pipe(cleanCSS())
         .pipe(gulp.dest(dist(stylesPath)))
-        .pipe($.size({
+        .pipe(size({
             title: stylesPath
         }));
 };
 
 var imageOptimizeTask = function(src, dest) {
     return gulp.src(src)
-        .pipe($.imagemin({
+        .pipe(imagemin({
             progressive: true,
             interlaced: true
         }))
         .pipe(gulp.dest(dest))
-        .pipe($.size({
+        .pipe(size({
             title: 'images'
         }));
 };
 
 var optimizeHtmlTask = function(src, dest) {
-    var assets = $.useref.assets({
+    var assets = useref.assets({
         searchPath: ['.tmp', 'app']
     });
 
     return gulp.src(src)
         .pipe(assets)
         // Concatenate and minify JavaScript
-        .pipe($.if('*.js', $.uglify({
+        .pipe(gulpIf('*.js', uglify({
             preserveComments: 'some'
         })))
         // Concatenate and minify styles
         // In case you are still using useref build blocks
-        .pipe($.if('*.css', $.minifyCss()))
+        .pipe(gulpIf('*.css', cleanCSS()))
         .pipe(assets.restore())
-        .pipe($.useref())
+        .pipe(useref())
         // Minify any HTML
-        .pipe($.if('*.html', $.minifyHtml({
+        .pipe(gulpIf('*.html', minifyHTML({
             quotes: true,
             empty: true,
             spare: true
         })))
-        .pipe($.if('*.html', inlinesource()))
+        .pipe(gulpIf('*.html', inlinesource()))
         .pipe(replace('window.debug = true;', ''))
         // Output files
         .pipe(gulp.dest(dest))
-        .pipe($.size({
+        .pipe(size({
             title: 'html'
         }));
 };
@@ -134,12 +147,12 @@ gulp.task('lint', ['ensureFiles'], function() {
         }))
 
     // JSCS has not yet a extract option
-    .pipe($.if('*.html', $.htmlExtract()))
-        .pipe($.jshint())
-        .pipe($.jscs())
-        .pipe($.jscsStylish.combineWithHintResults())
-        .pipe($.jshint.reporter('jshint-stylish'))
-        .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+    .pipe(gulpIf('*.html', htmlExtract()))
+        .pipe(jshint())
+        .pipe(jscs())
+        .pipe(jscsStylish.combineWithHintResults())
+        .pipe(jshint.reporter('jshint-stylish'))
+        .pipe(gulpIf(!browserSync.active, jshint.reporter('fail')));
 });
 
 // Optimize images
@@ -166,7 +179,7 @@ gulp.task('copy', function() {
     ]).pipe(gulp.dest(dist('bower_components')));
 
     return merge(app, bower)
-        .pipe($.size({
+        .pipe(size({
             title: 'copy'
         }));
 });
@@ -175,7 +188,7 @@ gulp.task('copy', function() {
 gulp.task('fonts', function() {
     return gulp.src(['app/fonts/**'])
         .pipe(gulp.dest(dist('fonts')))
-        .pipe($.size({
+        .pipe(size({
             title: 'fonts'
         }));
 });
@@ -190,7 +203,7 @@ gulp.task('html', function() {
 // Vulcanize granular configuration
 gulp.task('vulcanize', function() {
     return gulp.src('app/elements/elements.html')
-        .pipe($.vulcanize({
+        .pipe(vulcanize({
             stripComments: true,
             stripExclude:['app/bower_components/font-roboto/roboto.html'],
             inlineCss: true,
@@ -200,7 +213,7 @@ gulp.task('vulcanize', function() {
             empty: true
         }))
         .pipe(gulp.dest(dist('elements')))
-        .pipe($.size({
+        .pipe(size({
             title: 'vulcanize'
         }));
 });
@@ -329,11 +342,11 @@ gulp.task('deploy-gh-pages', function() {
     return gulp.src(dist('**/*'))
         // Check if running task from Travis CI, if so run using GH_TOKEN
         // otherwise run using ghPages defaults.
-        .pipe($.if(process.env.TRAVIS === 'true', $.ghPages({
+        .pipe(gulpIf(process.env.TRAVIS === 'true', ghPages({
             remoteUrl: 'https://$GH_TOKEN@github.com/polymerelements/polymer-starter-kit.git',
             silent: true,
             branch: 'gh-pages'
-        }), $.ghPages()));
+        }), ghPages()));
 });
 
 // Load tasks for web-component-tester
