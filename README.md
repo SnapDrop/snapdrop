@@ -2,7 +2,7 @@
 
 [Snapdrop](https://snapdrop.net) is inspired by Apple's Airdrop, but is a Progressive Web App built with Polymer and Web RTC.
 
-Snapdrop is an open source contribution by [RobinLinus - Security, Privacy & Blockchain Consulting](https://robinlinus.github.io).
+Snapdrop is an open source contribution by [Nimiq: the Browser-based Blockchain & Ecosytem](https://nimiq.com).
 
 #### Snapdrop is built with the following awesome technologies:
 * [Polymer](https://www.polymer-project.org)
