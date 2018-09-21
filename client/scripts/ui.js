@@ -335,7 +335,7 @@ class Notifications {
     constructor() {
         // Check if the browser supports notifications
         if (!('Notification' in window)) return;
-        
+
         // Check whether notification permissions have already been granted
         if (Notification.permission !== 'granted') {
             this.$button = $('notification');
@@ -361,11 +361,12 @@ class Notifications {
         const config = {
             body: body,
             icon: '/images/logo_transparent_128x128.png',
-            // vibrate: [200, 100, 200, 100, 200, 100, 400],
-            // requireInteraction: true
         }
         if (serviceWorker && serviceWorker.showNotification) {
             // android doesn't support "new Notification" if service worker is installed
+            config.actions = {
+                { "action": "yes", "title": "Yes"}
+            };
             return serviceWorker.showNotification(message, config);
         } else {
             return new Notification(message, config);
@@ -385,11 +386,20 @@ class Notifications {
     _downloadNotification(message) {
         const notification = this._notify(message, 'Click to download');
         if (window.isDownloadSupported) return;
-        notification.onclick = e => {
-            document.querySelector('x-dialog [download]').click();
-        };
+        notification.onclick = e => this._download(e);
     }
 
+    _download(e) {
+        document.querySelector('x-dialog [download]').click();
+        e.target.close();
+    }
+
+    _copyText(notification, message) {
+        console.log('message');
+        document.copy(message);
+        this._notify('Copied to clipboard');
+        notification.close();
+    }
 }
 
 class Snapdrop {
