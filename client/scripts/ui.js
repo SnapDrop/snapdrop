@@ -335,8 +335,8 @@ class Notifications {
     constructor() {
         // Check if the browser supports notifications
         if (!('Notification' in window)) return;
+        
         // Check whether notification permissions have already been granted
-
         if (Notification.permission !== 'granted') {
             this.$button = $('notification');
             this.$button.removeAttribute('hidden');
@@ -364,6 +364,7 @@ class Notifications {
             vibrate: [200, 100, 200, 100, 200, 100, 400],
         }
         if (serviceWorker && serviceWorker.showNotification) {
+            // android doesn't support "new Notification" if service worker is installed
             return serviceWorker.showNotification(message, config);
         } else {
             return new Notification(message, config);

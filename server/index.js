@@ -84,7 +84,7 @@ class SnapdropServer {
     _leaveRoom(peer) {
         // delete the peer
         this._cancelKeepAlive(peer);
-        if (!this._rooms[peer.ip]) return;
+        if (!this._rooms[peer.ip] || !this._rooms[peer.ip][peer.id]) return;
 
         delete this._rooms[peer.ip][peer.id];
 
