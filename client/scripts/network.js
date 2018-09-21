@@ -3,17 +3,23 @@ class ServerConnection {
     constructor() {
         this._connect();
         Events.on('beforeunload', e => this._disconnect(), false);
+        Events.on('pagehide', e => this._disconnect(), false);
     }
 
     _connect() {
+        if (this._isConnected()) return;
         const ws = new WebSocket(this._endpoint());
         ws.binaryType = 'arraybuffer';
-        ws.onopen = e => console.log('WS: server connection opened');
+        ws.onopen = e => console.log('WS: server connected');
         ws.onmessage = e => this._onMessage(e.data);
         ws.onclose = e => this._onDisconnect();
         ws.onerror = e => console.error(e);
         this._socket = ws;
         clearTimeout(this._reconnectTimer);
+    }
+
+    _isConnected() {
+        return this._socket && this._socket.readyState === this._socket.OPEN;
     }
 
     _onMessage(msg) {
@@ -224,7 +230,7 @@ class RTCPeer extends Peer {
             this._peerId = peerId;
             this._peer = new RTCPeerConnection(RTCPeer.config);
             this._peer.onicecandidate = e => this._onIceCandidate(e);
-            this._peer.onconnectionstatechange = e => console.log('RTC: state changed:', this._peer.connectionState);
+            this._peer.onconnectionstatechange = e => this._onConnectionStateChange(e);
         }
 
         if (isCaller) {
@@ -237,7 +243,7 @@ class RTCPeer extends Peer {
     _createChannel() {
         const channel = this._peer.createDataChannel('data-channel', { reliable: true });
         channel.binaryType = 'arraybuffer';
-        channel.onopen = e => this._onChannelOpened(e)
+        channel.onopen = e => this._onChannelOpened(e);
         this._peer.createOffer(d => this._onDescription(d), e => this._onError(e));
     }
 
@@ -282,9 +288,17 @@ class RTCPeer extends Peer {
     }
 
     _onChannelClosed() {
-        console.log('RTC: channel closed ', this._peerId);
+        console.log('RTC: channel closed', this._peerId);
         if (!this.isCaller) return;
         this._start(this._peerId, true); // reopen the channel
+    }
+
+    _onConnectionStateChange(e) {
+        console.log('RTC: state changed:', this._peer.connectionState);
+        switch (this._peer.connectionState) {
+            case 'disconnected': this._onChannelClosed();
+            break;
+        }
     }
 
     _send(message) {

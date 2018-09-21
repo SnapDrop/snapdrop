@@ -34,12 +34,14 @@ class SnapdropServer {
         switch (message.type) {
             case 'disconnect':
                 this._leaveRoom(sender);
+                break;
             case 'pong':
                 sender.lastBeat = Date.now();
+                break;
         }
 
         // relay message to recipient
-        if (message.to) {
+        if (message.to && this._rooms[sender.ip]) {
             const recipientId = message.to; // TODO: sanitize
             const recipient = this._rooms[sender.ip][recipientId];
             delete message.to;
@@ -84,7 +86,7 @@ class SnapdropServer {
     _leaveRoom(peer) {
         // delete the peer
         this._cancelKeepAlive(peer);
-        if (!this._rooms[peer.ip]) return;
+        if (!this._rooms[peer.ip] || !this._rooms[peer.ip][peer.id]) return;
 
         delete this._rooms[peer.ip][peer.id];
 

@@ -1,9 +1,10 @@
-# Snapdrop
+# Snapdrop 
 
-[Snapdrop](https://snapdrop.net) is a Progressive Web App inspired by Apple's Airdrop.
+[Snapdrop](https://snapdrop.net): local file sharing in your browser - inspired by Apple's Airdrop.
 
-#### Snapdrop is built with the following awesome technologies:
-* Vanilla HTML / JS / CSS  
+#### Snapdrop Version 2 is built with the following awesome technologies:
+* Vanilla HTML5 / ES6 / CSS3  
+* Progressive Web App
 * [WebRTC](http://webrtc.org/)
 * [WebSockets](http://www.websocket.org/) fallback (iDevices don't support WebRTC)
 * [NodeJS](https://nodejs.org/en/)
@@ -23,7 +24,6 @@
 It uses a P2P connection if WebRTC is supported by the browser. (WebRTC needs a Signaling Server, but it is only used to establish a connection and is not involved in the file transfer).
 
 If WebRTC isn’t supported (Safari, IE) it uses a Web Sockets fallback for the file transfer. The server connects the clients with a stream.  
-
 
 ##### What about privacy? Will files be saved on third-party-servers?
 None of your files are ever saved on any server. 
@@ -45,12 +45,12 @@ ShareDrop uses WebRTC only and isn't compatible with Safari Browsers. Snapdrop u
 
 ## Local Development
 ```
-    git clone git@github.com:RobinLinus/secret-snapdrop.git
-    cd secret-snapdrop/server
+    git clone git@github.com:RobinLinus/snapdrop.git
+    cd snapdrop/server
     npm install
     node index.js
     cd ../client
-    python -m http.server
+    python -m SimpleHTTPServer
 ```
 
 Now point your browser to http://localhost:8000.
