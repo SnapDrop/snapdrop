@@ -9,6 +9,7 @@ class ServerConnection {
     }
 
     _connect() {
+        clearTimeout(this._reconnectTimer);
         if (this._isConnected() || this._isConnecting()) return;
         const ws = new WebSocket(this._endpoint());
         ws.binaryType = 'arraybuffer';
@@ -17,7 +18,6 @@ class ServerConnection {
         ws.onclose = e => this._onDisconnect();
         ws.onerror = e => console.error(e);
         this._socket = ws;
-        clearTimeout(this._reconnectTimer);
     }
 
     _isConnected() {
