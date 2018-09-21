@@ -296,7 +296,7 @@ class RTCPeer extends Peer {
     _onConnectionStateChange(e) {
         console.log('RTC: state changed:', this._peer.connectionState);
         switch (this._peer.connectionState) {
-            'disconnected': this._onChannelClosed();
+            case 'disconnected': this._onChannelClosed();
             break;
         }
     }
