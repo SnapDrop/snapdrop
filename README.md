@@ -1,19 +1,14 @@
 # Snapdrop
 
-[Snapdrop](https://snapdrop.net) is inspired by Apple's Airdrop, but is a Progressive Web App built with Polymer and Web RTC.
-
-Snapdrop is an open source contribution by [Nimiq: the Browser-based Blockchain & Ecosytem](https://nimiq.com).
+[Snapdrop](https://snapdrop.net) is a Progressive Web App inspired by Apple's Airdrop.
 
 #### Snapdrop is built with the following awesome technologies:
-* [Polymer](https://www.polymer-project.org)
-  * [Polymer Starter Kit](https://developers.google.com/web/tools/polymer-starter-kit/)
-  * [Polymer Elements](https://elements.polymer-project.org/browse)
+* Vanilla HTML / JS / CSS  
 * [WebRTC](http://webrtc.org/)
-  * [PeerJS](http://peerjs.com)
 * [WebSockets](http://www.websocket.org/) fallback (iDevices don't support WebRTC)
-  * [BinaryJs](https://github.com/binaryjs/binaryjs)
 * [NodeJS](https://nodejs.org/en/)
 * [Material Design](https://material.google.com/)
+
 
 ### Frequently Asked Questions
 
@@ -36,8 +31,8 @@ Snapdrop doesn't even use cookies or a database. If you are curious have a look 
 But it does use Google Analytics. 
 
 ##### Is SnapDrop a fork of ShareDrop?
-No. ShareDrop is built with Ember. Snapdrop is built with Polymer. 
-I wanted to play around with Progressive Web Apps and then I got the idea to clone Apple's Airdrop. By doing research on this idea I found and analysed ShareDrop. I liked it and thought about how to improve it.
+No. ShareDrop is built with Ember. Snapdrop is built with vanilla ES6. 
+I wanted to play around with Progressive Web Apps and then I got the idea of a local file sharing app. By doing research on this idea I found and analysed ShareDrop. I liked it and thought about how to improve it.
 ShareDrop uses WebRTC only and isn't compatible with Safari Browsers. Snapdrop uses a Websocket fallback and some hacks to make Snapdrop work due to the download restrictions on iDevices. 
 
 
@@ -48,13 +43,26 @@ ShareDrop uses WebRTC only and isn't compatible with Safari Browsers. Snapdrop u
 * Fix bugs and make a Pull Request. This is my first open source project, so I am not very used to the common workflow, but we'll figure it out!
 * Do Security Analysis and suggestions
 
+## Local Development
+```
+    git clone git@github.com:RobinLinus/secret-snapdrop.git
+    cd secret-snapdrop/server
+    npm install
+    node index.js
+    cd ../client
+    python -m http.server
+```
 
-## Run the project on your device
-* Install the `npm`, `bower`, and `gulp` [dependencies of Polymer Starter Kit](https://github.com/PolymerElements/polymer-starter-kit/blob/cd1c6227537c369b2b53c6abe814466f3bbb4187/README.md#install-dependencies)
-    * `npm install & bower install`
-* run `gulp serve`
-* In a second shell run `node index.js`
+Now point your browser to http://localhost:8000.
+    
+## Deployment Notes
+The client expects the server at http(s)://your.domain/server.
 
+When serving the node server behind a proxy the `X-Forwarded-For` header has to be set by the proxy. Otherwise all clients that are served by the proxy will be mutually visible.
+
+By default the server listens on port 3000.
+
+For an nginx configuration example see `nginx.conf.example`.
 
 ## Licences
 * Thanks to [Mark DiAngelo]() for the [Blop Sound](http://soundbible.com/2067-Blop.html)
