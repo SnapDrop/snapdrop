@@ -364,9 +364,9 @@ class Notifications {
         }
         if (serviceWorker && serviceWorker.showNotification) {
             // android doesn't support "new Notification" if service worker is installed
-            config.actions = {
+            config.actions = [
                 { "action": "yes", "title": "Yes"}
-            };
+            ];
             return serviceWorker.showNotification(message, config);
         } else {
             return new Notification(message, config);
