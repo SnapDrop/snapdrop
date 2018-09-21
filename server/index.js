@@ -11,7 +11,6 @@ class SnapdropServer {
         this._wss.on('headers', (headers, response) => this._onHeaders(headers, response));
 
         this._rooms = {};
-        this._timerID = 0;
 
         console.log('Snapdrop is running on port', port);
     }
@@ -53,7 +52,6 @@ class SnapdropServer {
     }
 
     _joinRoom(peer) {
-        this._cancelKeepAlive(peer);
         // if room doesn't exist, create it
         if (!this._rooms[peer.ip]) {
             this._rooms[peer.ip] = {};
@@ -85,10 +83,10 @@ class SnapdropServer {
     }
 
     _leaveRoom(peer) {
-        this._cancelKeepAlive(peer);
-        // delete the peer
         if (!this._rooms[peer.ip] || !this._rooms[peer.ip][peer.id]) return;
+        this._cancelKeepAlive(this._rooms[peer.ip][peer.id]);
 
+        // delete the peer
         delete this._rooms[peer.ip][peer.id];
 
         peer.socket.terminate();
@@ -109,30 +107,29 @@ class SnapdropServer {
 
     _send(peer, message) {
         if (!peer) return console.error('undefined peer');
+        if (this._wss.readyState !== this._wss.OPEN) return console.error('Socket is closed');
         message = JSON.stringify(message);
-        peer.socket.send(message, error => {
-            if (error) this._leaveRoom(peer);
-        });
+        peer.socket.send(message, error => console.log(error));
     }
 
     _keepAlive(peer) {
+        this._cancelKeepAlive(peer);
         var timeout = 10000;
-        // console.log(Date.now() - peer.lastBeat);
+        if (!peer.lastBeat) {
+            peer.lastBeat = Date.now();
+        }
         if (Date.now() - peer.lastBeat > 2 * timeout) {
             this._leaveRoom(peer);
             return;
         }
 
-        if (this._wss.readyState == this._wss.OPEN) {
-            this._send(peer, {
-                type: 'ping'
-            });
-        }
+        this._send(peer, { type: 'ping' });
+
         peer.timerId = setTimeout(() => this._keepAlive(peer), timeout);
     }
 
     _cancelKeepAlive(peer) {
-        if (peer.timerId) {
+        if (peer && peer.timerId) {
             clearTimeout(peer.timerId);
         }
     }
