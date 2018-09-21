@@ -3,11 +3,11 @@ class ServerConnection {
     constructor() {
         this._connect();
         Events.on('beforeunload', e => this._disconnect(), false);
-        Events.on('pageshow', e => this._connect(), false);
+        Events.on('pagehide', e => this._disconnect(), false);
     }
 
     _connect() {
-        if (this._isConnected()) return
+        if (this._isConnected()) return;
         const ws = new WebSocket(this._endpoint());
         ws.binaryType = 'arraybuffer';
         ws.onopen = e => console.log('WS: server connected');
