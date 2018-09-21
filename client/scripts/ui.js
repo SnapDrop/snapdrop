@@ -361,7 +361,8 @@ class Notifications {
         const config = {
             body: body,
             icon: '/images/logo_transparent_128x128.png',
-            vibrate: [200, 100, 200, 100, 200, 100, 400],
+            // vibrate: [200, 100, 200, 100, 200, 100, 400],
+            // requireInteraction: true
         }
         if (serviceWorker && serviceWorker.showNotification) {
             // android doesn't support "new Notification" if service worker is installed
