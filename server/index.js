@@ -111,6 +111,7 @@ class SnapdropServer {
 
     _send(peer, message) {
         if (!peer) return console.error('undefined peer');
+        if (this._wss.readyState !== this._wss.OPEN) return console.error('Socket is closed');
         message = JSON.stringify(message);
         peer.socket.send(message, error => {
             if (error) this._leaveRoom(peer);
@@ -119,17 +120,16 @@ class SnapdropServer {
 
     _keepAlive(peer) {
         var timeout = 10000;
-        // console.log(Date.now() - peer.lastBeat);
+        if (!peer.lastBeat) {
+            peer.lastBeat = Date.now();
+        }
         if (Date.now() - peer.lastBeat > 2 * timeout) {
             this._leaveRoom(peer);
             return;
         }
 
-        if (this._wss.readyState == this._wss.OPEN) {
-            this._send(peer, {
-                type: 'ping'
-            });
-        }
+        this._send(peer, { type: 'ping' });
+
         this._cancelKeepAlive(peer);
         peer.timerId = setTimeout(() => this._keepAlive(peer), timeout);
     }
@@ -137,6 +137,7 @@ class SnapdropServer {
     _cancelKeepAlive(peer) {
         if (peer.timerId) {
             clearTimeout(peer.timerId);
+            peer.lastBeat = null;
         }
     }
 }
