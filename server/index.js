@@ -87,10 +87,10 @@ class SnapdropServer {
     }
 
     _leaveRoom(peer) {
-        this._cancelKeepAlive(peer);
-        // delete the peer
         if (!this._rooms[peer.ip] || !this._rooms[peer.ip][peer.id]) return;
+        this._cancelKeepAlive(peer);
 
+        // delete the peer
         delete this._rooms[peer.ip][peer.id];
 
         peer.socket.terminate();
@@ -137,7 +137,6 @@ class SnapdropServer {
     _cancelKeepAlive(peer) {
         if (peer.timerId) {
             clearTimeout(peer.timerId);
-            peer.lastBeat = null;
         }
     }
 }
