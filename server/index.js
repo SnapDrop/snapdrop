@@ -53,10 +53,12 @@ class SnapdropServer {
     }
 
     _joinRoom(peer) {
-        this._cancelKeepAlive(peer);
         // if room doesn't exist, create it
         if (!this._rooms[peer.ip]) {
             this._rooms[peer.ip] = {};
+        }
+        if (this._rooms[peer.ip][peer.id]) {
+            this._cancelKeepAlive(this._rooms[peer.ip][peer.id]);
         }
 
         // console.log(peer.id, ' joined the room', peer.ip);
@@ -128,6 +130,7 @@ class SnapdropServer {
                 type: 'ping'
             });
         }
+        this._cancelKeepAlive(peer);
         peer.timerId = setTimeout(() => this._keepAlive(peer), timeout);
     }
 
