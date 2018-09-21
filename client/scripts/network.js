@@ -4,6 +4,8 @@ class ServerConnection {
         this._connect();
         Events.on('beforeunload', e => this._disconnect(), false);
         Events.on('pagehide', e => this._disconnect(), false);
+        document.addEventListener('visibilitychange', e => this._onVisibilityChange());
+
     }
 
     _connect() {
@@ -70,6 +72,11 @@ class ServerConnection {
         Events.fire('notify-user', 'Connection lost. Retry in 5 seconds...');
         clearTimeout(this._reconnectTimer);
         this._reconnectTimer = setTimeout(_ => this._connect(), 5000);
+    }
+
+    _onVisibilityChange() {
+        if (document.hidden) return;
+        this._connect();
     }
 }
 
@@ -296,8 +303,13 @@ class RTCPeer extends Peer {
     _onConnectionStateChange(e) {
         console.log('RTC: state changed:', this._peer.connectionState);
         switch (this._peer.connectionState) {
-            case 'disconnected': this._onChannelClosed();
-            break;
+            case 'disconnected':
+                this._onChannelClosed();
+                break;
+            case 'failed':
+                this._peer = null;
+                this._onChannelClosed();
+                break;
         }
     }
 
