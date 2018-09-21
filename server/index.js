@@ -56,9 +56,6 @@ class SnapdropServer {
         if (!this._rooms[peer.ip]) {
             this._rooms[peer.ip] = {};
         }
-        if (this._rooms[peer.ip][peer.id]) {
-            this._cancelKeepAlive(this._rooms[peer.ip][peer.id]);
-        }
 
         // console.log(peer.id, ' joined the room', peer.ip);
         // notify all other peers
@@ -87,7 +84,7 @@ class SnapdropServer {
 
     _leaveRoom(peer) {
         if (!this._rooms[peer.ip] || !this._rooms[peer.ip][peer.id]) return;
-        this._cancelKeepAlive(peer);
+        this._cancelKeepAlive(this._rooms[peer.ip][peer.id]);
 
         // delete the peer
         delete this._rooms[peer.ip][peer.id];
@@ -112,9 +109,7 @@ class SnapdropServer {
         if (!peer) return console.error('undefined peer');
         if (this._wss.readyState !== this._wss.OPEN) return console.error('Socket is closed');
         message = JSON.stringify(message);
-        peer.socket.send(message, error => {
-            if (error) this._leaveRoom(peer);
-        });
+        peer.socket.send(message, error => console.log(error));
     }
 
     _keepAlive(peer) {
@@ -134,7 +129,7 @@ class SnapdropServer {
     }
 
     _cancelKeepAlive(peer) {
-        if (peer.timerId) {
+        if (peer && peer.timerId) {
             clearTimeout(peer.timerId);
         }
     }
