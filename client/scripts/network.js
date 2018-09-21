@@ -3,9 +3,11 @@ class ServerConnection {
     constructor() {
         this._connect();
         Events.on('beforeunload', e => this._disconnect(), false);
+        Events.on('pageshow', e => this._connect(), false);
     }
 
     _connect() {
+        if (this._isConnected()) return
         const ws = new WebSocket(this._endpoint());
         ws.binaryType = 'arraybuffer';
         ws.onopen = e => console.log('WS: server connection opened');
@@ -14,6 +16,10 @@ class ServerConnection {
         ws.onerror = e => console.error(e);
         this._socket = ws;
         clearTimeout(this._reconnectTimer);
+    }
+
+    _isConnected(){
+        return this._socket && this._socket.readyState === this._socket.OPEN;
     }
 
     _onMessage(msg) {

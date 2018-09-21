@@ -358,12 +358,16 @@ class Notifications {
     }
 
     _notify(message, body) {
-        var img = '/images/logo_transparent_128x128.png';
-        return new Notification(message, {
+        const config = {
             body: body,
-            icon: img,
+            icon: '/images/logo_transparent_128x128.png',
             vibrate: [200, 100, 200, 100, 200, 100, 400],
-        });
+        }
+        if (serviceWorker && serviceWorker.showNotification) {
+            return serviceWorker.showNotification(message, config);
+        } else {
+            return new Notification(message, config);
+        }
     }
 
     _messageNotification(message) {
@@ -434,10 +438,14 @@ document.copy = text => {
     return success;
 }
 
-if ('serviceWorker' in navigator && isProductionEnvironment) {
+
+if ('serviceWorker' in navigator) {
     navigator.serviceWorker
         .register('/service-worker.js')
-        .then(e => console.log("Service Worker Registered"));
+        .then(serviceWorker => {
+            console.log('Service Worker registered');
+            window.serviceWorker = serviceWorker
+        });
 }
 
 // Background Animation
