@@ -301,6 +301,7 @@ x-dialog x-background {
     background: rgba(0, 0, 0, 0.61);
     z-index: 10;
     transition: opacity 300ms;
+    will-change: opacity;
     padding: 16px;
 }
 
@@ -313,6 +314,7 @@ x-dialog x-paper {
     max-width: 400px;
     box-sizing: border-box;
     transition: transform 300ms;
+    will-change: transform;
 }
 
 x-dialog:not([show]) {
