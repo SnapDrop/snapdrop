@@ -1,8 +1,8 @@
 const $ = query => document.getElementById(query);
 const $$ = query => document.body.querySelector(query);
 const isURL = text => /^((https?:\/\/|www)[^\s]+)/g.test(text.toLowerCase());
-const isDownloadSupported = (typeof document.createElement('a').download !== 'undefined');
-const isProductionEnvironment = !window.location.host.startsWith('localhost');
+window.isDownloadSupported = (typeof document.createElement('a').download !== 'undefined');
+window.isProductionEnvironment = !window.location.host.startsWith('localhost');
 
 class PeersUI {
 
@@ -236,10 +236,8 @@ class ReceiveDialog extends Dialog {
         this.$el.querySelector('#fileSize').textContent = this._formatFileSize(file.size);
         this.show();
 
-        if (!isDownloadSupported) return;
-        // $a.target = "_blank"; // fallback
-        $a.target = "_system"; // fallback
-        $a.href = 'external:' + $a.href;
+        if (window.isDownloadSupported) return;
+        $a.target = "_blank"; // fallback
     }
 
     _formatFileSize(bytes) {
@@ -362,43 +360,51 @@ class Notifications {
             body: body,
             icon: '/images/logo_transparent_128x128.png',
         }
-        if (serviceWorker && serviceWorker.showNotification) {
-            // android doesn't support "new Notification" if service worker is installed
-            config.actions = [
-                { "action": "yes", "title": "Yes"}
-            ];
-            return serviceWorker.showNotification(message, config);
-        } else {
+        try {
             return new Notification(message, config);
+        } catch (e) {
+            // android doesn't support "new Notification" if service worker is installed
+            if (!serviceWorker || !serviceWorker.showNotification) return;
+            return serviceWorker.showNotification(message, config);
         }
+
     }
 
     _messageNotification(message) {
         if (isURL(message)) {
             const notification = this._notify(message, 'Click to open link');
-            notification.onclick = e => window.open(message, '_blank', null, true);
+            this._bind(notification, e => window.open(message, '_blank', null, true));
         } else {
             const notification = this._notify(message, 'Click to copy text');
-            notification.onclick = e => document.copy(message);
+            this._bind(notification, e => this._copyText(message, notification));
         }
     }
 
     _downloadNotification(message) {
         const notification = this._notify(message, 'Click to download');
-        if (window.isDownloadSupported) return;
-        notification.onclick = e => this._download(e);
+        if (!window.isDownloadSupported) return;
+        this._bind(notification, e => this._download(notification));
     }
 
-    _download(e) {
+    _download(notification) {
         document.querySelector('x-dialog [download]').click();
-        e.target.close();
+        notification.close();
     }
 
-    _copyText(notification, message) {
-        console.log('message');
+    _copyText(message, notification) {
         document.copy(message);
-        this._notify('Copied to clipboard');
         notification.close();
+        this._notify('Copied text to clipboard');
+    }
+
+    _bind(notification, handler) {
+        if (notification.then) {
+            notification.then(e => serviceWorker.getNotifications().then(notifications => {
+                serviceWorker.addEventListener('notificationclick', handler);
+            }));
+        } else {
+            notification.onclick = handler;
+        }
     }
 }
 
