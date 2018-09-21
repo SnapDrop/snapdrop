@@ -11,7 +11,6 @@ class SnapdropServer {
         this._wss.on('headers', (headers, response) => this._onHeaders(headers, response));
 
         this._rooms = {};
-        this._timerID = 0;
 
         console.log('Snapdrop is running on port', port);
     }
@@ -119,6 +118,7 @@ class SnapdropServer {
     }
 
     _keepAlive(peer) {
+        this._cancelKeepAlive(peer);
         var timeout = 10000;
         if (!peer.lastBeat) {
             peer.lastBeat = Date.now();
@@ -130,7 +130,6 @@ class SnapdropServer {
 
         this._send(peer, { type: 'ping' });
 
-        this._cancelKeepAlive(peer);
         peer.timerId = setTimeout(() => this._keepAlive(peer), timeout);
     }
 
