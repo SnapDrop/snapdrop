@@ -324,7 +324,7 @@ class RTCPeer extends Peer {
     refresh() {
         // check if channel open. otherwise create one
         if (this._peer && this._channel && this._channel.readyState !== 'open') return;
-        this._createChannel(this._peerId, this._isCaller);
+        this._start(this._peerId, this._isCaller);
     }
 }
 
