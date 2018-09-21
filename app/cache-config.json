@@ -1,4 +1,0 @@
-{
-  "README": "This is the cache config for the dev server. The service worker cache is disabled, and it is recommended that you leave this as-is. In the dist environment, this file will be auto-generated based on the contents of your dist/ directory.",
-  "disabled": true
-}

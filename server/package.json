@@ -1,0 +1,15 @@
+{
+  "name": "snapdrop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ua-parser-js": "^0.7.18",
+    "ws": "^6.0.0"
+  }
+}
