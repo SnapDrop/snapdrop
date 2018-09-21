@@ -34,8 +34,10 @@ class SnapdropServer {
         switch (message.type) {
             case 'disconnect':
                 this._leaveRoom(sender);
+                break;
             case 'pong':
                 sender.lastBeat = Date.now();
+                break;
         }
 
         // relay message to recipient
