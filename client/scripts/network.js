@@ -9,7 +9,7 @@ class ServerConnection {
     }
 
     _connect() {
-        if (this._isConnected()) return;
+        if (this._isConnected() || this._isConnecting()) return;
         const ws = new WebSocket(this._endpoint());
         ws.binaryType = 'arraybuffer';
         ws.onopen = e => console.log('WS: server connected');
@@ -22,6 +22,10 @@ class ServerConnection {
 
     _isConnected() {
         return this._socket && this._socket.readyState === this._socket.OPEN;
+    }
+
+    _isConnecting() {
+        return this._socket && this._socket.readyState === this._socket.CONNECTING;
     }
 
     _onMessage(msg) {
