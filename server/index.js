@@ -53,6 +53,7 @@ class SnapdropServer {
     }
 
     _joinRoom(peer) {
+        this._cancelKeepAlive(peer);
         // if room doesn't exist, create it
         if (!this._rooms[peer.ip]) {
             this._rooms[peer.ip] = {};
@@ -84,8 +85,8 @@ class SnapdropServer {
     }
 
     _leaveRoom(peer) {
-        // delete the peer
         this._cancelKeepAlive(peer);
+        // delete the peer
         if (!this._rooms[peer.ip] || !this._rooms[peer.ip][peer.id]) return;
 
         delete this._rooms[peer.ip][peer.id];
