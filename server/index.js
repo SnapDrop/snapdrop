@@ -39,7 +39,7 @@ class SnapdropServer {
         }
 
         // relay message to recipient
-        if (message.to) {
+        if (message.to && this._rooms[sender.ip]) {
             const recipientId = message.to; // TODO: sanitize
             const recipient = this._rooms[sender.ip][recipientId];
             delete message.to;

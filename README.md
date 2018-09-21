@@ -45,8 +45,8 @@ ShareDrop uses WebRTC only and isn't compatible with Safari Browsers. Snapdrop u
 
 ## Local Development
 ```
-    git clone git@github.com:RobinLinus/secret-snapdrop.git
-    cd secret-snapdrop/server
+    git clone git@github.com:RobinLinus/snapdrop.git
+    cd snapdrop/server
     npm install
     node index.js
     cd ../client
