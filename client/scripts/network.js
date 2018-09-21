@@ -18,7 +18,7 @@ class ServerConnection {
         clearTimeout(this._reconnectTimer);
     }
 
-    _isConnected() {
+    _isConnected(){
         return this._socket && this._socket.readyState === this._socket.OPEN;
     }
 
@@ -466,17 +466,16 @@ window.isRtcSupported = !!(window.RTCPeerConnection || window.mozRTCPeerConnecti
 
 RTCPeer.config = {
     'iceServers': [{
-            urls: 'stun:stun.stunprotocol.org:3478'
-        }, {
-            urls: 'stun:stun.l.google.com:19302'
-        }, {
-            url: 'turn:192.158.29.39:3478?transport=tcp',
-            credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-            username: '28224511:1379330808'
-        }, {
-            urls: 'turn:turn.anyfirewall.com:443?transport=tcp',
-            credential: 'webrtc',
-            username: 'webrtc'
-        }
-    ]
+        urls: 'stun:stun.stunprotocol.org:3478'
+    }, {
+        urls: 'stun:stun.l.google.com:19302'
+    }, {
+        urls: 'turn:turn.bistri.com:80',
+        credential: 'homeo',
+        username: 'homeo'
+    }, {
+        urls: 'turn:turn.anyfirewall.com:443?transport=tcp',
+        credential: 'webrtc',
+        username: 'webrtc'
+    }]
 }
