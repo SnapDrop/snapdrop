@@ -18,7 +18,7 @@ class ServerConnection {
         clearTimeout(this._reconnectTimer);
     }
 
-    _isConnected(){
+    _isConnected() {
         return this._socket && this._socket.readyState === this._socket.OPEN;
     }
 
@@ -230,7 +230,7 @@ class RTCPeer extends Peer {
             this._peerId = peerId;
             this._peer = new RTCPeerConnection(RTCPeer.config);
             this._peer.onicecandidate = e => this._onIceCandidate(e);
-            this._peer.onconnectionstatechange = e => console.log('RTC: state changed:', this._peer.connectionState);
+            this._peer.onconnectionstatechange = e => this._onConnectionStateChange(e);
         }
 
         if (isCaller) {
@@ -288,9 +288,17 @@ class RTCPeer extends Peer {
     }
 
     _onChannelClosed() {
-        console.log('RTC: channel closed ', this._peerId);
+        console.log('RTC: channel closed', this._peerId);
         if (!this.isCaller) return;
         this._start(this._peerId, true); // reopen the channel
+    }
+
+    _onConnectionStateChange(e) {
+        console.log('RTC: state changed:', this._peer.connectionState);
+        switch (this._peer.connectionState) {
+            'disconnected': this._onChannelClosed();
+            break;
+        }
     }
 
     _send(message) {
