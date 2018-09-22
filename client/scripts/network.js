@@ -2,8 +2,8 @@ class ServerConnection {
 
     constructor() {
         this._connect();
-        Events.on('beforeunload', e => this._disconnect(), false);
-        Events.on('pagehide', e => this._disconnect(), false);
+        Events.on('beforeunload', e => this._disconnect());
+        Events.on('pagehide', e => this._disconnect());
         document.addEventListener('visibilitychange', e => this._onVisibilityChange());
 
     }
@@ -60,6 +60,7 @@ class ServerConnection {
 
     _disconnect() {
         this.send({ type: 'disconnect' });
+        this._socket.onclose = null;
         this._socket.close();
     }
 
@@ -130,7 +131,7 @@ class Peer {
     }
 
     _onReceivedPartitionEnd(offset) {
-        this.sendJSON({ type: 'partition_received', offset: offset });
+        this.sendJSON({ type: 'partition-received', offset: offset });
     }
 
     _sendNextPartition() {
@@ -156,7 +157,7 @@ class Peer {
             case 'partition':
                 this._onReceivedPartitionEnd(message);
                 break;
-            case 'partition_received':
+            case 'partition-received':
                 this._sendNextPartition();
                 break;
             case 'progress':
@@ -448,7 +449,7 @@ class FileChunker {
 }
 
 class FileDigester {
-    
+
     constructor(meta, callback) {
         this._buffer = [];
         this._bytesReceived = 0;
@@ -464,8 +465,8 @@ class FileDigester {
         const totalChunks = this._buffer.length;
         this.progress = this._bytesReceived / this._size;
         if (this._bytesReceived < this._size) return;
-
-        let received = new Blob(this._buffer, { type: this._mime }); // pass a useful mime type here
+        // we are done
+        let received = new Blob(this._buffer, { type: this._mime }); 
         let url = URL.createObjectURL(received);
         this._callback({
             name: this._name,
@@ -473,7 +474,6 @@ class FileDigester {
             size: this._size,
             url: url
         });
-        this._callback = null;
     }
 
 }
