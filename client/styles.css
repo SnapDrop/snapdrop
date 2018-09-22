@@ -6,6 +6,7 @@
     --peer-width: 120px;
 }
 
+
 /* Layout */
 
 html {
@@ -57,9 +58,21 @@ body {
     bottom: 0;
 }
 
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    align-items: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
 [hidden] {
     display: none !important;
 }
+
 
 /* Typography */
 
@@ -112,7 +125,7 @@ body {
 
 a {
     text-decoration: none;
-    color: var(--primary-color);
+    color: currentColor;
     cursor: pointer;
 }
 
@@ -153,7 +166,11 @@ a {
     }
 }
 
+/* Main Header */
 
+body>header a {
+    margin-left: 8px;
+}
 
 /* Peers List */
 
@@ -163,8 +180,6 @@ x-peers {
     flex-flow: row wrap;
     z-index: 2;
 }
-
-
 
 /* Empty Peers List */
 
@@ -177,7 +192,8 @@ x-no-peers {
     animation-fill-mode: backwards;
 }
 
-x-no-peers h2 {
+x-no-peers h2,
+x-no-peers a {
     color: var(--primary-color);
 }
 
@@ -266,6 +282,8 @@ x-peer[drop] x-icon {
     transform: scale(1.1);
 }
 
+
+
 /* Footer */
 
 footer {
@@ -292,7 +310,6 @@ footer .font-body2 {
         margin-bottom: 16px;
     }
 }
-
 
 
 /* Dialog */
@@ -335,7 +352,6 @@ x-dialog .row-reverse>.button {
 }
 
 
-
 /* Receive Dialog */
 
 #receiveTextDialog #text {
@@ -351,15 +367,12 @@ x-dialog .row-reverse>.button {
 
 
 
-
 /* Button */
 
 .button {
     padding: 0 16px;
     box-sizing: border-box;
     min-height: 36px;
-    border: none;
-    outline: none;
     min-width: 100px;
     font-size: 14px;
     line-height: 24px;
@@ -381,6 +394,8 @@ x-dialog .row-reverse>.button {
     justify-content: center;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     touch-action: manipulation;
+    border: none;
+    outline: none;
 }
 
 .button:before,
@@ -405,14 +420,16 @@ x-dialog .row-reverse>.button {
     border-radius: 8px;
 }
 
-.button:focus:before {
+.button:focus:before,
+.icon-button:focus:before {
     opacity: 0.2;
 }
+
+
 
 button::-moz-focus-inner {
     border: 0;
 }
-
 
 
 /* Icon Button */
@@ -444,72 +461,54 @@ input {
 }
 
 
-
 /* Info Animation */
 
-#info {
-    text-align: center;
+#about {
     color: white;
-    transition: opacity 300ms;
-    will-change: opacity;
     z-index: 11;
-    transition-delay: 300ms;
+    overflow: hidden;
+    pointer-events: none;
 }
 
-#info:not(:target) {
+#about .fade-in {
+    transition: opacity 300ms;
+    will-change: opacity;
+    transition-delay: 300ms;
+    z-index: 11;
+    pointer-events: all;
+}
+
+#about:not(:target) .fade-in {
     opacity: 0;
     pointer-events: none;
     transition-delay: 0;
 }
 
-#info .logo {
+#about .logo {
     --icon-size: 96px;
 }
 
-#info .close {
+#about x-background {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    color: white;
-    border-radius: 50%;
-}
-
-.info-background {
-    position: relative;
-}
-
-.info-background:before {
-    content: '';
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    top: -20px;
-    left: -32px;
+    top: calc(32px - 200px);
+    right: calc(32px - 200px);
+    width: 400px;
+    height: 400px;
     border-radius: 50%;
     background: var(--primary-color);
     transform: scale(0);
-    transition: transform 800ms cubic-bezier(0.77, 0, 0.175, 1);
     will-change: transform;
+    transition: transform 800ms cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: -1;
 }
 
-#info:target+a>.info-background:before {
-    transform: scale(100);
+#about:target x-background {
+    transform: scale(10);
 }
 
-a[href="#info"] {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    color: #333;
-    z-index: 10;
-}
-
-#info .row a {
-    color: currentColor;
+#about .row a {
     margin: 8px 8px -16px;
 }
-
-
 
 
 /* Loading Indicator */
@@ -544,7 +543,6 @@ a[href="#info"] {
 }
 
 
-
 /* Toast */
 
 .toast-container {
@@ -559,7 +557,6 @@ x-toast {
     bottom: 24px;
     width: 100%;
     max-width: 344px;
-    border-radius: 8px;
     background-color: #323232;
     color: rgba(255, 255, 255, 0.95);
     align-items: center;
@@ -569,7 +566,7 @@ x-toast {
     transition: opacity 200ms, transform 300ms ease-out;
     cursor: default;
     line-height: 24px;
-    border-radius: 6px;
+    border-radius: 8px;
     pointer-events: all;
 }
 
@@ -578,12 +575,6 @@ x-toast:not([show]):not(:hover) {
     transform: translateY(100px);
 }
 
-#notification {
-    position: absolute;
-    right: 56px;
-    top: 12px;
-    color: #333;
-}
 
 /* Instructions */
 
@@ -603,12 +594,10 @@ x-peers:empty~x-instructions {
     opacity: 0;
 }
 
+
 /* Responsive Styles */
 
 @media (min-height: 800px) {
-    x-toast {
-        right: 24px;
-    }
     footer {
         margin-bottom: 16px;
     }
@@ -625,7 +614,7 @@ screen and (min-width: 1100px) {
     x-instructions {
         top: 24px;
     }
-    
+
     footer .logo {
         --icon-size: 40px;
     }
