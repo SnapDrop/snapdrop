@@ -2,8 +2,8 @@ class ServerConnection {
 
     constructor() {
         this._connect();
-        Events.on('beforeunload', e => this._disconnect(), false);
-        Events.on('pagehide', e => this._disconnect(), false);
+        Events.on('beforeunload', e => this._disconnect());
+        Events.on('pagehide', e => this._disconnect());
         document.addEventListener('visibilitychange', e => this._onVisibilityChange());
 
     }
@@ -18,14 +18,6 @@ class ServerConnection {
         ws.onclose = e => this._onDisconnect();
         ws.onerror = e => console.error(e);
         this._socket = ws;
-    }
-
-    _isConnected() {
-        return this._socket && this._socket.readyState === this._socket.OPEN;
-    }
-
-    _isConnecting() {
-        return this._socket && this._socket.readyState === this._socket.CONNECTING;
     }
 
     _onMessage(msg) {
@@ -68,6 +60,7 @@ class ServerConnection {
 
     _disconnect() {
         this.send({ type: 'disconnect' });
+        this._socket.onclose = null;
         this._socket.close();
     }
 
@@ -81,6 +74,14 @@ class ServerConnection {
     _onVisibilityChange() {
         if (document.hidden) return;
         this._connect();
+    }
+
+    _isConnected() {
+        return this._socket && this._socket.readyState === this._socket.OPEN;
+    }
+
+    _isConnecting() {
+        return this._socket && this._socket.readyState === this._socket.CONNECTING;
     }
 }
 
@@ -130,7 +131,7 @@ class Peer {
     }
 
     _onReceivedPartitionEnd(offset) {
-        this.sendJSON({ type: 'partition_received', offset: offset });
+        this.sendJSON({ type: 'partition-received', offset: offset });
     }
 
     _sendNextPartition() {
@@ -156,7 +157,7 @@ class Peer {
             case 'partition':
                 this._onReceivedPartitionEnd(message);
                 break;
-            case 'partition_received':
+            case 'partition-received':
                 this._sendNextPartition();
                 break;
             case 'progress':
@@ -192,16 +193,12 @@ class Peer {
     }
 
     _onDownloadProgress(progress) {
-        Events.fire('file-progress', {
-            sender: this._peerId,
-            progress: progress
-        });
+        Events.fire('file-progress', { sender: this._peerId, progress: progress });
     }
 
     _onFileReceived(proxyFile) {
         Events.fire('file-received', proxyFile);
         this.sendJSON({ type: 'transfer-complete' });
-        // this._digester = null;
     }
 
     _onTransferCompleted() {
@@ -213,17 +210,13 @@ class Peer {
     }
 
     sendText(text) {
-        this.sendJSON({
-            type: 'text',
-            text: btoa(unescape(encodeURIComponent(text)))
-        });
+        const unescaped = btoa(unescape(encodeURIComponent(text)));
+        this.sendJSON({ type: 'text', text: unescaped });
     }
 
     _onTextReceived(message) {
-        Events.fire('text-received', {
-            text: decodeURIComponent(escape(atob(message.text))),
-            sender: this._peerId
-        });
+        const escaped = decodeURIComponent(escape(atob(message.text)));
+        Events.fire('text-received', { text: escaped, sender: this._peerId });
     }
 }
 
@@ -232,35 +225,37 @@ class RTCPeer extends Peer {
     constructor(serverConnection, peerId) {
         super(serverConnection, peerId);
         if (!peerId) return; // we will listen for a caller
-        this._start(peerId, true);
+        this._connect(peerId, true);
     }
 
-    _start(peerId, isCaller) {
-        if (!this._peer) {
-            this._isCaller = isCaller;
-            this._peerId = peerId;
-            this._peer = new RTCPeerConnection(RTCPeer.config);
-            this._peer.onicecandidate = e => this._onIceCandidate(e);
-            this._peer.onconnectionstatechange = e => this._onConnectionStateChange(e);
-        }
+    _connect(peerId, isCaller) {
+        if (!this._conn) this._openConnection(peerId, isCaller);
 
         if (isCaller) {
-            this._createChannel();
+            this._openChannel();
         } else {
-            this._peer.ondatachannel = e => this._onChannelOpened(e);
+            this._conn.ondatachannel = e => this._onChannelOpened(e);
         }
     }
 
-    _createChannel() {
-        const channel = this._peer.createDataChannel('data-channel', { reliable: true });
+    _openConnection(peerId, isCaller) {
+        this._isCaller = isCaller;
+        this._peerId = peerId;
+        this._conn = new RTCPeerConnection(RTCPeer.config);
+        this._conn.onicecandidate = e => this._onIceCandidate(e);
+        this._conn.onconnectionstatechange = e => this._onConnectionStateChange(e);
+    }
+
+    _openChannel() {
+        const channel = this._conn.createDataChannel('data-channel', { reliable: true });
         channel.binaryType = 'arraybuffer';
         channel.onopen = e => this._onChannelOpened(e);
-        this._peer.createOffer(d => this._onDescription(d), e => this._onError(e));
+        this._conn.createOffer(d => this._onDescription(d), e => this._onError(e));
     }
 
     _onDescription(description) {
         // description.sdp = description.sdp.replace('b=AS:30', 'b=AS:1638400');
-        this._peer.setLocalDescription(description,
+        this._conn.setLocalDescription(description,
             _ => this._sendSignal({ sdp: description }),
             e => this._onError(e));
     }
@@ -270,23 +265,16 @@ class RTCPeer extends Peer {
         this._sendSignal({ ice: event.candidate });
     }
 
-    _sendSignal(signal) {
-        signal.type = 'signal';
-        signal.to = this._peerId;
-        this._server.send(signal);
-    }
-
     onServerMessage(message) {
-        if (!this._peer) this._start(message.sender, false);
-        const conn = this._peer;
+        if (!this._conn) this._connect(message.sender, false);
 
         if (message.sdp) {
-            this._peer.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
+            this._conn.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
                 if (message.sdp.type !== 'offer') return;
-                this._peer.createAnswer(d => this._onDescription(d), e => this._onError(e));
+                this._conn.createAnswer(d => this._onDescription(d), e => this._onError(e));
             }, e => this._onError(e));
         } else if (message.ice) {
-            this._peer.addIceCandidate(new RTCIceCandidate(message.ice));
+            this._conn.addIceCandidate(new RTCIceCandidate(message.ice));
         }
     }
 
@@ -301,34 +289,48 @@ class RTCPeer extends Peer {
     _onChannelClosed() {
         console.log('RTC: channel closed', this._peerId);
         if (!this.isCaller) return;
-        this._start(this._peerId, true); // reopen the channel
+        this._connect(this._peerId, true); // reopen the channel
     }
 
     _onConnectionStateChange(e) {
-        console.log('RTC: state changed:', this._peer.connectionState);
-        switch (this._peer.connectionState) {
+        console.log('RTC: state changed:', this._conn.connectionState);
+        switch (this._conn.connectionState) {
             case 'disconnected':
                 this._onChannelClosed();
                 break;
             case 'failed':
-                this._peer = null;
+                this._conn = null;
                 this._onChannelClosed();
                 break;
         }
-    }
-
-    _send(message) {
-        this._channel.send(message);
     }
 
     _onError(error) {
         console.error(error);
     }
 
+    _send(message) {
+        this._channel.send(message);
+    }
+
+    _sendSignal(signal) {
+        signal.type = 'signal';
+        signal.to = this._peerId;
+        this._server.send(signal);
+    }
+
     refresh() {
-        // check if channel open. otherwise create one
-        if (this._peer && this._channel && this._channel.readyState !== 'open') return;
-        this._start(this._peerId, this._isCaller);
+        // check if channel is open. otherwise create one
+        if (this._isConnected() || this._isConnecting()) return;
+        this._connect(this._peerId, this._isCaller);
+    }
+
+    _isConnected() {
+        return this._channel && this._channel.readyState === 'open';
+    }
+
+    _isConnecting() {
+        return this._channel && this._channel.readyState === 'connecting';
     }
 }
 
@@ -422,7 +424,7 @@ class FileChunker {
         this._partitionSize += chunk.byteLength;
         this._onChunk(chunk);
         if (this._isPartitionEnd() || this.isFileEnd()) {
-            this._onPartitionEnd(this._partitionSize);
+            this._onPartitionEnd(this._offset);
             return;
         }
         this._readChunk();
@@ -447,6 +449,7 @@ class FileChunker {
 }
 
 class FileDigester {
+
     constructor(meta, callback) {
         this._buffer = [];
         this._bytesReceived = 0;
@@ -462,8 +465,8 @@ class FileDigester {
         const totalChunks = this._buffer.length;
         this.progress = this._bytesReceived / this._size;
         if (this._bytesReceived < this._size) return;
-
-        let received = new Blob(this._buffer, { type: this._mime }); // pass a useful mime type here
+        // we are done
+        let received = new Blob(this._buffer, { type: this._mime }); 
         let url = URL.createObjectURL(received);
         this._callback({
             name: this._name,
@@ -471,8 +474,8 @@ class FileDigester {
             size: this._size,
             url: url
         });
-        this._callback = null;
     }
+
 }
 
 class Events {
@@ -484,7 +487,6 @@ class Events {
         return window.addEventListener(type, callback, false);
     }
 }
-
 
 window.isRtcSupported = !!(window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection);
 

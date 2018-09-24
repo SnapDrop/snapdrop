@@ -392,8 +392,8 @@ class Notifications {
     }
 
     _copyText(message, notification) {
-        document.copy(message);
         notification.close();
+        if(!document.copy(message)) return;
         this._notify('Copied text to clipboard');
     }
 

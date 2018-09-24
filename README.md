@@ -2,7 +2,7 @@
 
 [Snapdrop](https://snapdrop.net): local file sharing in your browser - inspired by Apple's Airdrop.
 
-#### Snapdrop Version 2 is built with the following awesome technologies:
+#### Snapdrop (Version 2) is built with the following awesome technologies:
 * Vanilla HTML5 / ES6 / CSS3  
 * Progressive Web App
 * [WebRTC](http://webrtc.org/)
@@ -18,12 +18,12 @@
 * [idownloadblog](http://www.idownloadblog.com/2015/12/29/snapdrop/)
 * [thenextweb](http://thenextweb.com/insider/2015/12/27/snapdrop-is-a-handy-web-based-replacement-for-apples-fiddly-airdrop-file-transfer-tool/)
 * [winboard](http://www.winboard.org/artikel-ratgeber/6253-dateien-vom-desktop-pc-mit-anderen-plattformen-teilen-mit-snapdrop.html)
-* [免費資源網路社群](https://free.com.tw/snapdrop/?utm_content=buffere6987&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer)
+* [免費資源網路社群](https://free.com.tw/snapdrop/)
 
 ##### What about the connection? Is it a P2P-connection directly from device to device or is there any third-party-server?
 It uses a P2P connection if WebRTC is supported by the browser. (WebRTC needs a Signaling Server, but it is only used to establish a connection and is not involved in the file transfer).
 
-If WebRTC isn’t supported (Safari, IE) it uses a Web Sockets fallback for the file transfer. The server connects the clients with a stream.  
+If WebRTC isn’t supported (Safari, IE) it uses a Web Sockets fallback for the file transfer. The server connects the clients with each other.  
 
 ##### What about privacy? Will files be saved on third-party-servers?
 None of your files are ever saved on any server. 
@@ -33,15 +33,15 @@ But it does use Google Analytics.
 ##### Is SnapDrop a fork of ShareDrop?
 No. ShareDrop is built with Ember. Snapdrop is built with vanilla ES6. 
 I wanted to play around with Progressive Web Apps and then I got the idea of a local file sharing app. By doing research on this idea I found and analysed ShareDrop. I liked it and thought about how to improve it.
-ShareDrop uses WebRTC only and isn't compatible with Safari Browsers. Snapdrop uses a Websocket fallback and some hacks to make Snapdrop work due to the download restrictions on iDevices. 
+ShareDrop uses WebRTC only and isn't compatible with Safari browsers. Snapdrop uses a Websocket fallback and some hacks to make Snapdrop work due to the download restrictions on iDevices. 
 
 
 ### Snapdrop is awesome! How can I support it? 
 * [File bugs, give feedback, submit suggestions](https://github.com/RobinLinus/snapdrop/issues)
 * Share Snapdrop on your social media.
 * [Buy me a cup of coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R9C5E42UYEQCN)
-* Fix bugs and make a Pull Request. This is my first open source project, so I am not very used to the common workflow, but we'll figure it out!
-* Do Security Analysis and suggestions
+* Fix bugs and make a pull request. 
+* Do security analysis and suggestions
 
 ## Local Development
 ```
@@ -49,7 +49,9 @@ ShareDrop uses WebRTC only and isn't compatible with Safari Browsers. Snapdrop u
     cd snapdrop/server
     npm install
     node index.js
-    cd ../client
+
+    # open a second shell:
+    cd snapdrop/client
     python -m SimpleHTTPServer
 ```
 

@@ -36,6 +36,18 @@
 </head>
 
 <body>
+    <header class="row-reverse">
+        <a href="#about" class="icon-button" title="About Snapdrop">
+            <svg class="icon">
+                <use xlink:href="#info-outline" />
+            </svg>
+        </a>
+        <a href="#" id="notification" class="icon-button" title="Enable Notifications" hidden>
+            <svg class="icon">
+                <use xlink:href="#notifications" />
+            </svg>
+        </a>
+    </header>
     <!-- Peers -->
     <x-peers class="center"></x-peers>
     <x-no-peers>
@@ -97,47 +109,41 @@
     <div class="toast-container full center">
         <x-toast class="row" shadow="1" id="toast">File Transfer Completed</x-toast>
     </div>
-    <!-- Info Page -->
-    <div id="info" class="full center column">
-        <a href="#" class="close icon-button">
-            <svg class="icon">
-                <use xlink:href="#close" />
+    <!-- About Page -->
+    <x-about id="about" class="full center column">
+        <section class="center column fade-in">
+            <header class="row-reverse">
+                <a href="#" class="close icon-button">
+                    <svg class="icon">
+                        <use xlink:href="#close" />
+                    </svg>
+                </a>
+            </header>
+            <svg class="icon logo">
+                <use xlink:href="#wifi-tethering" />
             </svg>
-        </a>
-        <svg class="icon logo">
-            <use xlink:href="#wifi-tethering" />
-        </svg>
-        <h1>Snapdrop</h1>
-        <div class="font-subheading">The easiest way to transfer files across devices.</div>
-        <div class="row">
-            <a class="icon-button" target="_blank" href="https://github.com/RobinLinus/snapdrop" title="Snapdrop on Github">
-                <svg class="icon">
-                    <use xlink:href="#github" />
-                </svg>
-            </a>
-            <a class="icon-button" target="_blank" href="https://twitter.com/intent/tweet?text=https://snapdrop.net%20by%20@robin_linus%20&" title="tweet about Snapdrop">
-                <svg class="icon">
-                    <use xlink:href="#twitter" />
-                </svg>
-            </a>
-            <a class="icon-button" target="_blank" href="https://github.com/RobinLinus/snapdrop#frequently-asked-questions" title="frequently asked questions">
-                <svg class="icon">
-                    <use xlink:href="#help-outline" />
-                </svg>
-            </a>
-        </div>
-    </div>
-    <a href="#info" class="icon-button" title="about Snapdrop">
-        <svg class="icon">
-            <use xlink:href="#info-outline" />
-        </svg>
-        <div class="info-background"></div>
-    </a>
-    <a id="notification" class="icon-button" hidden title="enable Notifications">
-        <svg class="icon">
-            <use xlink:href="#notifications" />
-        </svg>
-    </a>
+            <h1>Snapdrop</h1>
+            <div class="font-subheading">The easiest way to transfer files across devices.</div>
+            <div class="row">
+                <a class="icon-button" target="_blank" href="https://github.com/RobinLinus/snapdrop" title="Snapdrop on Github">
+                    <svg class="icon">
+                        <use xlink:href="#github" />
+                    </svg>
+                </a>
+                <a class="icon-button" target="_blank" href="https://twitter.com/intent/tweet?text=https://snapdrop.net%20by%20@robin_linus%20&" title="Tweet about Snapdrop">
+                    <svg class="icon">
+                        <use xlink:href="#twitter" />
+                    </svg>
+                </a>
+                <a class="icon-button" target="_blank" href="https://github.com/RobinLinus/snapdrop#frequently-asked-questions" title="Frequently asked questions">
+                    <svg class="icon">
+                        <use xlink:href="#help-outline" />
+                    </svg>
+                </a>
+            </div>
+        </section>
+        <x-background></x-background>
+    </x-about>
     <!-- SVG Icon Library -->
     <svg style="display: none;">
         <symbol id=wifi-tethering viewBox="0 0 24 24">
@@ -172,8 +178,8 @@
         </g>
     </svg>
     <!-- Scripts -->
-    <script type="text/javascript" src="scripts/network.js"></script>
-    <script type="text/javascript" src="scripts/ui.js"></script>
+    <script src="scripts/network.js"></script>
+    <script src="scripts/ui.js"></script>
     <!-- Sounds -->
     <audio id="blop" preload="auto" autobuffer="true">
         <source src="/sounds/blop.mp3" type="audio/mpeg">
