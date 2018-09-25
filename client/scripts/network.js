@@ -492,8 +492,6 @@ window.isRtcSupported = !!(window.RTCPeerConnection || window.mozRTCPeerConnecti
 
 RTCPeer.config = {
     'iceServers': [{
-        urls: 'stun:stun.stunprotocol.org:3478'
-    }, {
         urls: 'stun:stun.l.google.com:19302'
     }, {
         urls: 'turn:192.158.29.39:3478?transport=tcp',
