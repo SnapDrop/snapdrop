@@ -244,7 +244,7 @@ class RTCPeer extends Peer {
         this._conn = new RTCPeerConnection(RTCPeer.config);
         this._conn.onicecandidate = e => this._onIceCandidate(e);
         this._conn.onconnectionstatechange = e => this._onConnectionStateChange(e);
-        this._conn.oniceconnectionstatechange = e => console.log(e);
+        this._conn.oniceconnectionstatechange = e => this._onIceConnectionStateChange(e);
     }
 
     _openChannel() {
@@ -304,6 +304,10 @@ class RTCPeer extends Peer {
                 this._onChannelClosed();
                 break;
         }
+    }
+
+    _onIceConnectionStateChange(){
+        console.log('IceConnectionStateChange',this._conn.iceConnectionState);
     }
 
     _onError(error) {
