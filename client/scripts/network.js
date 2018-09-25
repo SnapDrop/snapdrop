@@ -306,8 +306,14 @@ class RTCPeer extends Peer {
         }
     }
 
-    _onIceConnectionStateChange(){
-        console.log('IceConnectionStateChange',this._conn.iceConnectionState);
+    _onIceConnectionStateChange() {
+        switch (this._conn.iceConnectionState) {
+            case 'failed':
+                console.error('ICE Gathering failed');
+                break;
+            default:
+                console.log('ICE Gathering', this._conn.iceConnectionState);
+        }
     }
 
     _onError(error) {
