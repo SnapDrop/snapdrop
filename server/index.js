@@ -4,9 +4,7 @@ class SnapdropServer {
 
     constructor(port) {
         const WebSocket = require('ws');
-        this._wss = new WebSocket.Server({
-            port: port
-        });
+        this._wss = new WebSocket.Server({ port: port });
         this._wss.on('connection', (socket, request) => this._onConnection(new Peer(socket, request)));
         this._wss.on('headers', (headers, response) => this._onHeaders(headers, response));
 
@@ -57,7 +55,6 @@ class SnapdropServer {
             this._rooms[peer.ip] = {};
         }
 
-        // console.log(peer.id, ' joined the room', peer.ip);
         // notify all other peers
         for (const otherPeerId in this._rooms[peer.ip]) {
             const otherPeer = this._rooms[peer.ip][otherPeerId];
@@ -97,10 +94,7 @@ class SnapdropServer {
             // notify all other peers
             for (const otherPeerId in this._rooms[peer.ip]) {
                 const otherPeer = this._rooms[peer.ip][otherPeerId];
-                this._send(otherPeer, {
-                    type: 'peer-left',
-                    peerId: peer.id
-                });
+                this._send(otherPeer, { type: 'peer-left', peerId: peer.id });
             }
         }
     }
@@ -109,7 +103,7 @@ class SnapdropServer {
         if (!peer) return console.error('undefined peer');
         if (this._wss.readyState !== this._wss.OPEN) return console.error('Socket is closed');
         message = JSON.stringify(message);
-        peer.socket.send(message, error => console.log(error));
+        peer.socket.send(message, error => error ? console.log(error): '');
     }
 
     _keepAlive(peer) {
@@ -145,24 +139,55 @@ class Peer {
 
 
         // set remote ip
-        if (request.headers['x-forwarded-for'])
-            this.ip = request.headers['x-forwarded-for'].split(/\s*,\s*/)[0];
-        else
-            this.ip = request.connection.remoteAddress;
+        this._setIP(request);
 
+        // set peer id
+        this._setPeerId(request)
+        // is WebRTC supported ?
+        this.rtcSupported = request.url.indexOf('webrtc') > -1;
+        // set name 
+        this._setName(request);
+        // for keepalive
+        this.timerId = 0;
+        this.lastBeat = Date.now();
+    }
+
+    _setIP(request) {
+        if (request.headers['x-forwarded-for']) {
+            this.ip = request.headers['x-forwarded-for'].split(/\s*,\s*/)[0];
+        } else {
+            this.ip = request.connection.remoteAddress;
+        }
+    }
+
+    _setPeerId(request) {
         if (request.peerId) {
             this.id = request.peerId;
         } else {
             this.id = request.headers.cookie.replace('peerid=', '');
         }
-        // set peer id
-        // is WebRTC supported ?
-        this.rtcSupported = request.url.indexOf('webrtc') > -1;
-        // set name 
-        this.setName(request);
-        // for keepalive
-        this.timerId = 0;
-        this.lastBeat = Date.now();
+    }
+
+    toString() {
+        return `<Peer id=${this.id} ip=${this.ip} rtcSupported=${this.rtcSupported}>`
+    }
+
+    _setName(req) {
+        var ua = parser(req.headers['user-agent']);
+        this.name = {
+            model: ua.device.model,
+            os: ua.os.name,
+            browser: ua.browser.name,
+            type: ua.device.type
+        };
+    }
+
+    getInfo() {
+        return {
+            id: this.id,
+            name: this.name,
+            rtcSupported: this.rtcSupported
+        }
     }
 
     // return uuid of form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
@@ -190,28 +215,6 @@ class Peer {
         }
         return uuid;
     };
-
-    toString() {
-        return `<Peer id=${this.id} ip=${this.ip} rtcSupported=${this.rtcSupported}>`
-    }
-
-    setName(req) {
-        var ua = parser(req.headers['user-agent']);
-        this.name = {
-            model: ua.device.model,
-            os: ua.os.name,
-            browser: ua.browser.name,
-            type: ua.device.type
-        };
-    }
-
-    getInfo() {
-        return {
-            id: this.id,
-            name: this.name,
-            rtcSupported: this.rtcSupported
-        }
-    }
 }
 
 const server = new SnapdropServer(process.env.PORT || 3000);

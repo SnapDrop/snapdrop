@@ -25,16 +25,16 @@ class PeersUI {
     }
 
     _onPeerLeft(peerId) {
-        const peer = $(peerId);
-        if (!peer) return;
-        peer.remove();
+        const $peer = $(peerId);
+        if (!$peer) return;
+        $peer.remove();
     }
 
     _onFileProgress(progress) {
         const peerId = progress.sender || progress.recipient;
-        const peer = $(peerId);
-        if (!peer) return;
-        peer.ui.setProgress(progress.progress);
+        const $peer = $(peerId);
+        if (!$peer) return;
+        $peer.ui.setProgress(progress.progress);
     }
 
     _clearPeers() {
@@ -237,7 +237,7 @@ class ReceiveDialog extends Dialog {
         this.show();
 
         if (window.isDownloadSupported) return;
-        $a.target = "_blank"; // fallback
+        // $a.target = "_blank"; // fallback
     }
 
     _formatFileSize(bytes) {

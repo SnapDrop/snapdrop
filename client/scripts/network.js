@@ -1,3 +1,6 @@
+window.URL = window.URL || window.webkitURL;
+window.isRtcSupported = !!(window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection);
+
 class ServerConnection {
 
     constructor() {
@@ -5,7 +8,6 @@ class ServerConnection {
         Events.on('beforeunload', e => this._disconnect());
         Events.on('pagehide', e => this._disconnect());
         document.addEventListener('visibilitychange', e => this._onVisibilityChange());
-
     }
 
     _connect() {
@@ -40,12 +42,12 @@ class ServerConnection {
                 this.send({ type: 'pong' });
                 break;
             default:
-                console.error('WS: unkown message type', msg)
+                console.error('WS: unkown message type', msg);
         }
     }
 
     send(message) {
-        if (this._socket.readyState !== this._socket.OPEN) return;
+        if (!this._isConnected()) return;
         this._socket.send(JSON.stringify(message));
     }
 
@@ -118,7 +120,7 @@ class Peer {
             type: 'header',
             name: file.name,
             mime: file.type,
-            size: file.size,
+            size: file.size
         });
         this._chunker = new FileChunker(file,
             chunk => this._send(chunk),
@@ -244,6 +246,7 @@ class RTCPeer extends Peer {
         this._conn = new RTCPeerConnection(RTCPeer.config);
         this._conn.onicecandidate = e => this._onIceCandidate(e);
         this._conn.onconnectionstatechange = e => this._onConnectionStateChange(e);
+        this._conn.oniceconnectionstatechange = e => this._onIceConnectionStateChange(e);
     }
 
     _openChannel() {
@@ -302,6 +305,16 @@ class RTCPeer extends Peer {
                 this._conn = null;
                 this._onChannelClosed();
                 break;
+        }
+    }
+
+    _onIceConnectionStateChange() {
+        switch (this._conn.iceConnectionState) {
+            case 'failed':
+                console.error('ICE Gathering failed');
+                break;
+            default:
+                console.log('ICE Gathering', this._conn.iceConnectionState);
         }
     }
 
@@ -398,8 +411,8 @@ class WSPeer {
 class FileChunker {
 
     constructor(file, onChunk, onPartitionEnd) {
-        this._chunkSize = 64000;
-        this._maxPartitionSize = 1e6;
+        this._chunkSize = 64000;      // 64 KB
+        this._maxPartitionSize = 1e6; // 1 MB
         this._offset = 0;
         this._partitionSize = 0;
         this._file = file;
@@ -466,7 +479,7 @@ class FileDigester {
         this.progress = this._bytesReceived / this._size;
         if (this._bytesReceived < this._size) return;
         // we are done
-        let received = new Blob(this._buffer, { type: this._mime }); 
+        let received = new Blob(this._buffer, { type: this._mime });
         let url = URL.createObjectURL(received);
         this._callback({
             name: this._name,
@@ -488,20 +501,13 @@ class Events {
     }
 }
 
-window.isRtcSupported = !!(window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection);
 
 RTCPeer.config = {
     'iceServers': [{
-        urls: 'stun:stun.stunprotocol.org:3478'
-    }, {
         urls: 'stun:stun.l.google.com:19302'
     }, {
-        urls: 'turn:turn.bistri.com:80',
-        credential: 'homeo',
-        username: 'homeo'
-    }, {
-        urls: 'turn:turn.anyfirewall.com:443?transport=tcp',
-        credential: 'webrtc',
-        username: 'webrtc'
+        urls: 'turn:192.158.29.39:3478?transport=tcp',
+        credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+        username: '28224511:1379330808'
     }]
 }
