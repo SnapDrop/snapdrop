@@ -253,14 +253,14 @@ class RTCPeer extends Peer {
         const channel = this._conn.createDataChannel('data-channel', { reliable: true });
         channel.binaryType = 'arraybuffer';
         channel.onopen = e => this._onChannelOpened(e);
-        this._conn.createOffer(d => this._onDescription(d), e => this._onError(e));
+        this._conn.createOffer().then(d => this._onDescription(d)).catch(e => this._onError(e));
     }
 
     _onDescription(description) {
         // description.sdp = description.sdp.replace('b=AS:30', 'b=AS:1638400');
-        this._conn.setLocalDescription(description,
-            _ => this._sendSignal({ sdp: description }),
-            e => this._onError(e));
+        this._conn.setLocalDescription(description)
+            .then(_ => this._sendSignal({ sdp: description }))
+            .catch(e => this._onError(e));
     }
 
     _onIceCandidate(event) {
@@ -272,10 +272,10 @@ class RTCPeer extends Peer {
         if (!this._conn) this._connect(message.sender, false);
 
         if (message.sdp) {
-            this._conn.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
-                if (message.sdp.type !== 'offer') return;
-                this._conn.createAnswer(d => this._onDescription(d), e => this._onError(e));
-            }, e => this._onError(e));
+            this._conn.setRemoteDescription(new RTCSessionDescription(message.sdp))
+                .then( _ => this._conn.createAnswer())
+                .then(d => this._onDescription(d))
+                .catch(e => this._onError(e));
         } else if (message.ice) {
             this._conn.addIceCandidate(new RTCIceCandidate(message.ice));
         }
@@ -323,6 +323,7 @@ class RTCPeer extends Peer {
     }
 
     _send(message) {
+        if (!this._channel) return this.refresh();
         this._channel.send(message);
     }
 
@@ -411,7 +412,7 @@ class WSPeer {
 class FileChunker {
 
     constructor(file, onChunk, onPartitionEnd) {
-        this._chunkSize = 64000;      // 64 KB
+        this._chunkSize = 64000; // 64 KB
         this._maxPartitionSize = 1e6; // 1 MB
         this._offset = 0;
         this._partitionSize = 0;
