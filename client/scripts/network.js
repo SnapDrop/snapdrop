@@ -1,3 +1,6 @@
+window.URL = window.URL || window.webkitURL;
+window.isRtcSupported = !!(window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection);
+
 class ServerConnection {
 
     constructor() {
@@ -5,7 +8,6 @@ class ServerConnection {
         Events.on('beforeunload', e => this._disconnect());
         Events.on('pagehide', e => this._disconnect());
         document.addEventListener('visibilitychange', e => this._onVisibilityChange());
-
     }
 
     _connect() {
@@ -40,12 +42,12 @@ class ServerConnection {
                 this.send({ type: 'pong' });
                 break;
             default:
-                console.error('WS: unkown message type', msg)
+                console.error('WS: unkown message type', msg);
         }
     }
 
     send(message) {
-        if (this._socket.readyState !== this._socket.OPEN) return;
+        if (!this._isConnected()) return;
         this._socket.send(JSON.stringify(message));
     }
 
@@ -118,7 +120,7 @@ class Peer {
             type: 'header',
             name: file.name,
             mime: file.type,
-            size: file.size,
+            size: file.size
         });
         this._chunker = new FileChunker(file,
             chunk => this._send(chunk),
@@ -409,8 +411,8 @@ class WSPeer {
 class FileChunker {
 
     constructor(file, onChunk, onPartitionEnd) {
-        this._chunkSize = 64000;
-        this._maxPartitionSize = 1e6;
+        this._chunkSize = 64000;      // 64 KB
+        this._maxPartitionSize = 1e6; // 1 MB
         this._offset = 0;
         this._partitionSize = 0;
         this._file = file;
@@ -499,7 +501,6 @@ class Events {
     }
 }
 
-window.isRtcSupported = !!(window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection);
 
 RTCPeer.config = {
     'iceServers': [{

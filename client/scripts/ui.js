@@ -25,16 +25,16 @@ class PeersUI {
     }
 
     _onPeerLeft(peerId) {
-        const peer = $(peerId);
-        if (!peer) return;
-        peer.remove();
+        const $peer = $(peerId);
+        if (!$peer) return;
+        $peer.remove();
     }
 
     _onFileProgress(progress) {
         const peerId = progress.sender || progress.recipient;
-        const peer = $(peerId);
-        if (!peer) return;
-        peer.ui.setProgress(progress.progress);
+        const $peer = $(peerId);
+        if (!$peer) return;
+        $peer.ui.setProgress(progress.progress);
     }
 
     _clearPeers() {
