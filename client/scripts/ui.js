@@ -230,7 +230,8 @@ class ReceiveDialog extends Dialog {
 
     _displayFile(file) {
         const $a = this.$el.querySelector('#download');
-        $a.href = file.url;
+        const url = URL.createObjectURL(file.blob);
+        $a.href = url;
         $a.download = file.name;
 
         this.$el.querySelector('#fileName').textContent = file.name;
@@ -240,7 +241,7 @@ class ReceiveDialog extends Dialog {
         if (window.isDownloadSupported) return;
         // fallback for iOS
         $a.target = '_blank';
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = e => $a.href = reader.result;
         reader.readAsDataURL(file.blob);
     }
