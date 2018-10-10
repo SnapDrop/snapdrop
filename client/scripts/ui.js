@@ -238,7 +238,13 @@ class ReceiveDialog extends Dialog {
         this.show();
 
         if (window.isDownloadSupported) return;
-        $a.target = "_blank"; // fallback
+        // fallback for iOS
+        $a.href = null;
+        let reader = new FileReader();
+        reader.onload = e => {
+          $a.onclick = window.open(reader.result,'_blank');
+        }
+        reader.readAsDataURL(file.blob);
     }
 
     _formatFileSize(bytes) {
