@@ -242,7 +242,7 @@ class ReceiveDialog extends Dialog {
         $a.href = '#';
         let reader = new FileReader();
         reader.onload = e => {
-          $a.onclick = window.open(reader.result,'_blank');
+          $a.onclick = e=>window.open(reader.result,'_blank');
         }
         reader.readAsDataURL(file.blob);
     }
