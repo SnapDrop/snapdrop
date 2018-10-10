@@ -480,13 +480,12 @@ class FileDigester {
         this.progress = this._bytesReceived / this._size;
         if (this._bytesReceived < this._size) return;
         // we are done
-        let received = new Blob(this._buffer, { type: this._mime });
-        let url = URL.createObjectURL(received);
+        let blob = new Blob(this._buffer, { type: this._mime });
         this._callback({
             name: this._name,
             mime: this._mime,
             size: this._size,
-            url: url
+            blob: blob
         });
     }
 
