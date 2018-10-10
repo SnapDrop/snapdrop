@@ -3,6 +3,7 @@ const $$ = query => document.body.querySelector(query);
 const isURL = text => /^((https?:\/\/|www)[^\s]+)/g.test(text.toLowerCase());
 window.isDownloadSupported = (typeof document.createElement('a').download !== 'undefined');
 window.isProductionEnvironment = !window.location.host.startsWith('localhost');
+window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 class PeersUI {
 
@@ -457,7 +458,8 @@ document.copy = text => {
 }
 
 
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && !window.iOS) {
+    // SW on iOS is buggy. see: https://stackoverflow.com/questions/18103103/failed-to-load-resource-plugin-handled-load-on-ios
     navigator.serviceWorker
         .register('/service-worker.js')
         .then(serviceWorker => {
