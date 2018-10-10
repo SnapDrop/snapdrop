@@ -238,7 +238,7 @@ class ReceiveDialog extends Dialog {
         this.show();
 
         if (window.isDownloadSupported) return;
-        // $a.target = "_blank"; // fallback
+        $a.target = "_blank"; // fallback
     }
 
     _formatFileSize(bytes) {
