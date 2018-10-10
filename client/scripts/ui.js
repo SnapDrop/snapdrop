@@ -239,11 +239,9 @@ class ReceiveDialog extends Dialog {
 
         if (window.isDownloadSupported) return;
         // fallback for iOS
-        $a.href = '#';
+        $a.target = '_blank';
         let reader = new FileReader();
-        reader.onload = e => {
-          $a.onclick = e=>window.open(reader.result,'_blank');
-        }
+        reader.onload = e => $a.href = reader.result;
         reader.readAsDataURL(file.blob);
     }
 
