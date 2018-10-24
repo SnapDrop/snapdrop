@@ -399,7 +399,7 @@ class Notifications {
 
     _copyText(message, notification) {
         notification.close();
-        if(!document.copy(message)) return;
+        if (!document.copy(message)) return;
         this._notify('Copied text to clipboard');
     }
 
@@ -463,14 +463,20 @@ document.copy = text => {
 }
 
 
-if ('serviceWorker' in navigator && !window.iOS) {
-    // SW on iOS is buggy. see: https://stackoverflow.com/questions/18103103/failed-to-load-resource-plugin-handled-load-on-ios
+if ('serviceWorker' in navigator) {
     navigator.serviceWorker
         .register('/service-worker.js')
         .then(serviceWorker => {
             console.log('Service Worker registered');
             window.serviceWorker = serviceWorker
         });
+
+    // don't display install banner when installed
+    window.addEventListener('beforeinstallprompt', e => {
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            return event.preventDefault();
+        }
+    });
 }
 
 // Background Animation
