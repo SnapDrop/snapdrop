@@ -27,8 +27,7 @@ If WebRTC isn’t supported (Safari, IE) it uses a Web Sockets fallback for the 
 
 ##### What about privacy? Will files be saved on third-party-servers?
 None of your files are ever saved on any server. 
-Snapdrop doesn't even use cookies or a database. If you are curious have a look [at the Server](https://github.com/RobinLinus/snapdrop/blob/master/server/ws-server.js).
-But it does use Google Analytics. 
+Snapdrop doesn't even use a database. If you are curious have a look [at the Server](https://github.com/RobinLinus/snapdrop/blob/master/server/).
 
 ##### Is SnapDrop a fork of ShareDrop?
 No. ShareDrop is built with Ember. Snapdrop is built with vanilla ES6. 
