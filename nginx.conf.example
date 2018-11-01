@@ -36,7 +36,7 @@ http {
 
     server {
     server_name your.domain;
-        root         /path/to/secret-snapdrop/client;
+        root         /path/to/snapdrop/client;
 
         # Load configuration files for the default server block.
         include /etc/nginx/default.d/*.conf;
