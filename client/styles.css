@@ -468,6 +468,7 @@ input {
     z-index: 11;
     overflow: hidden;
     pointer-events: none;
+    text-align: center;
 }
 
 #about .fade-in {
