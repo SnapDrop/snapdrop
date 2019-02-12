@@ -273,8 +273,14 @@ class RTCPeer extends Peer {
 
         if (message.sdp) {
             this._conn.setRemoteDescription(new RTCSessionDescription(message.sdp))
-                .then( _ => this._conn.createAnswer())
-                .then(d => this._onDescription(d))
+                .then( _ => {
+                    if (message.sdp.type == 'offer') {
+                        return this._conn.createAnswer()
+                            .then(d => this._onDescription(d));
+                    } else {
+                        return null;
+                    }
+                })
                 .catch(e => this._onError(e));
         } else if (message.ice) {
             this._conn.addIceCandidate(new RTCIceCandidate(message.ice));
