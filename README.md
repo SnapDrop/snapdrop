@@ -51,7 +51,10 @@ ShareDrop uses WebRTC only and isn't compatible with Safari browsers. Snapdrop u
 
     # open a second shell:
     cd snapdrop/client
+    # Python 2
     python -m SimpleHTTPServer
+    # Python 3
+    python3 -m http.server
 ```
 
 Now point your browser to http://localhost:8000.
