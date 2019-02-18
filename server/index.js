@@ -158,6 +158,10 @@ class Peer {
         } else {
             this.ip = request.connection.remoteAddress;
         }
+        // IPv4 and IPv6 use different values to refer to localhost
+        if (this.ip == '::1' || this.ip == '::ffff:127.0.0.1') {
+            this.ip = '127.0.0.1';
+        }
     }
 
     _setPeerId(request) {
