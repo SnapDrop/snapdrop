@@ -361,19 +361,26 @@ class Notifications {
         });
     }
 
-    _notify(message, body) {
+    _notify(message, body, closeTimeout = 10000) {
         const config = {
             body: body,
             icon: '/images/logo_transparent_128x128.png',
         }
+        let notification;
         try {
-            return new Notification(message, config);
+            notification = new Notification(message, config);
         } catch (e) {
-            // android doesn't support "new Notification" if service worker is installed
+            // Android doesn't support "new Notification" if service worker is installed
             if (!serviceWorker || !serviceWorker.showNotification) return;
-            return serviceWorker.showNotification(message, config);
+            notification = serviceWorker.showNotification(message, config);
         }
 
+        // Notification is persistent on Android. We have to close it manually
+        if(closeTimeout){
+            setTimeout( _ => notification.close(), closeTimeout);
+        }
+
+        return notification;
     }
 
     _messageNotification(message) {
