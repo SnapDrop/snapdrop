@@ -414,6 +414,25 @@ class Notifications {
     }
 }
 
+
+class NetworkStatusUI{
+
+    constructor() {
+        window.addEventListener('offline', e => this._showOfflineMessage(), false);
+        window.addEventListener('online', e => this._showOnlineMessage(), false);
+        if(!navigator.onLine) this._showOfflineMessage();
+    }
+
+    _showOfflineMessage(){
+        Events.fire('notify-user','You are offline');
+    }
+
+    _showOnlineMessage(){
+        Events.fire('notify-user','You are back online');
+    }
+}
+
+
 class Snapdrop {
     constructor() {
         const server = new ServerConnection();
@@ -425,6 +444,7 @@ class Snapdrop {
             const receiveTextDialog = new ReceiveTextDialog();
             const toast = new Toast();
             const notifications = new Notifications();
+            const networkStatusUI = new NetworkStatusUI();
         })
     }
 }
