@@ -1,29 +1,49 @@
 {
     "name": "Snapdrop",
     "short_name": "Snapdrop",
-    "icons": [{
+    "icons": [
+    {
         "src": "images/favicon-96x96.png",
         "sizes": "96x96",
         "type": "image/png"
-    }, {
+    },
+    {
         "src": "images/apple-touch-icon.png",
         "sizes": "152x152",
         "type": "image/png"
-    }, {
+    },
+    {
         "src": "images/mstile-150x150.png",
         "sizes": "144x144",
         "type": "image/png"
-    }, {
+    },
+    {
         "src": "images/android-chrome-192x192.png",
         "sizes": "192x192",
         "type": "image/png"
-    }, {
-        "src": "logo_transparent_white_512x512.png",
+    },
+    {
+        "src": "images/logo_transparent_512x512.png",
         "sizes": "512x512",
         "type": "image/png"
     }],
-    "background_color": "#efefef",
+    "background_color": "#3367d6",
     "start_url": "/",
     "display": "minimal-ui",
-    "theme_color": "#3367d6"
+    "theme_color": "#3367d6",
+    "share_target":
+    {
+        "action": "/?share_target",
+        "params":
+        {
+            "title": "title",
+            "text": "text",
+            "url": "url",
+            "files": [
+            {
+                "name": "file",
+                "accept": ["*/*"]
+            }]
+        }
+    }
 }
