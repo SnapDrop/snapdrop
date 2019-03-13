@@ -351,6 +351,9 @@ x-dialog .row-reverse>.button {
     margin-left: 8px;
 }
 
+x-dialog a{
+    color: var(--primary-color);
+}
 
 /* Receive Dialog */
 
