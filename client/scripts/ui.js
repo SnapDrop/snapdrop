@@ -361,7 +361,7 @@ class Notifications {
         });
     }
 
-    _notify(message, body, closeTimeout = 10000) {
+    _notify(message, body, closeTimeout = 20000) {
         const config = {
             body: body,
             icon: '/images/logo_transparent_128x128.png',
@@ -376,8 +376,8 @@ class Notifications {
         }
 
         // Notification is persistent on Android. We have to close it manually
-        if(closeTimeout){
-            setTimeout( _ => notification.close(), closeTimeout);
+        if (closeTimeout) {
+            setTimeout(_ => notification.close(), closeTimeout);
         }
 
         return notification;
@@ -422,22 +422,23 @@ class Notifications {
 }
 
 
-class NetworkStatusUI{
+class NetworkStatusUI {
 
     constructor() {
         window.addEventListener('offline', e => this._showOfflineMessage(), false);
         window.addEventListener('online', e => this._showOnlineMessage(), false);
-        if(!navigator.onLine) this._showOfflineMessage();
+        if (!navigator.onLine) this._showOfflineMessage();
     }
 
-    _showOfflineMessage(){
-        Events.fire('notify-user','You are offline');
+    _showOfflineMessage() {
+        Events.fire('notify-user', 'You are offline');
     }
 
-    _showOnlineMessage(){
-        Events.fire('notify-user','You are back online');
+    _showOnlineMessage() {
+        Events.fire('notify-user', 'You are back online');
     }
 }
+
 
 
 class Snapdrop {
@@ -452,6 +453,7 @@ class Snapdrop {
             const toast = new Toast();
             const notifications = new Notifications();
             const networkStatusUI = new NetworkStatusUI();
+            const webShareTargetUI = new WebShareTargetUI();
         })
     }
 }
