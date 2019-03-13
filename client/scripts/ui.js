@@ -456,7 +456,9 @@ class WebShareTargetUI {
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
         shareTargetText += url ? shareTargetText ? ' ' + url : url : '';
+        if(!shareTargetText) return;
         window.shareTargetText = shareTargetText;
+        history.pushState({},'URL Rewrite','/'); 
         console.log('Shared Target Text:', '"' + shareTargetText + '"');
     }
 }
