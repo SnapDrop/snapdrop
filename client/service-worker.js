@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 var CACHE_NAME = 'snapdrop-cache-v1.042';
 var urlsToCache = [
     '/',
@@ -60,4 +58,4 @@ self.addEventListener('fetch', function(event) {
         client.postMessage({ shareTargetFile, shareTargetText });
     }());
 });
->>>>>>> Stashed changes
+
