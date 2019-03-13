@@ -276,8 +276,15 @@ class SendTextDialog extends Dialog {
 
     _onRecipient(recipient) {
         this._recipient = recipient;
+        this._handleShareTargetText();
         this.show();
         this.$text.setSelectionRange(0, this.$text.value.length)
+    }
+
+    _handleShareTargetText(){
+        if(!window.shareTargetText) return;
+        this.$text.value = window.shareTargetText;
+        window.shareTargetText = '';
     }
 
     _send(e) {
@@ -439,6 +446,20 @@ class NetworkStatusUI {
     }
 }
 
+class WebShareTargetUI {
+    constructor() {
+        const parsedUrl = new URL(window.location);
+        const title = parsedUrl.searchParams.get('title');
+        const text = parsedUrl.searchParams.get('text');
+        const url = parsedUrl.searchParams.get('url');
+
+        let shareTargetText = title ? title : '';
+        shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
+        shareTargetText += url ? shareTargetText ? ' ' + url : url : '';
+        window.shareTargetText = shareTargetText;
+        console.log('Shared Target Text:', '"' + shareTargetText + '"');
+    }
+}
 
 
 class Snapdrop {
