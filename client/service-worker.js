@@ -20,36 +20,35 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-    if (event.request.method !== 'POST') return;
+    if (event.request.method === 'POST') {
+        event.respondWith(Response.redirect('./'));
 
-    // event.respondWith(Response.redirect('./'));
+        event.waitUntil(async function() {
+            const data = await event.request.formData();
+            const client = await self.clients.get(event.resultingClientId);
+            const shareTargetFile = data.get('file');
 
-    event.waitUntil(async function() {
-        const data = await event.request.formData();
-        const client = await self.clients.get(event.resultingClientId);
-        const shareTargetFile = data.get('file');
+            const title = data.get('title');
+            const text = data.get('text');
+            const url = data.get('url');
 
-        const title = data.get('title');
-        const text = data.get('text');
-        const url = data.get('url');
+            console.log(event.request);
 
-        let shareTargetText = title ? title : '';
-        shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
-        shareTargetText += url ? shareTargetText ? ' ' + url : url : '';
-        
-        client.postMessage({ shareTargetFile, shareTargetText });
-    }());
-});
+            let shareTargetText = title ? title : '';
+            shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
+            shareTargetText += url ? shareTargetText ? ' ' + url : url : '';
 
-self.addEventListener('fetch', function(event) {
-    event.respondWith(
-        caches.match(event.request)
-        .then(function(response) {
-            // Cache hit - return response
-            if (response) {
-                return response;
-            }
-            return fetch(event.request);
-        })
-    );
+            client.postMessage({ shareTargetFile, shareTargetText });
+        }());
+    } else {
+        event.respondWith(
+            caches.match(event.request)
+            .then(function(response) {
+                // Cache hit - return response
+                if (response) {
+                    return response;
+                }
+                return fetch(event.request);
+            }));
+    }
 });
