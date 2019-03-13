@@ -20,19 +20,6 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-    event.respondWith(
-        caches.match(event.request)
-        .then(function(response) {
-            // Cache hit - return response
-            if (response) {
-                return response;
-            }
-            return fetch(event.request);
-        })
-    );
-});
-
-self.addEventListener('fetch', function(event) {
     if (event.request.method !== 'POST') return;
 
     event.respondWith(Response.redirect('./'));
@@ -52,10 +39,19 @@ self.addEventListener('fetch', function(event) {
         if (!shareTargetText) return;
         history.pushState({}, 'URL Rewrite', '/');
 
-        console.log('Shared Target Text:', '"' + shareTargetText + '"');
-
-
         client.postMessage({ shareTargetFile, shareTargetText });
     }());
 });
 
+self.addEventListener('fetch', function(event) {
+    event.respondWith(
+        caches.match(event.request)
+        .then(function(response) {
+            // Cache hit - return response
+            if (response) {
+                return response;
+            }
+            return fetch(event.request);
+        })
+    );
+});

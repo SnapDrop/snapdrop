@@ -526,11 +526,11 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.onmessage = (event) => {
         const shareTargetText = event.data.shareTargetText;
         window.shareTargetText = shareTargetText;
-        console.log(shareTargetText);
+        console.log('shareTargetText',shareTargetText);
 
         const shareTargetFile = event.data.shareTargetFile;
         window.shareTargetFile = shareTargetFile;
-        console.log(shareTargetFile);
+        console.log('shareTargetFile',shareTargetFile);
     };
 }
 
