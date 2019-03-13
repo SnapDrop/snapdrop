@@ -39,7 +39,11 @@
             "title": "title",
             "text": "text",
             "url": "url",
-            "files": "file"
+            "files": [
+            {
+                "name": "file",
+                "accept": ["*/*"]
+            }]
         }
     }
 }
