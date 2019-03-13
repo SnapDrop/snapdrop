@@ -21,7 +21,7 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
   console.log(event.request);
-    if (event.request.method === 'POST' || event.request.url.endsWith('share_target')) {
+    if (event.request.method === 'POST' || event.request.url.contains('/share_target')) {
 
         event.respondWith(Response.redirect('./#'));
 
