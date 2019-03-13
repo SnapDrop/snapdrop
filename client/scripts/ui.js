@@ -178,6 +178,7 @@ class PeerUI {
     }
 
     _onTouchEnd(e) {
+        if(!this._touchStart) return;
         if (Date.now() - this._touchStart < 500) {
             clearTimeout(this._touchTimer);
         } else { // this was a long tap

@@ -22,7 +22,7 @@ self.addEventListener('install', function(event) {
 self.addEventListener('fetch', function(event) {
     if (event.request.method !== 'POST') return;
 
-    event.respondWith(Response.redirect('./'));
+    // event.respondWith(Response.redirect('./'));
 
     event.waitUntil(async function() {
         const data = await event.request.formData();
