@@ -20,8 +20,10 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-    if (event.request.method === 'POST') {
-        event.respondWith(Response.redirect('./'));
+  console.log(event.request);
+    if (event.request.method === 'POST' || event.request.url.endsWith('share_target')) {
+
+        event.respondWith(Response.redirect('./#'));
 
         event.waitUntil(async function() {
             const data = await event.request.formData();
@@ -31,8 +33,6 @@ self.addEventListener('fetch', function(event) {
             const title = data.get('title');
             const text = data.get('text');
             const url = data.get('url');
-
-            console.log(event.request);
 
             let shareTargetText = title ? title : '';
             shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
