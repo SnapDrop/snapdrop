@@ -286,19 +286,17 @@ class SendTextDialog extends Dialog {
 
     _onRecipient(recipient) {
         this._recipient = recipient;
+        this._handleShareTargetText();
         this.show();
         this.$text.setSelectionRange(0, this.$text.value.length)
     }
 
-<<<<<<< Updated upstream
-=======
     _handleShareTargetText() {
         if (!window.shareTargetText) return;
         this.$text.value = window.shareTargetText;
         window.shareTargetText = '';
     }
 
->>>>>>> Stashed changes
     _send(e) {
         e.preventDefault();
         if (!this.$text.value) return;
@@ -381,19 +379,26 @@ class Notifications {
         });
     }
 
-    _notify(message, body) {
+    _notify(message, body, closeTimeout = 20000) {
         const config = {
             body: body,
             icon: '/images/logo_transparent_128x128.png',
         }
+        let notification;
         try {
-            return new Notification(message, config);
+            notification = new Notification(message, config);
         } catch (e) {
-            // android doesn't support "new Notification" if service worker is installed
+            // Android doesn't support "new Notification" if service worker is installed
             if (!serviceWorker || !serviceWorker.showNotification) return;
-            return serviceWorker.showNotification(message, config);
+            notification = serviceWorker.showNotification(message, config);
         }
 
+        // Notification is persistent on Android. We have to close it manually
+        if (closeTimeout) {
+            setTimeout(_ => notification.close(), closeTimeout);
+        }
+
+        return notification;
     }
 
     _messageNotification(message) {
@@ -419,7 +424,7 @@ class Notifications {
 
     _copyText(message, notification) {
         notification.close();
-        if(!document.copy(message)) return;
+        if (!document.copy(message)) return;
         this._notify('Copied text to clipboard');
     }
 
@@ -434,8 +439,6 @@ class Notifications {
     }
 }
 
-<<<<<<< Updated upstream
-=======
 
 class NetworkStatusUI {
 
@@ -455,7 +458,6 @@ class NetworkStatusUI {
 }
 
 
->>>>>>> Stashed changes
 class Snapdrop {
     constructor() {
         const server = new ServerConnection();
@@ -467,10 +469,7 @@ class Snapdrop {
             const receiveTextDialog = new ReceiveTextDialog();
             const toast = new Toast();
             const notifications = new Notifications();
-<<<<<<< Updated upstream
-=======
             const networkStatusUI = new NetworkStatusUI();
->>>>>>> Stashed changes
         })
     }
 }
@@ -509,16 +508,13 @@ document.copy = text => {
 }
 
 
-if ('serviceWorker' in navigator && !window.iOS) {
-    // SW on iOS is buggy. see: https://stackoverflow.com/questions/18103103/failed-to-load-resource-plugin-handled-load-on-ios
+if ('serviceWorker' in navigator) {
     navigator.serviceWorker
         .register('/service-worker.js')
         .then(serviceWorker => {
             console.log('Service Worker registered');
             window.serviceWorker = serviceWorker
         });
-<<<<<<< Updated upstream
-=======
 
     // don't display install banner when installed
     window.addEventListener('beforeinstallprompt', e => {
@@ -536,7 +532,6 @@ if ('serviceWorker' in navigator && !window.iOS) {
         window.shareTargetFile = shareTargetFile;
         console.log(shareTargetFile);
     };
->>>>>>> Stashed changes
 }
 
 // Background Animation
