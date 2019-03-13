@@ -22,7 +22,7 @@
         "sizes": "512x512",
         "type": "image/png"
     }],
-    "background_color": "#3367d6",
+    "background_color": "#efefef",
     "start_url": "/",
     "display": "minimal-ui",
     "theme_color": "#3367d6"

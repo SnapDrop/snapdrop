@@ -163,8 +163,18 @@ class PeerUI {
     }
 
     _onTouchStart(e) {
-        this._touchStart = Date.now();
-        this._touchTimer = setTimeout(_ => this._onTouchEnd(), 610);
+        if (window.shareTargetFile) {
+            // this is a ShareTarget flow
+            Events.fire('files-selected', {
+                files: [window.shareTargetFile],
+                to: this._peer.id
+            });
+            window.shareTargetFile = null;
+            e.preventDefault();
+        } else {
+            this._touchStart = Date.now();
+            this._touchTimer = setTimeout(_ => this._onTouchEnd(), 610);
+        }
     }
 
     _onTouchEnd(e) {
@@ -280,8 +290,18 @@ class SendTextDialog extends Dialog {
         this.$text.setSelectionRange(0, this.$text.value.length)
     }
 
+<<<<<<< Updated upstream
+=======
+    _handleShareTargetText() {
+        if (!window.shareTargetText) return;
+        this.$text.value = window.shareTargetText;
+        window.shareTargetText = '';
+    }
+
+>>>>>>> Stashed changes
     _send(e) {
         e.preventDefault();
+        if (!this.$text.value) return;
         Events.fire('send-text', {
             to: this._recipient,
             text: this.$text.value
@@ -414,6 +434,28 @@ class Notifications {
     }
 }
 
+<<<<<<< Updated upstream
+=======
+
+class NetworkStatusUI {
+
+    constructor() {
+        window.addEventListener('offline', e => this._showOfflineMessage(), false);
+        window.addEventListener('online', e => this._showOnlineMessage(), false);
+        if (!navigator.onLine) this._showOfflineMessage();
+    }
+
+    _showOfflineMessage() {
+        Events.fire('notify-user', 'You are offline');
+    }
+
+    _showOnlineMessage() {
+        Events.fire('notify-user', 'You are back online');
+    }
+}
+
+
+>>>>>>> Stashed changes
 class Snapdrop {
     constructor() {
         const server = new ServerConnection();
@@ -425,6 +467,10 @@ class Snapdrop {
             const receiveTextDialog = new ReceiveTextDialog();
             const toast = new Toast();
             const notifications = new Notifications();
+<<<<<<< Updated upstream
+=======
+            const networkStatusUI = new NetworkStatusUI();
+>>>>>>> Stashed changes
         })
     }
 }
@@ -471,6 +517,26 @@ if ('serviceWorker' in navigator && !window.iOS) {
             console.log('Service Worker registered');
             window.serviceWorker = serviceWorker
         });
+<<<<<<< Updated upstream
+=======
+
+    // don't display install banner when installed
+    window.addEventListener('beforeinstallprompt', e => {
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            return event.preventDefault();
+        }
+    });
+
+    navigator.serviceWorker.onmessage = (event) => {
+        const shareTargetText = event.data.shareTargetText;
+        window.shareTargetText = shareTargetText;
+        console.log(shareTargetText);
+
+        const shareTargetFile = event.data.shareTargetFile;
+        window.shareTargetFile = shareTargetFile;
+        console.log(shareTargetFile);
+    };
+>>>>>>> Stashed changes
 }
 
 // Background Animation
