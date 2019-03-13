@@ -21,24 +21,27 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
   console.log(event.request);
-    if (event.request.method === 'POST' || event.request.url.contains('/share_target')) {
+    if (event.request.url.indexOf('/share_target')>-1) {
 
         event.respondWith(Response.redirect('./#'));
 
         event.waitUntil(async function() {
-            const data = await event.request.formData();
-            const client = await self.clients.get(event.resultingClientId);
-            const shareTargetFile = data.get('file');
+            if(event.request.method === 'POST'){
+                const data = await event.request.formData();
+                const client = await self.clients.get(event.resultingClientId);
+                const shareTargetFile = data.get('file');  
+                client.postMessage({ shareTargetFile });
+            } else {
+                // const title = data.get('title');
+                // const text = data.get('text');
+                // const url = data.get('url');
 
-            const title = data.get('title');
-            const text = data.get('text');
-            const url = data.get('url');
+                // let shareTargetText = title ? title : '';
+                // shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
+                // shareTargetText += url ? shareTargetText ? ' ' + url : url : '';
 
-            let shareTargetText = title ? title : '';
-            shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
-            shareTargetText += url ? shareTargetText ? ' ' + url : url : '';
-
-            client.postMessage({ shareTargetFile, shareTargetText });
+                client.postMessage({ shareTargetText });
+            }
         }());
     } else {
         event.respondWith(
