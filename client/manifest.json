@@ -27,7 +27,7 @@
     "display": "minimal-ui",
     "theme_color": "#3367d6",
     "share_target": {
-        "action": "/share-target/",
+        "action": "/?share_target",
         "params": {
             "title": "title",
             "text": "text",
