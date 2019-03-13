@@ -36,9 +36,7 @@ self.addEventListener('fetch', function(event) {
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
         shareTargetText += url ? shareTargetText ? ' ' + url : url : '';
-        if (!shareTargetText) return;
-        history.pushState({}, 'URL Rewrite', '/');
-
+        
         client.postMessage({ shareTargetFile, shareTargetText });
     }());
 });
