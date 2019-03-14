@@ -527,6 +527,17 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('beforeinstallprompt', e => {
         if (window.matchMedia('(display-mode: standalone)').matches) {
             return event.preventDefault();
+        } else {
+            const deferredPrompt = e;
+            const btn = document.querySelector('#install')
+            btn.hidden = false;
+            btn.onclick = _ => {
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((resp) => {
+                    console.log(JSON.stringify(resp));
+                });
+            }
         }
     });
 }
