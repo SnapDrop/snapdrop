@@ -281,8 +281,8 @@ class SendTextDialog extends Dialog {
         this.$text.setSelectionRange(0, this.$text.value.length)
     }
 
-    _handleShareTargetText(){
-        if(!window.shareTargetText) return;
+    _handleShareTargetText() {
+        if (!window.shareTargetText) return;
         this.$text.value = window.shareTargetText;
         window.shareTargetText = '';
     }
@@ -456,9 +456,9 @@ class WebShareTargetUI {
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
         shareTargetText += url ? shareTargetText ? ' ' + url : url : '';
-        if(!shareTargetText) return;
+        if (!shareTargetText) return;
         window.shareTargetText = shareTargetText;
-        history.pushState({},'URL Rewrite','/'); 
+        history.pushState({}, 'URL Rewrite', '/');
         console.log('Shared Target Text:', '"' + shareTargetText + '"');
     }
 }
@@ -516,26 +516,24 @@ document.copy = text => {
 
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-        .register('/service-worker.js')
+    navigator.serviceWorker.register('/service-worker.js')
         .then(serviceWorker => {
             console.log('Service Worker registered');
             window.serviceWorker = serviceWorker
         });
-
-    // don't display install banner when installed
-    window.addEventListener('beforeinstallprompt', e => {
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            return e.preventDefault();
-        } else {
-            const deferredPrompt = e;
-            const btn = document.querySelector('#install')
-            btn.hidden = false;
-            btn.onclick = _ => deferredPrompt.prompt();
-            return e.preventDefault();
-        }
-    });
 }
+
+window.addEventListener('beforeinstallprompt', e => {
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        // don't display install banner when installed
+        return e.preventDefault();
+    } else {
+        const btn = document.querySelector('#install')
+        btn.hidden = false;
+        btn.onclick = _ => e.prompt();
+        return e.preventDefault();
+    }
+});
 
 // Background Animation
 Events.on('load', () => {
