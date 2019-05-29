@@ -26,8 +26,13 @@ class SnapdropServer {
     }
 
     _onMessage(sender, message) {
-        message = JSON.parse(message);
-
+        // Try to parse message 
+        try {
+            message = JSON.parse(message);
+        } catch (e) {
+            return; // TODO: handle malformed JSON
+        }
+        
         switch (message.type) {
             case 'disconnect':
                 this._leaveRoom(sender);
