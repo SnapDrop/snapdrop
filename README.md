@@ -46,7 +46,7 @@ ShareDrop uses WebRTC only and isn't compatible with Safari browsers. Snapdrop u
 [Install docker with docker-compose.](https://docs.docker.com/compose/install/)
 
 ```
-    git clone git@github.com:pa7ryk/snapdrop.git
+    git clone git@github.com:RobinLinus/snapdrop.git
     cd snapdrop
     docker-compose up
 ```
@@ -60,7 +60,7 @@ When serving the node server behind a proxy the `X-Forwarded-For` header has to 
 
 By default the server listens on port 3000.
 
-For an nginx configuration example see `nginx.conf.example`.
+For an nginx configuration example see `nginx/default.conf`.
 
 ## Licences
 * Thanks to [Mark DiAngelo]() for the [Blop Sound](http://soundbible.com/2067-Blop.html)
