@@ -43,21 +43,15 @@ ShareDrop uses WebRTC only and isn't compatible with Safari browsers. Snapdrop u
 * Do security analysis and suggestions
 
 ## Local Development
-```
-    git clone git@github.com:RobinLinus/snapdrop.git
-    cd snapdrop/server
-    npm install
-    node index.js
+[Install docker with docker-compose.](https://docs.docker.com/compose/install/)
 
-    # open a second shell:
-    cd snapdrop/client
-    # Python 2
-    python -m SimpleHTTPServer
-    # Python 3
-    python3 -m http.server
+```
+    git clone git@github.com:pa7ryk/snapdrop.git
+    cd snapdrop
+    docker-compose up
 ```
 
-Now point your browser to http://localhost:8000.
+Now point your browser to http://localhost:8080.
     
 ## Deployment Notes
 The client expects the server at http(s)://your.domain/server.

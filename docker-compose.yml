@@ -1,0 +1,16 @@
+version: "3"
+services:
+  node:
+    image: "node:lts-alpine"
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./server/:/home/node/app
+    command: ash -c "npm i && node index.js"
+  nginx:
+    image: "nginx:alpine"
+    volumes:
+      - ./client:/usr/share/nginx/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
