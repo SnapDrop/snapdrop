@@ -111,11 +111,7 @@ class PeerUI {
     }
 
     _name() {
-        if (this._peer.name.model) {
-            return this._peer.name.os + ' ' + this._peer.name.model;
-        }
-        this._peer.name.os = this._peer.name.os.replace('Mac OS', 'Mac');
-        return this._peer.name.os + ' ' + this._peer.name.browser;
+        return this._peer.name.displayName;
     }
 
     _icon() {
