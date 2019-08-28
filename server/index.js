@@ -1,4 +1,5 @@
 const parser = require('ua-parser-js');
+const { uniqueNamesGenerator } = require('unique-names-generator');
 
 class SnapdropServer {
 
@@ -187,7 +188,8 @@ class Peer {
             model: ua.device.model,
             os: ua.os.name,
             browser: ua.browser.name,
-            type: ua.device.type
+            type: ua.device.type,
+            displayName: uniqueNamesGenerator({ length: 2 })
         };
     }
 
