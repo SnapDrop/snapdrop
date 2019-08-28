@@ -18,6 +18,9 @@ class SnapdropServer {
         this._joinRoom(peer);
         peer.socket.on('message', message => this._onMessage(peer, message));
         this._keepAlive(peer);
+
+        // send displayName
+        this._send(peer, { type: 'displayName', message: peer.name.displayName });
     }
 
     _onHeaders(headers, response) {

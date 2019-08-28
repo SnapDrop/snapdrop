@@ -41,6 +41,9 @@ class ServerConnection {
             case 'ping':
                 this.send({ type: 'pong' });
                 break;
+            case 'displayName':
+                Events.fire('displayName', msg);
+                break;
             default:
                 console.error('WS: unkown message type', msg);
         }

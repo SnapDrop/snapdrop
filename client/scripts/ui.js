@@ -473,7 +473,12 @@ class Snapdrop {
             const notifications = new Notifications();
             const networkStatusUI = new NetworkStatusUI();
             const webShareTargetUI = new WebShareTargetUI();
-        })
+        });
+
+        // set display name
+        Events.on('displayName', e => {
+            $("displayName").textContent = "[ " + e.detail.message + " ]";
+        });
     }
 }
 
