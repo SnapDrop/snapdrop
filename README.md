@@ -10,8 +10,14 @@
 * [NodeJS](https://nodejs.org/en/)
 * [Material Design](https://material.google.com/)
 
+## Support the Snapdrop Community
+Snadprop is free. Still, we have to pay the server. If you want to contribute, please use [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G2VDVRHGPJML2&source=url) or Bitcoin 
+[<img src="https://coins.github.io/thx/logo-color-large-pill-320px.png" alt="CoinThx" width="200"/>](https://coins.github.io/thx/#1K9zQ8f4iTyhKyHWmiDKt21cYX2QSDckWB?label=Coins%20Project&message=Thank%20you%20for%20your%20contribution!) 
 
-### Frequently Asked Questions
+Thanks a lot for supporting free and open software!
+
+
+## Frequently Asked Questions
 
 ### Instructions
 * [Video Instructions](https://www.youtube.com/watch?v=4XN02GkcHUM) (Big thanks to [TheiTeckHq](https://www.youtube.com/channel/UC_DUzWMb8gZZnAbISQjmAfQ))
