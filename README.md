@@ -35,7 +35,7 @@ Thanks a lot for supporting free and open software!
 It uses a P2P connection if WebRTC is supported by the browser. (WebRTC needs a Signaling Server, but it is only used to establish a connection and is not involved in the file transfer).
 
 ##### What about privacy? Will files be saved on third-party-servers?
-None of your files are ever sent to any server. Only between peers. Snapdrop doesn't even use a database. If you are curious have a look [at the Server](https://github.com/RobinLinus/snapdrop/blob/master/server/).
+None of your files are ever sent to any server. Files are sent only between peers. Snapdrop doesn't even use a database. If you are curious have a look [at the Server](https://github.com/RobinLinus/snapdrop/blob/master/server/).
 
 ##### Is SnapDrop a fork of ShareDrop?
 No. ShareDrop is built with Ember. Snapdrop is built with vanilla ES6. 
