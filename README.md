@@ -6,7 +6,7 @@
 * Vanilla HTML5 / ES6 / CSS3  
 * Progressive Web App
 * [WebRTC](http://webrtc.org/)
-* [WebSockets](http://www.websocket.org/) fallback (iDevices don't support WebRTC)
+* [WebSockets](http://www.websocket.org/) fallback
 * [NodeJS](https://nodejs.org/en/)
 * [Material Design](https://material.google.com/)
 
@@ -34,11 +34,8 @@ Thanks a lot for supporting free and open software!
 ##### What about the connection? Is it a P2P-connection directly from device to device or is there any third-party-server?
 It uses a P2P connection if WebRTC is supported by the browser. (WebRTC needs a Signaling Server, but it is only used to establish a connection and is not involved in the file transfer).
 
-If WebRTC isn’t supported (Safari, IE) it uses a Web Sockets fallback for the file transfer. The server connects the clients with each other.  
-
 ##### What about privacy? Will files be saved on third-party-servers?
-None of your files are ever saved on any server. 
-Snapdrop doesn't even use a database. If you are curious have a look [at the Server](https://github.com/RobinLinus/snapdrop/blob/master/server/).
+None of your files are ever sent to any server. Only between peers. Snapdrop doesn't even use a database. If you are curious have a look [at the Server](https://github.com/RobinLinus/snapdrop/blob/master/server/).
 
 ##### Is SnapDrop a fork of ShareDrop?
 No. ShareDrop is built with Ember. Snapdrop is built with vanilla ES6. 
@@ -49,7 +46,7 @@ ShareDrop uses WebRTC only and isn't compatible with Safari browsers. Snapdrop u
 ### Snapdrop is awesome! How can I support it? 
 * [File bugs, give feedback, submit suggestions](https://github.com/RobinLinus/snapdrop/issues)
 * Share Snapdrop on your social media.
-* [Buy me a cup of coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R9C5E42UYEQCN)
+* [Buy me a cup of coffee](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=74D2NE84JHCWG&source=url)
 * Fix bugs and make a pull request. 
 * Do security analysis and suggestions
 
