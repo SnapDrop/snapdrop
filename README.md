@@ -75,3 +75,12 @@ For an nginx configuration example see `nginx/default.conf`.
 
 ## Licences
 * Thanks to [Mark DiAngelo]() for the [Blop Sound](http://soundbible.com/2067-Blop.html)
+
+
+
+## Desktop App 
+Note, if you are using Google Chrome you can easily install Snapdrop PWA on your desktop by clicking the install Button in the top-right corner.
+
+If you are not using Chrome, you can install the [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electrum. (Thanks to Infin1tyy!).
+
+
