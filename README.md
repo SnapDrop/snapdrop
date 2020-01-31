@@ -11,7 +11,7 @@
 * [Material Design](https://material.google.com/)
 
 ## Support the Snapdrop Community
-Snadprop is free. Still, we have to pay the server. If you want to contribute, please use PayPal
+Snadprop is free. Still, we have to pay for the server. If you want to contribute, please use PayPal
 
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=74D2NE84JHCWG&source=url)
 
