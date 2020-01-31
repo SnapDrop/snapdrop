@@ -46,7 +46,7 @@ ShareDrop uses WebRTC only and isn't compatible with Safari browsers. Snapdrop u
 ### Snapdrop is awesome! How can I support it? 
 * [File bugs, give feedback, submit suggestions](https://github.com/RobinLinus/snapdrop/issues)
 * Share Snapdrop on your social media.
-* [Buy me a cup of coffee](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=74D2NE84JHCWG&source=url)
+* [Buy me a cup of coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=74D2NE84JHCWG&source=url)
 * Fix bugs and make a pull request. 
 * Do security analysis and suggestions
 
