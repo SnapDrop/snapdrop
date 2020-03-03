@@ -11,7 +11,8 @@ class PeersUI {
         Events.on('peer-joined', e => this._onPeerJoined(e.detail));
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
         Events.on('peers', e => this._onPeers(e.detail));
-        Events.on('file-progress', e => this._onFileProgress(e.detail));
+        Events.on('file-progress', e => this._onFileProgress(e.detail));        
+        window.addEventListener('paste', e => this._onPaste(e));
     }
 
     _onPeerJoined(peer) {
@@ -40,6 +41,23 @@ class PeersUI {
 
     _clearPeers() {
         const $peers = $$('x-peers').innerHTML = '';
+    }   
+    
+    _onPaste(e) {        
+        const files = e.clipboardData.items
+            .filter(i => i.type.indexOf('image') > -1)
+            .map(i => i.getAsFile());
+        
+        // send the pasted image content to the only peer if there is one
+        // otherwise, select the peer somehow by notifying the client that
+        // "image data has been pasted, click the client to which to send it"
+        // not implemented
+        if (files.length > 0 && $$('x-peer').length === 1) {
+            Events.fire('files-selected', {
+                files: files,
+                to: $$('x-peer').id
+            });
+        }
     }
 }
 
