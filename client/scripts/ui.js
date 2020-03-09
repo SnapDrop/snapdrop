@@ -12,7 +12,7 @@ class PeersUI {
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
         Events.on('peers', e => this._onPeers(e.detail));
         Events.on('file-progress', e => this._onFileProgress(e.detail));        
-        window.addEventListener('paste', e => this._onPaste(e));
+        Events.on('paste', e => this._onPaste(e));
     }
 
     _onPeerJoined(peer) {
@@ -44,7 +44,7 @@ class PeersUI {
     }   
     
     _onPaste(e) {        
-        const files = e.clipboardData.items
+        const files = e.clipboardData.files || e.clipboardData.items
             .filter(i => i.type.indexOf('image') > -1)
             .map(i => i.getAsFile());
         
