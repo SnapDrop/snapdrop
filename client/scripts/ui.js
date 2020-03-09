@@ -47,12 +47,12 @@ class PeersUI {
         const files = e.clipboardData.files || e.clipboardData.items
             .filter(i => i.type.indexOf('image') > -1)
             .map(i => i.getAsFile());
-        
+        const peers = document.querySelectorAll('x-peer').length;
         // send the pasted image content to the only peer if there is one
         // otherwise, select the peer somehow by notifying the client that
         // "image data has been pasted, click the client to which to send it"
         // not implemented
-        if (files.length > 0 && $$('x-peer').length === 1) {
+        if (files.length > 0 && peers.length === 1) {
             Events.fire('files-selected', {
                 files: files,
                 to: $$('x-peer').id
