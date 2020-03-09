@@ -47,7 +47,7 @@ class PeersUI {
         const files = e.clipboardData.files || e.clipboardData.items
             .filter(i => i.type.indexOf('image') > -1)
             .map(i => i.getAsFile());
-        const peers = document.querySelectorAll('x-peer').length;
+        const peers = document.querySelectorAll('x-peer');
         // send the pasted image content to the only peer if there is one
         // otherwise, select the peer somehow by notifying the client that
         // "image data has been pasted, click the client to which to send it"
