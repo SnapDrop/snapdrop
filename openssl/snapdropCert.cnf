@@ -1,0 +1,29 @@
+[ req ]
+default_bits        = 2048
+default_md          = sha256
+default_days        = 1
+encrypt_key         = no
+distinguished_name  = subject
+req_extensions      = req_ext
+string_mask         = utf8only
+prompt              = no
+
+[ subject ]
+organizationName    = Snapdrop
+OU                  = Development
+
+# Use a friendly name here because it's presented to the user. The server's DNS
+#   names are placed in Subject Alternate Names. Plus, DNS names here is deprecated
+#   by both IETF and CA/Browser Forums. If you place a DNS name here, then you
+#   must include the DNS name in the SAN too (otherwise, Chrome and others that
+#   strictly follow the CA/Browser Baseline Requirements will fail).
+
+commonName           = ${ENV::FQDN}
+
+[ req_ext ]
+subjectKeyIdentifier = hash
+basicConstraints     = CA:FALSE
+keyUsage             = digitalSignature, keyEncipherment
+subjectAltName       = DNS:${ENV::FQDN}
+nsComment            = "OpenSSL Generated Certificate"
+extendedKeyUsage     = serverAuth

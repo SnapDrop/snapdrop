@@ -53,13 +53,32 @@ ShareDrop uses WebRTC only and isn't compatible with Safari browsers. Snapdrop u
 ## Local Development
 [Install docker with docker-compose.](https://docs.docker.com/compose/install/)
 
+Clone the repository:
 ```
     git clone git@github.com:RobinLinus/snapdrop.git
     cd snapdrop
-    docker-compose up
+    docker-compose up -d
 ```
 
-Now point your browser to http://localhost:8080.
+To restart the containers run `docker-compose restart`.
+To stop the containers run `docker-compose stop`.
+
+
+Now point your browser to `http://localhost:8080`.
+
+### Testing PWA related features
+PWAs require that the app is served under a correctly set up and trusted TLS endpoint.
+
+The nginx container creates a CA certificate and a website certificate for you. To correctly set the common name of the certificate you need to change the FQDN environment variable in `fqdn.env` to the fully qualified domain name of your workstation.
+
+If you want to test PWA features you need to trust the CA of the certificate for your local deployment. For your convenience you can download the crt file from `http://<Your FQDN>:8080/ca.crt`. Install that certificate to the trust store of your operating system.
+- On windows make sure to install it to the `Trusted Root Certification Authorities` store.
+- On macOS double click the installed CA certificate in `Keychain Access` expand `Trust` and select `Always Trust` for SSL.
+- Firefox uses its own trust store. To install the CA point Firefox at `http://<Your FQDN>:8080/ca.crt`. When prompted select `Trust this CA to identify websites` and click OK.
+- When using Chrome you need to restart Chrome so it reloads the trust store (`chrome://restart`). Additionally, after installing a new cert you need to clear the Storage (DevTools -> Application -> Clear storagae -> Clear site data).
+
+Please note that the certificates (CA and webserver cert) expire after a day.
+Also whenever you restart the nginx docker container new certificates are created.
     
 ## Deployment Notes
 The client expects the server at http(s)://your.domain/server.

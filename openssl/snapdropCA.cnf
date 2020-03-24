@@ -1,0 +1,26 @@
+[ req ]
+default_bits       = 2048
+default_md         = sha256
+default_days       = 1
+encrypt_key        = no
+distinguished_name = subject
+x509_extensions    = x509_ext
+string_mask        = utf8only
+prompt             = no
+
+[ subject ]
+organizationName = Snapdrop
+OU               = CA
+commonName       = snapdrop-CA
+
+[ x509_ext ]
+subjectKeyIdentifier      = hash
+authorityKeyIdentifier    = keyid:always,issuer
+
+# You only need digitalSignature below. *If* you don't allow
+#   RSA Key transport (i.e., you use ephemeral cipher suites), then
+#   omit keyEncipherment because that's key transport.
+
+basicConstraints = critical, CA:TRUE, pathlen:0
+keyUsage         = critical, digitalSignature, keyEncipherment, cRLSign, keyCertSign
+
