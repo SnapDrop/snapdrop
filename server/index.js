@@ -105,10 +105,10 @@ class SnapdropServer {
     }
 
     _send(peer, message) {
-        if (!peer) return console.error('undefined peer');
-        if (this._wss.readyState !== this._wss.OPEN) return console.error('Socket is closed');
+        if (!peer) return;
+        if (this._wss.readyState !== this._wss.OPEN) return;
         message = JSON.stringify(message);
-        peer.socket.send(message, error => error ? console.log(error): '');
+        peer.socket.send(message, error => '');
     }
 
     _keepAlive(peer) {
