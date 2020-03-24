@@ -79,6 +79,8 @@ If you want to test PWA features you need to trust the CA of the certificate for
 
 Please note that the certificates (CA and webserver cert) expire after a day.
 Also whenever you restart the nginx docker container new certificates are created.
+
+The site is served on `https://<Your FQDN>:443`.
     
 ## Deployment Notes
 The client expects the server at http(s)://your.domain/server.
