@@ -55,7 +55,7 @@ ShareDrop uses WebRTC only and isn't compatible with Safari browsers. Snapdrop u
 
 Clone the repository:
 ```
-    git clone https://github.com/RobinLinus/snapdrop.git
+    git clone git@github.com:RobinLinus/snapdrop.git
     cd snapdrop
     docker-compose up -d
 ```
