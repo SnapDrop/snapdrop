@@ -567,6 +567,8 @@ Events.on('load', () => {
     style.width = '100%';
     style.position = 'absolute';
     style.zIndex = -1;
+    style.top = 0;
+    style.left = 0;
     var ctx = c.getContext('2d');
     var x0, y0, w, h, dw;
 
