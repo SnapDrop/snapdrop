@@ -1,4 +1,4 @@
-var CACHE_NAME = 'snapdrop-cache-v1.043';
+var CACHE_NAME = 'snapdrop-cache-v1.044';
 var urlsToCache = [
   '/',
   '/styles.css',
