@@ -138,7 +138,6 @@ class PeerUI {
             to: this._peer.id
         });
         $input.value = null; // reset input
-        this.setProgress(0.01);
     }
 
     setProgress(progress) {
