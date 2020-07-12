@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "ua-parser-js": "^0.7.18",
-    "unique-names-generator": "^3.0.0",
+    "unique-names-generator": "^4.1.1",
     "ws": "^6.0.0"
   }
 }
