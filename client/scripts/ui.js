@@ -495,7 +495,7 @@ class Snapdrop {
 
         // set display name
         Events.on('displayName', e => {
-            $("displayName").textContent = "[ " + e.detail.message + " ]";
+            $("displayName").textContent = "You are known as " + e.detail.message;
         });
     }
 }
