@@ -5,6 +5,11 @@ window.isDownloadSupported = (typeof document.createElement('a').download !== 'u
 window.isProductionEnvironment = !window.location.host.startsWith('localhost');
 window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
+// set display name
+Events.on('displayName', e => {
+    $("displayName").textContent = "You are known as " + e.detail.message;
+});
+
 class PeersUI {
 
     constructor() {
@@ -491,11 +496,6 @@ class Snapdrop {
             const notifications = new Notifications();
             const networkStatusUI = new NetworkStatusUI();
             const webShareTargetUI = new WebShareTargetUI();
-        });
-
-        // set display name
-        Events.on('displayName', e => {
-            $("displayName").textContent = "You are known as " + e.detail.message;
         });
     }
 }
