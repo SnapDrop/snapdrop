@@ -9,7 +9,7 @@ services:
     command: ash -c "npm i && node index.js"
   nginx:
     build:
-      context: ./
+      context: ./docker/
       dockerfile: nginx-with-openssl.Dockerfile
     image: "nginx-with-openssl"
     volumes:
