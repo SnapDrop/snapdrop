@@ -1,12 +1,12 @@
 # Snapdrop 
 
-[Snapdrop](https://snapdrop.net): local file sharing in your browser - inspired by Apple's Airdrop.
+[Snapdrop](https://snapdrop.net): local file sharing in your browser. Inspired by Apple's Airdrop.
 
-#### Snapdrop (Version 2) is built with the following awesome technologies:
+#### Snapdrop is built with the following awesome technologies:
 * Vanilla HTML5 / ES6 / CSS3  
 * Progressive Web App
 * [WebRTC](http://webrtc.org/)
-* [WebSockets](http://www.websocket.org/) fallback
+* [WebSockets](http://www.websocket.org/)
 * [NodeJS](https://nodejs.org/en/)
 * [Material Design](https://material.google.com/)
 
@@ -40,16 +40,15 @@ None of your files are ever sent to any server. Files are sent only between peer
 ##### What about security? Are my files encrypted while being sent between the computers?
 Yes. Your files are sent using WebRTC, which encrypts them on transit.
 
-##### Is SnapDrop a fork of ShareDrop?
-No. ShareDrop is built with Ember. Snapdrop is built with vanilla ES6. 
-I wanted to play around with Progressive Web Apps and then I got the idea of a local file sharing app. By doing research on this idea, I found and analysed ShareDrop. I liked it and thought about how to improve it.
-ShareDrop uses WebRTC only and isn't compatible with Safari browsers. Snapdrop uses a Websocket fallback and some hacks to make Snapdrop work due to the download restrictions on iDevices. 
+##### Why don't you implement feature xyz?
+Snapdrop is a study in radical simplicity. The user interface is insanely simple. Features are chosen very carefully because complexity grows quadratically since every feature potentially interfears with each other feature. We focus very narrowly on a single use case: instant file transfer. 
+We are not trying to optimize for some edge-cases. We are optimizing the userflow of the average users. Don't be sad if we decline your feature request for the sake of simplicity.
 
 
 ### Snapdrop is awesome! How can I support it? 
+* [Donate via PayPal to help cover the server costs](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=74D2NE84JHCWG&source=url)
 * [File bugs, give feedback, submit suggestions](https://github.com/RobinLinus/snapdrop/issues)
 * Share Snapdrop on your social media.
-* [Buy me a cup of coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=74D2NE84JHCWG&source=url)
 * Fix bugs and make a pull request. 
 * Do security analysis and suggestions
 
