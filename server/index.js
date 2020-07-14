@@ -117,7 +117,7 @@ class SnapdropServer {
 
     _keepAlive(peer) {
         this._cancelKeepAlive(peer);
-        var timeout = 10000;
+        var timeout = 30000;
         if (!peer.lastBeat) {
             peer.lastBeat = Date.now();
         }
