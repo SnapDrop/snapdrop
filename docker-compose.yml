@@ -14,12 +14,12 @@ services:
     image: "nginx-with-openssl"
     volumes:
       - ./client:/usr/share/nginx/html
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./certs:/etc/ssl/certs
-      - ./openssl:/mnt/openssl
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/certs:/etc/ssl/certs
+      - ./docker/openssl:/mnt/openssl
     ports:
       - "8080:80"
       - "443:443"
-    env_file: fqdn.env
+    env_file: ./docker/fqdn.env
     entrypoint: /mnt/openssl/create.sh
     command: ["nginx", "-g", "daemon off;"]
