@@ -43,8 +43,8 @@ None of your files are ever sent to any server. Files are sent only between peer
 Yes. Your files are sent using WebRTC, which encrypts them on transit.
 
 ##### Why don't you implement feature xyz?
-Snapdrop is a study in radical simplicity. The user interface is insanely simple. Features are chosen very carefully because complexity grows quadratically since every feature potentially interfears with each other feature. We focus very narrowly on a single use case: instant file transfer. 
-We are not trying to optimize for some edge-cases. We are optimizing the userflow of the average users. Don't be sad if we decline your feature request for the sake of simplicity.
+Snapdrop is a study in radical simplicity. The user interface is insanely simple. Features are chosen very carefully because complexity grows quadratically since every feature potentially interferes with each other feature. We focus very narrowly on a single use case: instant file transfer. 
+We are not trying to optimize for some edge-cases. We are optimizing the user flow of the average users. Don't be sad if we decline your feature request for the sake of simplicity.
 
 
 ### Snapdrop is awesome! How can I support it? 
@@ -79,7 +79,7 @@ If you want to test PWA features, you need to trust the CA of the certificate fo
 - On Windows, make sure to install it to the `Trusted Root Certification Authorities` store.
 - On MacOS, double click the installed CA certificate in `Keychain Access`, expand `Trust`, and select `Always Trust` for SSL.
 - Firefox uses its own trust store. To install the CA, point Firefox at `http://<Your FQDN>:8080/ca.crt`. When prompted, select `Trust this CA to identify websites` and click OK.
-- When using Chrome, you need to restart Chrome so it reloads the trust store (`chrome://restart`). Additionally, after installing a new cert, you need to clear the Storage (DevTools -> Application -> Clear storagae -> Clear site data).
+- When using Chrome, you need to restart Chrome so it reloads the trust store (`chrome://restart`). Additionally, after installing a new cert, you need to clear the Storage (DevTools -> Application -> Clear storage -> Clear site data).
 
 Please note that the certificates (CA and webserver cert) expire after a day.
 Also, whenever you restart the nginx docker, container new certificates are created.
