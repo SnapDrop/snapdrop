@@ -71,7 +71,7 @@ Now point your browser to `http://localhost:8080`.
 ### Testing PWA related features
 PWAs require that the app is served under a correctly set up and trusted TLS endpoint.
 
-The nginx container creates a CA certificate and a website certificate for you. To correctly set the common name of the certificate, you need to change the FQDN environment variable in `fqdn.env` to the fully qualified domain name of your workstation.
+The nginx container creates a CA certificate and a website certificate for you. To correctly set the common name of the certificate, you need to change the FQDN environment variable in `docker/fqdn.env` to the fully qualified domain name of your workstation.
 
 If you want to test PWA features, you need to trust the CA of the certificate for your local deployment. For your convenience, you can download the crt file from `http://<Your FQDN>:8080/ca.crt`. Install that certificate to the trust store of your operating system.
 - On Windows, make sure to install it to the `Trusted Root Certification Authorities` store.
@@ -91,16 +91,11 @@ When serving the node server behind a proxy, the `X-Forwarded-For` header has to
 
 By default, the server listens on port 3000.
 
-For an nginx configuration example, see `nginx/default.conf`.
-
-## Licences
-* Thanks to [Mark DiAngelo]() for the [Blop Sound](http://soundbible.com/2067-Blop.html)
-
-
+For an nginx configuration example, see `docker/nginx/default.conf`.
 
 ## Desktop App 
 Note: if you are using Google Chrome, you can easily install Snapdrop PWA on your desktop by clicking the install button in the top-right corner.
 
-If you are not using Chrome, you can install the [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electrum. (Thanks to Infin1tyy!).
+If you are not using Chrome or Edge, you can install the [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electrum. (Thanks to Infin1tyy!).
 
 
