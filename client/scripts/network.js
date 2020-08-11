@@ -57,16 +57,26 @@ class ServerConnection {
     _peerId() {
         let peerId = sessionStorage.getItem("peerid");
         if (!peerId) {
-            // 128 random bytes, modulo'd into 0-9A-Za-z
-            const rand = crypto.getRandomValues(new Uint8Array(128))
-                .map(x => {
-                    x %= 60;
-                    if (x > 35) x += 61; // a-z
-                    else if (x > 9) x += 55; // A-Z
-                    else x += 48; // 0-9
-                    return x;
-                });
-            peerId = new TextDecoder("ascii").decode(rand);
+            peerId = '';
+            for (let ii = 0; ii < 32; ii += 1) {
+                switch (ii) {
+                    case 8:
+                    case 20:
+                        peerId += '-';
+                        peerId += (Math.random() * 16 | 0).toString(16);
+                        break;
+                    case 12:
+                        peerId += '-';
+                        peerId += '4';
+                        break;
+                    case 16:
+                        peerId += '-';
+                        peerId += (Math.random() * 4 | 8).toString(16);
+                        break;
+                    default:
+                        peerId += (Math.random() * 16 | 0).toString(16);
+                }
+            }
             sessionStorage.setItem("peerid", peerId);
         }
         return peerId;
