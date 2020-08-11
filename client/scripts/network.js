@@ -13,7 +13,7 @@ class ServerConnection {
     _connect() {
         clearTimeout(this._reconnectTimer);
         if (this._isConnected() || this._isConnecting()) return;
-        const ws = new WebSocket(this._endpoint());
+        const ws = new WebSocket(this._endpoint() + "?peerid=" + this._peerId());
         ws.binaryType = 'arraybuffer';
         ws.onopen = e => console.log('WS: server connected');
         ws.onmessage = e => this._onMessage(e.data);
@@ -52,6 +52,24 @@ class ServerConnection {
     send(message) {
         if (!this._isConnected()) return;
         this._socket.send(JSON.stringify(message));
+    }
+
+    _peerId() {
+        let peerId = sessionStorage.getItem("peerid");
+        if (!peerId) {
+            // 128 random bytes, modulo'd into 0-9A-Za-z
+            const rand = crypto.getRandomValues(new Uint8Array(128))
+                .map(x => {
+                    x %= 60;
+                    if (x > 35) x += 61; // a-z
+                    else if (x > 9) x += 55; // A-Z
+                    else x += 48; // 0-9
+                    return x;
+                });
+            peerId = new TextDecoder("ascii").decode(rand);
+            sessionStorage.setItem("peerid", peerId);
+        }
+        return peerId;
     }
 
     _endpoint() {
