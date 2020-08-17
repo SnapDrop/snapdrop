@@ -98,6 +98,6 @@ For an nginx configuration example, see `docker/nginx/default.conf`.
 ## Desktop App 
 Note: if you are using Google Chrome, you can easily install Snapdrop PWA on your desktop by clicking the install button in the top-right corner.
 
-If you are not using Chrome or Edge, you can install the [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electrum. (Thanks to Infin1tyy!).
+If you are not using Chrome or Edge, you can install the [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electron. (Thanks to Infin1tyy!).
 
 
