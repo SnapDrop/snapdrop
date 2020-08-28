@@ -1,3 +1,16 @@
+var process = require('process')
+// Handle SIGINT
+process.on('SIGINT', () => {
+  console.info("SIGINT Received, exiting...")
+  process.exit(0)
+})
+
+// Handle SIGTERM
+process.on('SIGTERM', () => {
+  console.info("SIGTERM Received, exiting...")
+  process.exit(0)
+})
+
 const parser = require('ua-parser-js');
 const { uniqueNamesGenerator, animals, colors } = require('unique-names-generator');
 
