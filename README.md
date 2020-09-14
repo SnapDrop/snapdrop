@@ -27,12 +27,12 @@ Alternatively, you can become a [Github Sponsor](https://github.com/sponsors/Rob
 Thanks a lot for supporting free and open software!
 
 
-> Have any questions? You can read our [faq](/docs/faq.md)
+> Have any questions? You can read our [FAQ](/docs/faq.md)
 
 
 
 ## Apps
-1. [Snapdrop PWA](/docs/faq) <!-- Don't know how to do a direct link -->
+1. [Snapdrop PWA](/docs/faq.md) <!-- Don't know how to do a direct link -->
 
  1. [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electron. (Thanks to [Infin1tyy!](https://github.com/infin1tyy/)).
 
