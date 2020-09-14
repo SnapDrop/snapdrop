@@ -27,7 +27,7 @@ Alternatively, you can become a [Github Sponsor](https://github.com/sponsors/Rob
 Thanks a lot for supporting free and open software!
 
 
-> Have any questions? You can read our [faq](/docs/faq)
+> Have any questions? You can read our [FAQ](/docs/faq)
 
 
 
