@@ -6,6 +6,12 @@
     --peer-width: 120px;
 }
 
+/* Removing rubber band scrolling */
+
+* {
+    overscroll-behavior: none;
+}
+
 
 /* Layout */
 
