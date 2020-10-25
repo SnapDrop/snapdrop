@@ -4,6 +4,7 @@
     --icon-size: 24px;
     --primary-color: #4285f4;
     --peer-width: 120px;
+    color-scheme: light dark; /* both supported */
 }
 
 
@@ -77,9 +78,7 @@ header {
 /* Typography */
 
 body {
-    background: #fafafa;
     font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    color: #333;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -456,7 +455,6 @@ input {
     border: none;
     outline: none;
     padding: 16px 24px;
-    background: #f1f3f4;
     border-radius: 50px;
     margin: 8px 0;
     line-height: 16px;
@@ -637,4 +635,59 @@ screen and (min-width: 1100px) {
     x-instructions:before {
         content: attr(mobile);
     }
+}
+
+/* Default colors */
+body {
+  --text-color: #333;
+  color: #333;
+
+  --bkg-color: #fafafa;
+  background-color: #fafafa;
+}
+/* Dark theme colors */
+body.dark-theme {
+  --text-color: #eee;
+  color: #eee;
+
+  --bkg-color: #121212;
+  background-color: #121212;
+}
+
+/* Styles for users who prefer dark mode at the OS level */
+@media (prefers-color-scheme: dark) {
+  /* defaults to dark theme */
+  body {
+    --text-color: #eee;
+    color: #eee;
+    --bkg-color: #121212;
+    background-color: #121212;
+  }
+  x-dialog x-paper {
+    --bkg-color: #333;
+    background-color: #333;
+  }
+  input {
+    --text-color: #eee;
+    color: #eee;
+    --bkg-color: #121212;
+    background-color: #121212;
+  }
+  /* Override dark mode with light mode styles if the user decides to swap */
+  body.light-theme {
+    --text-color: #333;
+    color: #333;
+    --bkg-color: #fafafa;
+    background-color: #fafafa;
+  }
+  body.light-theme x-dialog x-paper {
+    --bkg-color: #fff;
+    background-color: #fff;
+  }
+  body.light-theme input {
+    --text-color: #333;
+    color: #333;
+    --bkg-color: #f1f3f4;
+    background: #f1f3f4;
+  }
 }
