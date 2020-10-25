@@ -13,6 +13,11 @@
 
 > If you want to self-host your own instance, [you can with docker.](/docs/local-dev.md)
 
+## Similar projects
+* [sharedrop](https://github.com/cowbell/sharedrop)
+* [filepizza](https://github.com/kern/filepizza)
+* [webtorrent](https://github.com/webtorrent/webtorrent)
+
 ## Support the Snapdrop Community
 Snapdrop is free. Still, we have to pay for the server. If you want to contribute, please use PayPal:
 
