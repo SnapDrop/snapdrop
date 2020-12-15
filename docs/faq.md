@@ -32,4 +32,15 @@ We are not trying to optimize for some edge-cases. We are optimizing the user fl
 * Fix bugs and make a pull request. 
 * Do security analysis and suggestions
 
+
+
+## Apps
+1. [Snapdrop PWA](/docs/faq.md) <!-- Don't know how to do a direct link -->
+
+1. [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electron. (Thanks to [Infin1tyy!](https://github.com/infin1tyy/)).
+
+1. Feel free to make one :)
+
+
+
 [< Back](/README.md)
