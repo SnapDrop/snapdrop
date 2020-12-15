@@ -11,7 +11,11 @@
 * [NodeJS](https://nodejs.org/en/)
 * [Material Design](https://material.google.com/)
 
+
+> Have any questions? You can read our [FAQ](/docs/faq.md)
+
 > If you want to self-host your own instance, [you can with docker.](/docs/local-dev.md)
+
 
 ## Support the Snapdrop Community
 Snapdrop is free. Still, we have to pay for the server. If you want to contribute, please use PayPal:
@@ -27,7 +31,6 @@ Alternatively, you can become a [Github Sponsor](https://github.com/sponsors/Rob
 Thanks a lot for supporting free and open software!
 
 
-> Have any questions? You can read our [FAQ](/docs/faq.md)
 
 
 
