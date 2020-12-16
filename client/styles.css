@@ -593,6 +593,7 @@ x-instructions {
     opacity: 0.5;
     transition: opacity 300ms;
     z-index: -1;
+    text-align: center;
 }
 
 x-instructions:before {

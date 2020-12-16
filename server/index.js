@@ -19,7 +19,7 @@ class SnapdropServer {
         this._keepAlive(peer);
 
         // send displayName
-        this._send(peer, { type: 'displayName', message: peer.name.displayName });
+        this._send(peer, { type: 'display-name', message: peer.name.displayName });
     }
 
     _onHeaders(headers, response) {
