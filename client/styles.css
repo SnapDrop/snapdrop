@@ -369,7 +369,13 @@ x-dialog a{
     user-select: all;
 }
 
+#receiveTextDialog #text a {
+    cursor: pointer;
+}
 
+#receiveTextDialog #text a:hover {
+    text-decoration: underline;
+}
 
 /* Button */
 
@@ -551,6 +557,11 @@ input {
     transform: rotate(180deg);
 }
 
+
+/* Generic placeholder */
+[placeholder]:empty:before {
+    content: attr(placeholder);
+}
 
 /* Toast */
 
