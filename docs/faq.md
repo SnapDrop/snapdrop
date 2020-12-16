@@ -34,12 +34,14 @@ We are not trying to optimize for some edge-cases. We are optimizing the user fl
 
 
 
-## Apps
-1. [Snapdrop PWA](/docs/faq.md) <!-- Don't know how to do a direct link -->
+## Third-Party Apps
+Here's a list of some third-party Snapdrop apps:
 
 1. [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electron. (Thanks to [Infin1tyy!](https://github.com/infin1tyy/)).
 
 1. [Snapdrop Android App](https://github.com/fm-sys/snapdrop-android) allows you to also send files directly from other apps via the share action.
+
+1. [Snapdrop Flutter App](https://github.com/congnguyendinh0/snapdrop_flutter)
 
 1. Feel free to make one :)
 
