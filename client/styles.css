@@ -367,6 +367,7 @@ x-dialog a{
     -webkit-user-select: all;
     -moz-user-select: all;
     user-select: all;
+    white-space: pre;
 }
 
 #receiveTextDialog #text a {
@@ -463,17 +464,20 @@ button::-moz-focus-inner {
 
 /* Text Input */
 
-input {
+input,
+textarea {
     width: 100%;
     box-sizing: border-box;
     border: none;
     outline: none;
     padding: 16px 24px;
     background: #f1f3f4;
-    border-radius: 50px;
+    border-radius: 16px;
     margin: 8px 0;
     line-height: 16px;
     font-size: 14px;
+    font-family: inherit;
+    resize: none;
 }
 
 
