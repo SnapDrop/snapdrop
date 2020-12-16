@@ -70,7 +70,7 @@ class PeerUI {
 
     html() {
         return `   
-            <label class="column center">
+            <label class="column center" title="Click to send files or right click to send a text">
                 <input type="file" multiple>
                 <x-icon shadow="1">
                     <svg class="icon"><use xlink:href="#"/></svg>
