@@ -377,6 +377,12 @@ x-dialog a{
     text-decoration: underline;
 }
 
+#receiveTextDialog h3{
+    /* Select the received text when double-clicking the dialog */
+    user-select: none;
+    pointer-events: none;
+}
+
 /* Button */
 
 .button {
