@@ -9,12 +9,15 @@ Then, clone the repository:
     cd snapdrop
     docker-compose up -d
 ```
-
-To restart the containers run `docker-compose restart`.
-To stop the containers run `docker-compose stop`.
-
-
 Now point your browser to `http://localhost:8080`.
+
+- To restart the containers run `docker-compose restart`.
+- To stop the containers run `docker-compose stop`.
+- To display the nodejs logs for debugging run `docker logs snapdrop_node_1`.
+
+
+
+
 
 ## Testing PWA related features
 PWAs require that the app is served under a correctly set up and trusted TLS endpoint.
