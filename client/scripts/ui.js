@@ -6,8 +6,8 @@ window.isProductionEnvironment = !window.location.host.startsWith('localhost');
 window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 // set display name
-Events.on('displayName', e => {
-    $("displayName").textContent = "You are known as " + e.detail.message;
+Events.on('display-name', e => {
+    $('displayName').textContent = 'You are known as ' + e.detail.message;
 });
 
 class PeersUI {
@@ -70,7 +70,7 @@ class PeerUI {
 
     html() {
         return `   
-            <label class="column center">
+            <label class="column center" title="Click to send files or right click to send a text">
                 <input type="file" multiple>
                 <x-icon shadow="1">
                     <svg class="icon"><use xlink:href="#"/></svg>
@@ -473,7 +473,9 @@ class WebShareTargetUI {
 
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
-        shareTargetText += url ? shareTargetText ? ' ' + url : url : '';
+        
+        if(url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
+
         if (!shareTargetText) return;
         window.shareTargetText = shareTargetText;
         history.pushState({}, 'URL Rewrite', '/');

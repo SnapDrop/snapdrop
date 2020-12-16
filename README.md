@@ -5,13 +5,16 @@
 
 #### Snapdrop is built with the following awesome technologies:
 * Vanilla HTML5 / ES6 / CSS3  
-* Progressive Web App
+* [Progressive Web App](https://de.wikipedia.org/wiki/Progressive_Web_App)
 * [WebRTC](http://webrtc.org/)
 * [WebSockets](http://www.websocket.org/)
 * [NodeJS](https://nodejs.org/en/)
-* [Material Design](https://material.google.com/)
 
-> If you want to self-host your own instance, [you can with docker.](/docs/local-dev.md)
+
+> Have any questions? You can read our [FAQ](/docs/faq.md).
+
+> If you want to self-host your own instance, [you can with docker](/docs/local-dev.md).
+
 
 ## Support the Snapdrop Community
 Snapdrop is free. Still, we have to pay for the server. If you want to contribute, please use PayPal:
@@ -26,16 +29,5 @@ Alternatively, you can become a [Github Sponsor](https://github.com/sponsors/Rob
 
 Thanks a lot for supporting free and open software!
 
-
-> Have any questions? You can read our [FAQ](/docs/faq.md)
-
-
-
-## Apps
-1. [Snapdrop PWA](/docs/faq.md) <!-- Don't know how to do a direct link -->
-
- 1. [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electron. (Thanks to [Infin1tyy!](https://github.com/infin1tyy/)).
-
- 1. Feel free to make one :)
 
 
