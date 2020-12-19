@@ -256,13 +256,18 @@ x-peer[transfer] x-icon {
     transform: scale(1);
 }
 
-.status {
+.status, .device-name {
     height: 18px;
     opacity: 0.7;
 }
 
 x-peer[transfer] .status:before {
     content: 'Transferring...';
+}
+
+x-peer:not([transfer]) .status,
+x-peer[transfer] .device-name{
+    display: none;
 }
 
 x-peer x-icon {

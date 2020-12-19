@@ -7,7 +7,10 @@ window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 // set display name
 Events.on('display-name', e => {
-    $('displayName').textContent = 'You are known as ' + e.detail.message;
+    const me = e.detail.message;
+    const $displayName = $('displayName')
+    $displayName.textContent = 'You are known as ' + me.displayName;
+    $displayName.title = me.deviceName;
 });
 
 class PeersUI {
@@ -80,6 +83,7 @@ class PeerUI {
                   <div class="circle right"></div>
                 </div>
                 <div class="name font-subheading"></div>
+                <div class="device-name font-body2"></div>
                 <div class="status font-body2"></div>
             </label>`
     }
@@ -96,7 +100,8 @@ class PeerUI {
         el.innerHTML = this.html();
         el.ui = this;
         el.querySelector('svg use').setAttribute('xlink:href', this._icon());
-        el.querySelector('.name').textContent = this._name();
+        el.querySelector('.name').textContent = this._displayName();
+        el.querySelector('.device-name').textContent = this._deviceName();
         this.$el = el;
         this.$progress = el.querySelector('.progress');
     }
@@ -115,8 +120,12 @@ class PeerUI {
         Events.on('drop', e => e.preventDefault());
     }
 
-    _name() {
+    _displayName() {
         return this._peer.name.displayName;
+    }
+
+    _deviceName() {
+        return this._peer.name.deviceName;
     }
 
     _icon() {
