@@ -195,7 +195,7 @@ class Peer {
         } else {
             displayName += ua.browser.name;
         }
-        displayName += '(' + uniqueNamesGenerator({ length: 2, separator: ' ', dictionaries: [colors, animals], style: 'capital' }) + ')'
+        displayName += ' (' + uniqueNamesGenerator({ length: 2, separator: ' ', dictionaries: [colors, animals], style: 'capital' }) + ')'
 
         this.name = {
             model: ua.device.model,
