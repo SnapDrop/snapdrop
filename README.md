@@ -19,7 +19,7 @@
 ## Support the Snapdrop Community
 Snapdrop is free. Still, we have to pay for the server. If you want to contribute, please use PayPal:
 
-[<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=74D2NE84JHCWG&source=url)
+[<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTP9DXUR7LA7Q&source=url)
 
 or Bitcoin:
 
