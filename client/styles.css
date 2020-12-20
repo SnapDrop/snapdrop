@@ -4,7 +4,8 @@
     --icon-size: 24px;
     --primary-color: #4285f4;
     --peer-width: 120px;
-    color-scheme: light dark; /* both supported */
+    color-scheme: light dark;
+    /* both supported */
 }
 
 
@@ -148,14 +149,14 @@ a {
 
 [shadow="1"] {
     box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14),
-    0 1px 8px 0 rgba(0, 0, 0, 0.12),
-    0 3px 3px -2px rgba(0, 0, 0, 0.4);
+        0 1px 8px 0 rgba(0, 0, 0, 0.12),
+        0 3px 3px -2px rgba(0, 0, 0, 0.4);
 }
 
 [shadow="2"] {
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 1px 10px 0 rgba(0, 0, 0, 0.12),
-    0 2px 4px -1px rgba(0, 0, 0, 0.4);
+        0 1px 10px 0 rgba(0, 0, 0, 0.12),
+        0 2px 4px -1px rgba(0, 0, 0, 0.4);
 }
 
 
@@ -259,7 +260,8 @@ x-peer[transfer] x-icon {
     transform: scale(1);
 }
 
-.status, .device-name {
+.status,
+.device-name {
     height: 18px;
     opacity: 0.7;
 }
@@ -269,7 +271,7 @@ x-peer[transfer] .status:before {
 }
 
 x-peer:not([transfer]) .status,
-x-peer[transfer] .device-name{
+x-peer[transfer] .device-name {
     display: none;
 }
 
@@ -281,6 +283,7 @@ x-peer x-icon {
     0% {
         transform: scale(0.7);
     }
+
     40% {
         transform: scale(1.2);
     }
@@ -365,7 +368,7 @@ x-dialog a {
 }
 
 /* Receive Dialog */
-#receiveDialog .row{
+#receiveDialog .row {
     margin-top: 24px;
     margin-bottom: 8px;
 }
@@ -392,7 +395,7 @@ x-dialog a {
     text-decoration: underline;
 }
 
-#receiveTextDialog h3{
+#receiveTextDialog h3 {
     /* Select the received text when double-clicking the dialog */
     user-select: none;
     pointer-events: none;
@@ -535,7 +538,7 @@ textarea {
 }
 
 /* Hack such that initial scale(0) isn't animated */
-#about x-background{
+#about x-background {
     will-change: transform;
     transition: transform 800ms cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -665,6 +668,7 @@ screen and (min-width: 1100px) {
 }
 
 @supports (-webkit-overflow-scrolling: touch) {
+
     /* CSS specific to iOS devices */
     html {
         position: fixed;
@@ -675,71 +679,52 @@ screen and (min-width: 1100px) {
     }
 }
 
-
+/* 
+    Color Themes 
+*/
 
 /* Default colors */
-body {
-  --text-color: #333;
-  color: #333;
+:root {
+    --text-color: #333;
+    --bg-color: #fff;
+    --input-bg-color: #f1f3f4;
+}
 
-  --bkg-color: #fafafa;
-  background-color: #fafafa;
+body {
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+x-dialog x-paper {
+    background-color: var(--bg-color);
+}
+
+textarea {
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
 }
 
 /* Dark theme colors */
 body.dark-theme {
-  --text-color: #eee;
-  color: #eee;
-  --bkg-color: #121212;
-  background-color: #121212;
-}
-
-body.dark-theme x-dialog x-paper {
-    --bkg-color: #333;
-    background-color: #333;
-}
-
-body.dark-theme textarea {
     --text-color: #eee;
-    color: #eee;
-    --bkg-color: #121212;
-    background-color: #121212;
+    --bg-color: #121212;
+    --input-bg-color: #333;
 }
 
 /* Styles for users who prefer dark mode at the OS level */
 @media (prefers-color-scheme: dark) {
-  /* defaults to dark theme */
-  body {
-    --text-color: #eee;
-    color: #eee;
-    --bkg-color: #121212;
-    background-color: #121212;
-  }
-  x-dialog x-paper {
-    --bkg-color: #333;
-    background-color: #333;
-  }
-  textarea {
-    --text-color: #eee;
-    color: #eee;
-    --bkg-color: #121212;
-    background-color: #121212;
-  }
-  /* Override dark mode with light mode styles if the user decides to swap */
-  body.light-theme {
-    --text-color: #333;
-    color: #333;
-    --bkg-color: #fafafa;
-    background-color: #fafafa;
-  }
-  body.light-theme x-dialog x-paper {
-    --bkg-color: #fff;
-    background-color: #fff;
-  }
-  body.light-theme textarea {
-    --text-color: #333;
-    color: #333;
-    --bkg-color: #f1f3f4;
-    background: #f1f3f4;
-  }
+
+    /* defaults to dark theme */
+    body {
+        --text-color: #eee;
+        --bg-color: #121212;
+        --input-bg-color: #333;
+    }
+
+    /* Override dark mode with light mode styles if the user decides to swap */
+    body.light-theme {
+        --text-color: #333;
+        --bg-color: #fafafa;
+        --input-bg-color: #f1f3f4;
+    }
 }
