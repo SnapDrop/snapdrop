@@ -26,7 +26,7 @@ We are not trying to optimize for some edge-cases. We are optimizing the user fl
 
 
 ### Snapdrop is awesome! How can I support it? 
-* [Donate via PayPal to help cover the server costs](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=74D2NE84JHCWG&source=url)
+* [Donate via PayPal to help cover the server costs](https://www.paypal.com/donate/?hosted_button_id=FTP9DXUR7LA7Q)
 * [File bugs, give feedback, submit suggestions](https://github.com/RobinLinus/snapdrop/issues)
 * Share Snapdrop on your social media.
 * Fix bugs and make a pull request. 

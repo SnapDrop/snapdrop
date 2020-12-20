@@ -8,7 +8,10 @@ window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 // set display name
 Events.on('display-name', e => {
-	$('displayName').textContent = 'You are known as ' + e.detail.message;
+	const me = e.detail.message;
+	const $displayName = $('displayName');
+	$displayName.textContent = 'You are known as ' + me.displayName;
+	$displayName.title = me.deviceName;
 });
 
 class PeersUI {
@@ -21,7 +24,7 @@ class PeersUI {
 	}
 
 	_onPeerJoined(peer) {
-		if (document.getElementById(peer.id)) return;
+		if ($(peer.id)) return; // peer already exists
 		const peerUI = new PeerUI(peer);
 		$$('x-peers').appendChild(peerUI.$el);
 	}
@@ -81,6 +84,7 @@ class PeerUI {
                   <div class="circle right"></div>
                 </div>
                 <div class="name font-subheading"></div>
+                <div class="device-name font-body2"></div>
                 <div class="status font-body2"></div>
             </label>`;
 	}
@@ -97,7 +101,8 @@ class PeerUI {
 		el.innerHTML = this.html();
 		el.ui = this;
 		el.querySelector('svg use').setAttribute('xlink:href', this._icon());
-		el.querySelector('.name').textContent = this._name();
+		el.querySelector('.name').textContent = this._displayName();
+		el.querySelector('.device-name').textContent = this._deviceName();
 		this.$el = el;
 		this.$progress = el.querySelector('.progress');
 	}
@@ -118,8 +123,12 @@ class PeerUI {
 		Events.on('drop', e => e.preventDefault());
 	}
 
-	_name() {
+	_displayName() {
 		return this._peer.name.displayName;
+	}
+
+	_deviceName() {
+		return this._peer.name.deviceName;
 	}
 
 	_icon() {
@@ -345,8 +354,8 @@ class ReceiveTextDialog extends Dialog {
 		window.blop.play();
 	}
 
-	_onCopy() {
-		if (!document.copy(this.$text.textContent)) return;
+	async _onCopy() {
+		await navigator.clipboard.writeText(this.$text.textContent);
 		Events.fire('notify-user', 'Copied to clipboard');
 	}
 }
@@ -435,7 +444,7 @@ class Notifications {
 
 	_copyText(message, notification) {
 		notification.close();
-		if (!document.copy(message)) return;
+		if (!navigator.clipboard.writeText(message)) return;
 		this._notify('Copied text to clipboard');
 	}
 
@@ -505,37 +514,6 @@ class Snapdrop {
 }
 
 const snapdrop = new Snapdrop();
-
-document.copy = text => {
-	// A <span> contains the text to copy
-	const span = document.createElement('span');
-	span.textContent = text;
-	span.style.whiteSpace = 'pre'; // Preserve consecutive spaces and newlines
-
-	// Paint the span outside the viewport
-	span.style.position = 'absolute';
-	span.style.left = '-9999px';
-	span.style.top = '-9999px';
-
-	const win = window;
-	const selection = win.getSelection();
-	win.document.body.appendChild(span);
-
-	const range = win.document.createRange();
-	selection.removeAllRanges();
-	range.selectNode(span);
-	selection.addRange(range);
-
-	let success = false;
-	try {
-		success = win.document.execCommand('copy');
-	} catch (err) {}
-
-	selection.removeAllRanges();
-	span.remove();
-
-	return success;
-};
 
 if ('serviceWorker' in navigator) {
 	navigator.serviceWorker.register('/service-worker.js').then(serviceWorker => {
