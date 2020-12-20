@@ -4,16 +4,15 @@
 
 
 #### Snapdrop is built with the following awesome technologies:
-* Vanilla HTML5 / ES6 / CSS3  
+* Vanilla HTML5 / ES6 / CSS3 frontend
+* [WebRTC](http://webrtc.org/) / [WebSockets](http://www.websocket.org/)
+* [NodeJS](https://nodejs.org/en/) backend
 * [Progressive Web App](https://de.wikipedia.org/wiki/Progressive_Web_App)
-* [WebRTC](http://webrtc.org/)
-* [WebSockets](http://www.websocket.org/)
-* [NodeJS](https://nodejs.org/en/)
 
 
-> Have any questions? You can read our [FAQ](/docs/faq.md).
+Have any questions? Read our [FAQ](/docs/faq.md).
 
-> If you want to self-host your own instance, [you can with docker](/docs/local-dev.md).
+You can [host your own instance with docker](/docs/local-dev.md).
 
 
 ## Support the Snapdrop Community
