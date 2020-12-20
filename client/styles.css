@@ -490,6 +490,7 @@ textarea {
     font-size: 14px;
     font-family: inherit;
     resize: none;
+    background: #f1f3f4;
 }
 
 
@@ -674,6 +675,8 @@ screen and (min-width: 1100px) {
     }
 }
 
+
+
 /* Default colors */
 body {
   --text-color: #333;
@@ -682,13 +685,25 @@ body {
   --bkg-color: #fafafa;
   background-color: #fafafa;
 }
+
 /* Dark theme colors */
 body.dark-theme {
   --text-color: #eee;
   color: #eee;
-
   --bkg-color: #121212;
   background-color: #121212;
+}
+
+body.dark-theme x-dialog x-paper {
+    --bkg-color: #333;
+    background-color: #333;
+}
+
+body.dark-theme textarea {
+    --text-color: #eee;
+    color: #eee;
+    --bkg-color: #121212;
+    background-color: #121212;
 }
 
 /* Styles for users who prefer dark mode at the OS level */
@@ -704,7 +719,7 @@ body.dark-theme {
     --bkg-color: #333;
     background-color: #333;
   }
-  input {
+  textarea {
     --text-color: #eee;
     color: #eee;
     --bkg-color: #121212;
@@ -721,7 +736,7 @@ body.dark-theme {
     --bkg-color: #fff;
     background-color: #fff;
   }
-  body.light-theme input {
+  body.light-theme textarea {
     --text-color: #333;
     color: #333;
     --bkg-color: #f1f3f4;
