@@ -261,6 +261,11 @@ class ReceiveDialog extends Dialog {
         $a.href = url;
         $a.download = file.name;
 
+        if(this._autoDownload()){
+            $a.click()
+            return
+        }
+
         this.$el.querySelector('#fileName').textContent = file.name;
         this.$el.querySelector('#fileSize').textContent = this._formatFileSize(file.size);
         this.show();
@@ -288,6 +293,11 @@ class ReceiveDialog extends Dialog {
     hide() {
         super.hide();
         this._dequeueFile();
+    }
+
+
+    _autoDownload(){
+        return !this.$el.querySelector('#autoDownload').checked
     }
 }
 

@@ -50,6 +50,10 @@ body {
     justify-content: center;
 }
 
+.grow {
+    flex-grow: 1;
+}
+
 .full {
     position: absolute;
     top: 0;
@@ -357,11 +361,17 @@ x-dialog .row-reverse>.button {
     margin-left: 8px;
 }
 
-x-dialog a{
+x-dialog a {
     color: var(--primary-color);
 }
 
 /* Receive Dialog */
+#receiveDialog .row{
+    margin-top: 24px;
+    margin-bottom: 8px;
+}
+
+/* Receive Text Dialog */
 
 #receiveTextDialog #text {
     width: 100%;
@@ -469,7 +479,6 @@ button::-moz-focus-inner {
 
 /* Text Input */
 
-input,
 textarea {
     width: 100%;
     box-sizing: border-box;

@@ -71,8 +71,12 @@
                 <h3>File Received</h3>
                 <div class="font-subheading" id="fileName">Filename</div>
                 <div class="font-body2" id="fileSize"></div>
+                <div class="row">
+                    <label for="autoDownload" class="grow">Ask to save each file before downloading</label>
+                    <input type="checkbox" id="autoDownload" checked=""> 
+                </div>
                 <div class="row-reverse">
-                    <a class="button" close id="download" title="Download File" autofocus>Download</a>
+                    <a class="button" close id="download" title="Download File" autofocus>Save</a>
                     <button class="button" close>Ignore</button>
                 </div>
             </x-paper>
