@@ -29,6 +29,11 @@ body {
     align-items: center;
     justify-content: center;
     overflow-y: hidden;
+    /* light - dark mode transition */
+    transition: background-color 0.5s ease;
+    -webkit-transition: background-color 0.5s ease;
+    -moz-transition: background-color 0.5s ease;
+    -o-transition: background-color 0.5s ease;
 }
 
 .row-reverse {
