@@ -5,9 +5,7 @@
     --primary-color: #4285f4;
     --peer-width: 120px;
     color-scheme: light dark;
-    /* both supported */
 }
-
 
 /* Layout */
 
@@ -667,9 +665,12 @@ screen and (min-width: 1100px) {
     }
 }
 
+/* 
+    iOS specific styles
+*/
 @supports (-webkit-overflow-scrolling: touch) {
 
-    /* CSS specific to iOS devices */
+    
     html {
         position: fixed;
     }
@@ -684,12 +685,20 @@ screen and (min-width: 1100px) {
 */
 
 /* Default colors */
-:root {
+body {
     --text-color: #333;
     --bg-color: #fff;
-    --input-bg-color: #f1f3f4;
+    --bg-color-secondary: #f1f3f4;
 }
 
+/* Dark theme colors */
+body.dark-theme {
+    --text-color: #eee;
+    --bg-color: #121212;
+    --bg-color-secondary: #333;
+}
+
+/* Colored Elements */
 body {
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -701,15 +710,9 @@ x-dialog x-paper {
 
 textarea {
     color: var(--text-color);
-    background-color: var(--input-bg-color);
+    background-color: var(--bg-color-secondary);
 }
 
-/* Dark theme colors */
-body.dark-theme {
-    --text-color: #eee;
-    --bg-color: #121212;
-    --input-bg-color: #333;
-}
 
 /* Styles for users who prefer dark mode at the OS level */
 @media (prefers-color-scheme: dark) {
@@ -718,13 +721,13 @@ body.dark-theme {
     body {
         --text-color: #eee;
         --bg-color: #121212;
-        --input-bg-color: #333;
+        --bg-color-secondary: #333;
     }
 
     /* Override dark mode with light mode styles if the user decides to swap */
     body.light-theme {
         --text-color: #333;
         --bg-color: #fafafa;
-        --input-bg-color: #f1f3f4;
+        --bg-color-secondary: #f1f3f4;
     }
 }
