@@ -8,6 +8,12 @@
     /* both supported */
 }
 
+/* Removing rubber band scrolling */
+
+* {
+    overscroll-behavior: none;
+}
+
 
 /* Layout */
 
