@@ -481,21 +481,6 @@ button::-moz-focus-inner {
 
 /* Text Input */
 
-textarea {
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    outline: none;
-    padding: 16px 24px;
-    border-radius: 16px;
-    margin: 8px 0;
-    line-height: 16px;
-    font-size: 14px;
-    font-family: inherit;
-    resize: none;
-    background: #f1f3f4;
-}
-
 .textareaElement {
     box-sizing: border-box;
     border: none;
@@ -715,11 +700,6 @@ body {
 
 x-dialog x-paper {
     background-color: var(--bg-color);
-}
-
-textarea {
-    color: var(--text-color);
-    background-color: var(--input-bg-color);
 }
 
 .textareaElement {
