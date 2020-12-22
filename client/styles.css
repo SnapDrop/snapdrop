@@ -496,6 +496,24 @@ textarea {
     background: #f1f3f4;
 }
 
+.textareaElement {
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    padding: 16px 24px;
+    border-radius: 16px;
+    margin: 8px 0;
+    font-size: 14px;
+    font-family: inherit;
+    background: #f1f3f4;
+    display: block;
+    overflow: auto;
+    resize: none;
+    min-height: 40px;
+    line-height: 16px;
+    max-height: 300px;
+}
+
 
 /* Info Animation */
 
@@ -679,8 +697,8 @@ screen and (min-width: 1100px) {
     }
 }
 
-/* 
-    Color Themes 
+/*
+    Color Themes
 */
 
 /* Default colors */
@@ -700,6 +718,11 @@ x-dialog x-paper {
 }
 
 textarea {
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
+}
+
+.textareaElement {
     color: var(--text-color);
     background-color: var(--input-bg-color);
 }

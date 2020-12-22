@@ -79,7 +79,7 @@
                 <div class="font-body2" id="fileSize"></div>
                 <div class="row">
                     <label for="autoDownload" class="grow">Ask to save each file before downloading</label>
-                    <input type="checkbox" id="autoDownload" checked=""> 
+                    <input type="checkbox" id="autoDownload" checked="">
                 </div>
                 <div class="row-reverse">
                     <a class="button" close id="download" title="Download File" autofocus>Save</a>
@@ -94,7 +94,8 @@
             <x-background class="full center">
                 <x-paper shadow="2">
                     <h3>Send a Message</h3>
-                    <textarea id="textInput" placeholder="Send a message" autocomplete="off" autofocus></textarea>
+                    <!-- <textarea id="textInput" placeholder="Send a message" autocomplete="off" autofocus></textarea> -->
+                    <div id="textInput" class="textareaElement" role="textbox" placeholder="Send a message" autocomplete="off" autofocus contenteditable></div>
                     <div class="row-reverse">
                         <button class="button" type="submit" close>Send</button>
                         <a class="button" close>Cancel</a>
