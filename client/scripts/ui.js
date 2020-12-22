@@ -19,12 +19,12 @@ class PeersUI {
         Events.on('peer-joined', e => this._onPeerJoined(e.detail));
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
         Events.on('peers', e => this._onPeers(e.detail));
-        Events.on('file-progress', e => this._onFileProgress(e.detail));        
+        Events.on('file-progress', e => this._onFileProgress(e.detail));
         Events.on('paste', e => this._onPaste(e));
     }
 
     _onPeerJoined(peer) {
-        if ($(peer.id)) return; // peer already exists 
+        if ($(peer.id)) return; // peer already exists
         const peerUI = new PeerUI(peer);
         $$('x-peers').appendChild(peerUI.$el);
     }
@@ -49,9 +49,9 @@ class PeersUI {
 
     _clearPeers() {
         const $peers = $$('x-peers').innerHTML = '';
-    }   
-    
-    _onPaste(e) {        
+    }
+
+    _onPaste(e) {
         const files = e.clipboardData.files || e.clipboardData.items
             .filter(i => i.type.indexOf('image') > -1)
             .map(i => i.getAsFile());
@@ -72,7 +72,7 @@ class PeersUI {
 class PeerUI {
 
     html() {
-        return `   
+        return `
             <label class="column center" title="Click to send files or right click to send a text">
                 <input type="file" multiple>
                 <x-icon shadow="1">
@@ -315,12 +315,19 @@ class SendTextDialog extends Dialog {
         this._recipient = recipient;
         this._handleShareTargetText();
         this.show();
-        this.$text.setSelectionRange(0, this.$text.value.length)
+
+        const range = document.createRange();
+        const sel = window.getSelection();
+
+        range.selectNodeContents(this.$text);
+        sel.removeAllRanges();
+        sel.addRange(range);
+
     }
 
     _handleShareTargetText() {
         if (!window.shareTargetText) return;
-        this.$text.value = window.shareTargetText;
+        this.$text.textContent = window.shareTargetText;
         window.shareTargetText = '';
     }
 
@@ -328,7 +335,7 @@ class SendTextDialog extends Dialog {
         e.preventDefault();
         Events.fire('send-text', {
             to: this._recipient,
-            text: this.$text.value
+            text: this.$text.textContent
         });
     }
 }
@@ -492,7 +499,7 @@ class WebShareTargetUI {
 
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
-        
+
         if(url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
 
         if (!shareTargetText) return;
@@ -610,12 +617,12 @@ Events.on('load', () => {
 });
 
 Notifications.PERMISSION_ERROR = `
-Notifications permission has been blocked 
-as the user has dismissed the permission prompt several times. 
-This can be reset in Page Info 
+Notifications permission has been blocked
+as the user has dismissed the permission prompt several times.
+This can be reset in Page Info
 which can be accessed by clicking the lock icon next to the URL.`;
 
-document.body.onclick = e => { // safari hack to fix audio 
+document.body.onclick = e => { // safari hack to fix audio
     document.body.onclick = null;
     if (!(/.*Version.*Safari.*/.test(navigator.userAgent))) return;
     blop.play();
