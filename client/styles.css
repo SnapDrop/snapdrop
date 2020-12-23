@@ -176,6 +176,15 @@ body>header a {
     margin-left: 8px;
 }
 
+x-qr {
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 16px;
+    animation: fade-in 300ms;
+    animation-delay: 500ms;
+    animation-fill-mode: backwards;
+}
+
 /* Peers List */
 
 x-peers {
@@ -679,8 +688,8 @@ screen and (min-width: 1100px) {
     }
 }
 
-/* 
-    Color Themes 
+/*
+    Color Themes
 */
 
 /* Default colors */

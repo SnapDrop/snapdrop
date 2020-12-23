@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "hashids": "^2.2.8",
     "ua-parser-js": "^0.7.21",
     "unique-names-generator": "^4.3.0",
     "ws": "^7.3.1"

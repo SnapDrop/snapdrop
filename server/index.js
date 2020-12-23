@@ -1,5 +1,7 @@
 const parser = require('ua-parser-js');
 const { uniqueNamesGenerator, animals, colors } = require('unique-names-generator');
+const Hashids = require('hashids/cjs')
+const hashids = new Hashids();
 
 class SnapdropServer {
 
@@ -15,7 +17,6 @@ class SnapdropServer {
     }
 
     _onConnection(peer) {
-        this._joinRoom(peer);
         peer.socket.on('message', message => this._onMessage(peer, message));
         this._keepAlive(peer);
 
@@ -36,7 +37,7 @@ class SnapdropServer {
     }
 
     _onMessage(sender, message) {
-        // Try to parse message 
+        // Try to parse message
         try {
             message = JSON.parse(message);
         } catch (e) {
@@ -44,6 +45,9 @@ class SnapdropServer {
         }
 
         switch (message.type) {
+            case 'join':
+                this._joinRoom(message.slug, sender);
+                break;
             case 'disconnect':
                 this._leaveRoom(sender);
                 break;
@@ -53,9 +57,9 @@ class SnapdropServer {
         }
 
         // relay message to recipient
-        if (message.to && this._rooms[sender.ip]) {
+        if (message.to && this._rooms[sender.roomId]) {
             const recipientId = message.to; // TODO: sanitize
-            const recipient = this._rooms[sender.ip][recipientId];
+            const recipient = this._rooms[sender.roomId][recipientId];
             delete message.to;
             // add sender id
             message.sender = sender.id;
@@ -64,15 +68,23 @@ class SnapdropServer {
         }
     }
 
-    _joinRoom(peer) {
+    _joinRoom(slug, peer) {
+        // Resolve roomId from slug. Otherwise create a new roomId
+        let roomId;
+        if (typeof slug !== 'undefined' && slug.length > 1) {
+            roomId = hashids.decode(slug);
+        } else {
+            roomId = process.hrtime()[1];
+        }
+
         // if room doesn't exist, create it
-        if (!this._rooms[peer.ip]) {
-            this._rooms[peer.ip] = {};
+        if (!this._rooms[roomId]) {
+            this._rooms[roomId] = {};
         }
 
         // notify all other peers
-        for (const otherPeerId in this._rooms[peer.ip]) {
-            const otherPeer = this._rooms[peer.ip][otherPeerId];
+        for (const otherPeerId in this._rooms[roomId]) {
+            const otherPeer = this._rooms[roomId][otherPeerId];
             this._send(otherPeer, {
                 type: 'peer-joined',
                 peer: peer.getInfo()
@@ -81,34 +93,36 @@ class SnapdropServer {
 
         // notify peer about the other peers
         const otherPeers = [];
-        for (const otherPeerId in this._rooms[peer.ip]) {
-            otherPeers.push(this._rooms[peer.ip][otherPeerId].getInfo());
+        for (const otherPeerId in this._rooms[roomId]) {
+            otherPeers.push(this._rooms[roomId][otherPeerId].getInfo());
         }
 
         this._send(peer, {
-            type: 'peers',
+            type: 'joined',
+            slug: hashids.encode(roomId),
             peers: otherPeers
         });
 
+        peer.roomId = roomId;
         // add peer to room
-        this._rooms[peer.ip][peer.id] = peer;
+        this._rooms[roomId][peer.id] = peer;
     }
 
     _leaveRoom(peer) {
-        if (!this._rooms[peer.ip] || !this._rooms[peer.ip][peer.id]) return;
-        this._cancelKeepAlive(this._rooms[peer.ip][peer.id]);
+        if (!this._rooms[peer.roomId] || !this._rooms[peer.roomId][peer.id]) return;
+        this._cancelKeepAlive(this._rooms[peer.roomId][peer.id]);
 
         // delete the peer
-        delete this._rooms[peer.ip][peer.id];
+        delete this._rooms[peer.roomId][peer.id];
 
         peer.socket.terminate();
         //if room is empty, delete the room
-        if (!Object.keys(this._rooms[peer.ip]).length) {
-            delete this._rooms[peer.ip];
+        if (!Object.keys(this._rooms[peer.roomId]).length) {
+            delete this._rooms[peer.roomId];
         } else {
             // notify all other peers
-            for (const otherPeerId in this._rooms[peer.ip]) {
-                const otherPeer = this._rooms[peer.ip][otherPeerId];
+            for (const otherPeerId in this._rooms[peer.roomId]) {
+                const otherPeer = this._rooms[peer.roomId][otherPeerId];
                 this._send(otherPeer, { type: 'peer-left', peerId: peer.id });
             }
         }
@@ -157,10 +171,11 @@ class Peer {
         this._setIP(request);
 
         // set peer id
-        this._setPeerId(request)
+        this._setPeerId(request);
+
         // is WebRTC supported ?
         this.rtcSupported = request.url.indexOf('webrtc') > -1;
-        // set name 
+        // set name
         this._setName(request);
         // for keepalive
         this.timerId = 0;

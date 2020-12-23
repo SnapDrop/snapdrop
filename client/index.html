@@ -56,10 +56,13 @@
             </svg>
         </a>
     </header>
+    <x-qr class="center">
+
+    </x-qr>
     <!-- Peers -->
     <x-peers class="center"></x-peers>
     <x-no-peers>
-        <h2>Open Snapdrop on other devices to send files</h2>
+        <h2>Scan the QR code or share this url to open Snapdrop on other devices to send files</h2>
     </x-no-peers>
     <x-instructions desktop="Click to send files or right click to send a message" mobile="Tap to send files or long tap to send a message"></x-instructions>
     <!-- Footer -->
@@ -79,7 +82,7 @@
                 <div class="font-body2" id="fileSize"></div>
                 <div class="row">
                     <label for="autoDownload" class="grow">Ask to save each file before downloading</label>
-                    <input type="checkbox" id="autoDownload" checked=""> 
+                    <input type="checkbox" id="autoDownload" checked="">
                 </div>
                 <div class="row-reverse">
                     <a class="button" close id="download" title="Download File" autofocus>Save</a>
