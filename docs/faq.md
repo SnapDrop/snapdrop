@@ -43,6 +43,8 @@ Here's a list of some third-party Snapdrop apps:
 
 1. [Snapdrop Flutter App](https://github.com/congnguyendinh0/snapdrop_flutter)
 
+1. [Snapdrop iOS App](https://github.com/CDsigma/Snapdrop-iOS-App)
+
 1. Feel free to make one :)
 
 
