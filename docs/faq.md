@@ -1,11 +1,14 @@
 # Frequently Asked Questions
 
-### Instructions
+### Instructions / Discussions
 * [Video Instructions](https://www.youtube.com/watch?v=4XN02GkcHUM) (Big thanks to [TheiTeckHq](https://www.youtube.com/channel/UC_DUzWMb8gZZnAbISQjmAfQ))
 * [idownloadblog](http://www.idownloadblog.com/2015/12/29/snapdrop/)
 * [thenextweb](http://thenextweb.com/insider/2015/12/27/snapdrop-is-a-handy-web-based-replacement-for-apples-fiddly-airdrop-file-transfer-tool/)
 * [winboard](http://www.winboard.org/artikel-ratgeber/6253-dateien-vom-desktop-pc-mit-anderen-plattformen-teilen-mit-snapdrop.html)
 * [免費資源網路社群](https://free.com.tw/snapdrop/)
+* [Hackernews](https://news.ycombinator.com/front?day=2020-12-24)
+* [Reddit](https://www.reddit.com/r/Android/comments/et4qny/snapdrop_is_a_free_open_source_cross_platform/)
+* [Producthunt](https://www.producthunt.com/posts/snapdrop)
 
 ### Help! I can't install the PWA!
 if you are using a Chromium-based browser (Chrome, Edge, Brave, etc.), you can easily install Snapdrop PWA on your desktop by clicking the install button in the top-right corner while on [snapdrop.net](https://snapdrop.net) (see below).
