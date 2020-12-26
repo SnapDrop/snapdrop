@@ -40,7 +40,7 @@ We are not trying to optimize for some edge-cases. We are optimizing the user fl
 ## Third-Party Apps
 Here's a list of some third-party Snapdrop apps:
 
-1. [Snapdrop Desktop App](https://github.com/infin1tyy/snapdrop-desktop) built on top of Electron. (Thanks to [Infin1tyy!](https://github.com/infin1tyy/)).
+1. [Snapdrop Desktop App](https://github.com/alextwothousand/snapdrop-desktop) built on top of Electron. (Thanks to [alextwothousand!](https://github.com/alextwothousand/)).
 
 1. [Snapdrop Android App](https://github.com/fm-sys/snapdrop-android) allows you to also send files directly from other apps via the share action.
 
