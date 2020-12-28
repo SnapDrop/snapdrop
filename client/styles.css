@@ -479,19 +479,22 @@ button::-moz-focus-inner {
 
 /* Text Input */
 
-textarea {
-    width: 100%;
+.textareaElement {
     box-sizing: border-box;
     border: none;
     outline: none;
     padding: 16px 24px;
     border-radius: 16px;
     margin: 8px 0;
-    line-height: 16px;
     font-size: 14px;
     font-family: inherit;
-    resize: none;
     background: #f1f3f4;
+    display: block;
+    overflow: auto;
+    resize: none;
+    min-height: 40px;
+    line-height: 16px;
+    max-height: 300px;
 }
 
 
@@ -680,8 +683,8 @@ screen and (min-width: 1100px) {
     }
 }
 
-/* 
-    Color Themes 
+/*
+    Color Themes
 */
 
 /* Default colors */
@@ -709,7 +712,7 @@ x-dialog x-paper {
     background-color: var(--bg-color);
 }
 
-textarea {
+.textareaElement {
     color: var(--text-color);
     background-color: var(--bg-color-secondary);
 }
