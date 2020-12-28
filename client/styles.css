@@ -735,3 +735,15 @@ x-dialog x-paper {
         --bg-color-secondary: #f1f3f4;
     }
 }
+
+
+/* 
+    Edge specific styles
+*/
+@supports (-ms-ime-align: auto) {
+
+    html,
+    body {
+        overflow: hidden;
+    }
+}
