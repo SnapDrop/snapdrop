@@ -335,7 +335,7 @@ class SendTextDialog extends Dialog {
         e.preventDefault();
         Events.fire('send-text', {
             to: this._recipient,
-            text: this.$text.textContent
+            text: this.$text.innerText
         });
     }
 }
