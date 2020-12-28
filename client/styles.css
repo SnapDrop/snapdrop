@@ -479,7 +479,7 @@ button::-moz-focus-inner {
 
 /* Text Input */
 
-.textareaElement {
+.textarea {
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -712,7 +712,7 @@ x-dialog x-paper {
     background-color: var(--bg-color);
 }
 
-.textareaElement {
+.textarea {
     color: var(--text-color);
     background-color: var(--bg-color-secondary);
 }
