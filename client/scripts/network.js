@@ -15,7 +15,7 @@ class ServerConnection {
         if (this._isConnected() || this._isConnecting()) return;
         const ws = new WebSocket(this._endpoint());
         ws.binaryType = 'arraybuffer';
-        ws.onopen = e => console.log('WS: server connected');
+        ws.onopen = e => this._onConnected();
         ws.onmessage = e => this._onMessage(e.data);
         ws.onclose = e => this._onDisconnect();
         ws.onerror = e => console.error(e);
@@ -26,8 +26,8 @@ class ServerConnection {
         msg = JSON.parse(msg);
         console.log('WS:', msg);
         switch (msg.type) {
-            case 'peers':
-                Events.fire('peers', msg.peers);
+            case 'joined':
+                Events.fire('joined', msg);
                 break;
             case 'peer-joined':
                 Events.fire('peer-joined', msg.peer);
@@ -54,10 +54,14 @@ class ServerConnection {
         this._socket.send(JSON.stringify(message));
     }
 
+    join(slug) {
+        this.send({ type: 'join', slug })
+    }
+
     _endpoint() {
         // hack to detect if deployment or development environment
         const protocol = location.protocol.startsWith('https') ? 'wss' : 'ws';
-        const webrtc = window.isRtcSupported ? '/webrtc' : '/fallback';
+        const webrtc = window.isRtcSupported ? '?channel=webrtc' : '?channel=fallback';
         const url = protocol + '://' + location.host + '/server' + webrtc;
         return url;
     }
@@ -66,6 +70,10 @@ class ServerConnection {
         this.send({ type: 'disconnect' });
         this._socket.onclose = null;
         this._socket.close();
+    }
+
+    _onConnected() {
+        Events.fire('connected', 'WS: server connected');
     }
 
     _onDisconnect() {
@@ -190,7 +198,7 @@ class Peer {
         const progress = this._digester.progress;
         this._onDownloadProgress(progress);
 
-        // occasionally notify sender about our progress 
+        // occasionally notify sender about our progress
         if (progress - this._lastProgress < 0.01) return;
         this._lastProgress = progress;
         this._sendProgress(progress);
@@ -360,7 +368,7 @@ class PeersManager {
         this.peers = {};
         this._server = serverConnection;
         Events.on('signal', e => this._onMessage(e.detail));
-        Events.on('peers', e => this._onPeers(e.detail));
+        Events.on('joined', e => this._onJoined(e.detail));
         Events.on('files-selected', e => this._onFilesSelected(e.detail));
         Events.on('send-text', e => this._onSendText(e.detail));
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
@@ -373,8 +381,8 @@ class PeersManager {
         this.peers[message.sender].onServerMessage(message);
     }
 
-    _onPeers(peers) {
-        peers.forEach(peer => {
+    _onJoined(room) {
+        room.peers.forEach(peer => {
             if (this.peers[peer.id]) {
                 this.peers[peer.id].refresh();
                 return;

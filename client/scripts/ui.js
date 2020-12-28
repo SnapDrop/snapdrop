@@ -18,20 +18,26 @@ class PeersUI {
     constructor() {
         Events.on('peer-joined', e => this._onPeerJoined(e.detail));
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
-        Events.on('peers', e => this._onPeers(e.detail));
-        Events.on('file-progress', e => this._onFileProgress(e.detail));        
+        Events.on('joined', e => this._onJoined(e.detail));
+        Events.on('file-progress', e => this._onFileProgress(e.detail));
         Events.on('paste', e => this._onPaste(e));
     }
 
     _onPeerJoined(peer) {
-        if ($(peer.id)) return; // peer already exists 
+        if ($(peer.id)) return; // peer already exists
         const peerUI = new PeerUI(peer);
         $$('x-peers').appendChild(peerUI.$el);
     }
 
-    _onPeers(peers) {
+    _onJoined(room) {
+        // Navigate to the room slug given by the server
+        history.replaceState({}, document.title, '/' + room.slug);
+        // Display the QR code for the url
+        const qr = new QRCode(room.slug);
+        $$('x-qr').appendChild(qr.$el);
+
         this._clearPeers();
-        peers.forEach(peer => this._onPeerJoined(peer));
+        room.peers.forEach(peer => this._onPeerJoined(peer));
     }
 
     _onPeerLeft(peerId) {
@@ -49,9 +55,9 @@ class PeersUI {
 
     _clearPeers() {
         const $peers = $$('x-peers').innerHTML = '';
-    }   
-    
-    _onPaste(e) {        
+    }
+
+    _onPaste(e) {
         const files = e.clipboardData.files || e.clipboardData.items
             .filter(i => i.type.indexOf('image') > -1)
             .map(i => i.getAsFile());
@@ -72,7 +78,7 @@ class PeersUI {
 class PeerUI {
 
     html() {
-        return `   
+        return `
             <label class="column center" title="Click to send files or right click to send a text">
                 <input type="file" multiple>
                 <x-icon shadow="1">
@@ -204,6 +210,17 @@ class PeerUI {
     }
 }
 
+class QRCode {
+    constructor(slug) {
+        const img = document.createElement('img');
+        const url = new URL(slug, window.location.href);
+        const src = `http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=${url.toString()}&qzone=0&margin=15&size=150x150&;ecc=L`;
+        img.src = src;
+        img.alt = 'Join using this QR Code';
+        img.onload = (e) => { console.log('qr img loaded') }
+        this.$el = img;
+    }
+}
 
 class Dialog {
     constructor(id) {
@@ -492,7 +509,7 @@ class WebShareTargetUI {
 
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
-        
+
         if(url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
 
         if (!shareTargetText) return;
@@ -504,7 +521,7 @@ class WebShareTargetUI {
 
 
 class Snapdrop {
-    constructor() {
+    constructor(slug) {
         const server = new ServerConnection();
         const peers = new PeersManager(server);
         const peersUI = new PeersUI();
@@ -517,12 +534,18 @@ class Snapdrop {
             const networkStatusUI = new NetworkStatusUI();
             const webShareTargetUI = new WebShareTargetUI();
         });
+        Events.on('connected', e => {
+            console.log('WS: Connected to server.')
+            // Join the room identified by the slug or if empty the server create an empty new room
+            server.join(slug);
+        });
     }
 }
 
-const snapdrop = new Snapdrop();
-
-
+// Try resolve slug from URL
+const matches = window.location.pathname.match(/(?<=^\/)[^\/#]+/);
+const slug = matches != null ? matches[0] : undefined;
+const snapdrop = new Snapdrop(slug);
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js')
@@ -610,12 +633,12 @@ Events.on('load', () => {
 });
 
 Notifications.PERMISSION_ERROR = `
-Notifications permission has been blocked 
-as the user has dismissed the permission prompt several times. 
-This can be reset in Page Info 
+Notifications permission has been blocked
+as the user has dismissed the permission prompt several times.
+This can be reset in Page Info
 which can be accessed by clicking the lock icon next to the URL.`;
 
-document.body.onclick = e => { // safari hack to fix audio 
+document.body.onclick = e => { // safari hack to fix audio
     document.body.onclick = null;
     if (!(/.*Version.*Safari.*/.test(navigator.userAgent))) return;
     blop.play();
