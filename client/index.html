@@ -8,6 +8,7 @@
     <title>Snapdrop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#3367d6">
+    <meta name="color-scheme" content="dark light">
     <meta name="apple-mobile-web-app-capable" content="no">
     <meta name="apple-mobile-web-app-title" content="Snapdrop">
     <!-- Descriptions -->
@@ -37,6 +38,11 @@
         <a href="#about" class="icon-button" title="About Snapdrop">
             <svg class="icon">
                 <use xlink:href="#info-outline" />
+            </svg>
+        </a>
+        <a href="#" id="theme" class="icon-button" title="Switch Darkmode/Lightmode" >
+            <svg class="icon">
+                <use xlink:href="#icon-theme" />
             </svg>
         </a>
         <a href="#" id="notification" class="icon-button" title="Enable Notifications" hidden>
@@ -71,8 +77,12 @@
                 <h3>File Received</h3>
                 <div class="font-subheading" id="fileName">Filename</div>
                 <div class="font-body2" id="fileSize"></div>
+                <div class="row">
+                    <label for="autoDownload" class="grow">Ask to save each file before downloading</label>
+                    <input type="checkbox" id="autoDownload" checked="">
+                </div>
                 <div class="row-reverse">
-                    <a class="button" close id="download" title="Download File" autofocus>Download</a>
+                    <a class="button" close id="download" title="Download File" autofocus>Save</a>
                     <button class="button" close>Ignore</button>
                 </div>
             </x-paper>
@@ -84,7 +94,7 @@
             <x-background class="full center">
                 <x-paper shadow="2">
                     <h3>Send a Message</h3>
-                    <textarea id="textInput" placeholder="Send a message" autocomplete="off" autofocus></textarea>
+                    <div id="textInput" class="textarea" role="textbox" placeholder="Send a message" autocomplete="off" autofocus contenteditable></div>
                     <div class="row-reverse">
                         <button class="button" type="submit" close>Send</button>
                         <a class="button" close>Cancel</a>
@@ -131,7 +141,7 @@
                         <use xlink:href="#github" />
                     </svg>
                 </a>
-                <a class="icon-button" target="_blank" href="https://github.com/RobinLinus/snapdrop#support-the-snapdrop-community" title="Contribute to keep Snapdrop free" rel="noreferrer">
+                <a class="icon-button" target="_blank" href="https://www.paypal.com/donate?hosted_button_id=FTP9DXUR7LA7Q" title="Help cover the server costs!" rel="noreferrer">
                     <svg class="icon">
                         <use xlink:href="#monetarization" />
                     </svg>
@@ -191,10 +201,15 @@
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z" />
         </symbol>
+        <symbol id="icon-theme" viewBox="0 0 24 24">
+         <rect fill="none" height="24" width="24"/><path d="M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36c-0.98,1.37-2.58,2.26-4.4,2.26 c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/>
+        </symbol>
     </svg>
     <!-- Scripts -->
     <script src="scripts/network.js"></script>
     <script src="scripts/ui.js"></script>
+    <script src="scripts/theme.js" async></script>
+    <script src="scripts/clipboard.js" async></script>
     <!-- Sounds -->
     <audio id="blop" autobuffer="true">
         <source src="/sounds/blop.mp3" type="audio/mpeg">

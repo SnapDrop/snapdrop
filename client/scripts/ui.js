@@ -7,7 +7,10 @@ window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 // set display name
 Events.on('display-name', e => {
-    $('displayName').textContent = 'You are known as ' + e.detail.message;
+    const me = e.detail.message;
+    const $displayName = $('displayName')
+    $displayName.textContent = 'You are known as ' + me.displayName;
+    $displayName.title = me.deviceName;
 });
 
 class PeersUI {
@@ -16,12 +19,12 @@ class PeersUI {
         Events.on('peer-joined', e => this._onPeerJoined(e.detail));
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
         Events.on('peers', e => this._onPeers(e.detail));
-        Events.on('file-progress', e => this._onFileProgress(e.detail));        
+        Events.on('file-progress', e => this._onFileProgress(e.detail));
         Events.on('paste', e => this._onPaste(e));
     }
 
     _onPeerJoined(peer) {
-        if (document.getElementById(peer.id)) return;
+        if ($(peer.id)) return; // peer already exists
         const peerUI = new PeerUI(peer);
         $$('x-peers').appendChild(peerUI.$el);
     }
@@ -46,9 +49,9 @@ class PeersUI {
 
     _clearPeers() {
         const $peers = $$('x-peers').innerHTML = '';
-    }   
-    
-    _onPaste(e) {        
+    }
+
+    _onPaste(e) {
         const files = e.clipboardData.files || e.clipboardData.items
             .filter(i => i.type.indexOf('image') > -1)
             .map(i => i.getAsFile());
@@ -69,7 +72,7 @@ class PeersUI {
 class PeerUI {
 
     html() {
-        return `   
+        return `
             <label class="column center" title="Click to send files or right click to send a text">
                 <input type="file" multiple>
                 <x-icon shadow="1">
@@ -80,6 +83,7 @@ class PeerUI {
                   <div class="circle right"></div>
                 </div>
                 <div class="name font-subheading"></div>
+                <div class="device-name font-body2"></div>
                 <div class="status font-body2"></div>
             </label>`
     }
@@ -96,7 +100,8 @@ class PeerUI {
         el.innerHTML = this.html();
         el.ui = this;
         el.querySelector('svg use').setAttribute('xlink:href', this._icon());
-        el.querySelector('.name').textContent = this._name();
+        el.querySelector('.name').textContent = this._displayName();
+        el.querySelector('.device-name').textContent = this._deviceName();
         this.$el = el;
         this.$progress = el.querySelector('.progress');
     }
@@ -115,8 +120,12 @@ class PeerUI {
         Events.on('drop', e => e.preventDefault());
     }
 
-    _name() {
+    _displayName() {
         return this._peer.name.displayName;
+    }
+
+    _deviceName() {
+        return this._peer.name.deviceName;
     }
 
     _icon() {
@@ -252,6 +261,11 @@ class ReceiveDialog extends Dialog {
         $a.href = url;
         $a.download = file.name;
 
+        if(this._autoDownload()){
+            $a.click()
+            return
+        }
+
         this.$el.querySelector('#fileName').textContent = file.name;
         this.$el.querySelector('#fileSize').textContent = this._formatFileSize(file.size);
         this.show();
@@ -280,6 +294,11 @@ class ReceiveDialog extends Dialog {
         super.hide();
         this._dequeueFile();
     }
+
+
+    _autoDownload(){
+        return !this.$el.querySelector('#autoDownload').checked
+    }
 }
 
 
@@ -296,12 +315,19 @@ class SendTextDialog extends Dialog {
         this._recipient = recipient;
         this._handleShareTargetText();
         this.show();
-        this.$text.setSelectionRange(0, this.$text.value.length)
+
+        const range = document.createRange();
+        const sel = window.getSelection();
+
+        range.selectNodeContents(this.$text);
+        sel.removeAllRanges();
+        sel.addRange(range);
+
     }
 
     _handleShareTargetText() {
         if (!window.shareTargetText) return;
-        this.$text.value = window.shareTargetText;
+        this.$text.textContent = window.shareTargetText;
         window.shareTargetText = '';
     }
 
@@ -309,7 +335,7 @@ class SendTextDialog extends Dialog {
         e.preventDefault();
         Events.fire('send-text', {
             to: this._recipient,
-            text: this.$text.value
+            text: this.$text.textContent
         });
     }
 }
@@ -339,8 +365,8 @@ class ReceiveTextDialog extends Dialog {
         window.blop.play();
     }
 
-    _onCopy() {
-        if (!document.copy(this.$text.textContent)) return;
+    async _onCopy() {
+        await navigator.clipboard.writeText(this.$text.textContent);
         Events.fire('notify-user', 'Copied to clipboard');
     }
 }
@@ -431,7 +457,7 @@ class Notifications {
 
     _copyText(message, notification) {
         notification.close();
-        if (!document.copy(message)) return;
+        if (!navigator.clipboard.writeText(message)) return;
         this._notify('Copied text to clipboard');
     }
 
@@ -473,7 +499,7 @@ class WebShareTargetUI {
 
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
-        
+
         if(url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
 
         if (!shareTargetText) return;
@@ -503,36 +529,6 @@ class Snapdrop {
 
 const snapdrop = new Snapdrop();
 
-document.copy = text => {
-    // A <span> contains the text to copy
-    const span = document.createElement('span');
-    span.textContent = text;
-    span.style.whiteSpace = 'pre'; // Preserve consecutive spaces and newlines
-
-    // Paint the span outside the viewport
-    span.style.position = 'absolute';
-    span.style.left = '-9999px';
-    span.style.top = '-9999px';
-
-    const win = window;
-    const selection = win.getSelection();
-    win.document.body.appendChild(span);
-
-    const range = win.document.createRange();
-    selection.removeAllRanges();
-    range.selectNode(span);
-    selection.addRange(range);
-
-    let success = false;
-    try {
-        success = win.document.execCommand('copy');
-    } catch (err) {}
-
-    selection.removeAllRanges();
-    span.remove();
-
-    return success;
-}
 
 
 if ('serviceWorker' in navigator) {
@@ -557,29 +553,24 @@ window.addEventListener('beforeinstallprompt', e => {
 
 // Background Animation
 Events.on('load', () => {
-    var requestAnimFrame = (function() {
-        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-            function(callback) {
-                window.setTimeout(callback, 1000 / 60);
-            };
-    })();
-    var c = document.createElement('canvas');
+    let c = document.createElement('canvas');
     document.body.appendChild(c);
-    var style = c.style;
+    let style = c.style;
     style.width = '100%';
     style.position = 'absolute';
     style.zIndex = -1;
     style.top = 0;
     style.left = 0;
-    var ctx = c.getContext('2d');
-    var x0, y0, w, h, dw;
+    let ctx = c.getContext('2d');
+    let x0, y0, w, h, dw;
 
     function init() {
         w = window.innerWidth;
         h = window.innerHeight;
         c.width = w;
         c.height = h;
-        var offset = h > 380 ? 100 : 65;
+        let offset = h > 380 ? 100 : 65;
+        offset = h > 800 ? 116 : offset;
         x0 = w / 2;
         y0 = h - offset;
         dw = Math.max(w, h, 1000) / 13;
@@ -589,28 +580,28 @@ Events.on('load', () => {
 
     function drawCicrle(radius) {
         ctx.beginPath();
-        var color = Math.round(255 * (1 - radius / Math.max(w, h)));
+        let color = Math.round(255 * (1 - radius / Math.max(w, h)));
         ctx.strokeStyle = 'rgba(' + color + ',' + color + ',' + color + ',0.1)';
         ctx.arc(x0, y0, radius, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.lineWidth = 2;
     }
 
-    var step = 0;
+    let step = 0;
 
     function drawCircles() {
         ctx.clearRect(0, 0, w, h);
-        for (var i = 0; i < 8; i++) {
+        for (let i = 0; i < 8; i++) {
             drawCicrle(dw * i + step % dw);
         }
         step += 1;
     }
 
-    var loading = true;
+    let loading = true;
 
     function animate() {
         if (loading || step % dw < dw - 5) {
-            requestAnimFrame(function() {
+            requestAnimationFrame(function() {
                 drawCircles();
                 animate();
             });
@@ -626,12 +617,12 @@ Events.on('load', () => {
 });
 
 Notifications.PERMISSION_ERROR = `
-Notifications permission has been blocked 
-as the user has dismissed the permission prompt several times. 
-This can be reset in Page Info 
+Notifications permission has been blocked
+as the user has dismissed the permission prompt several times.
+This can be reset in Page Info
 which can be accessed by clicking the lock icon next to the URL.`;
 
-document.body.onclick = e => { // safari hack to fix audio 
+document.body.onclick = e => { // safari hack to fix audio
     document.body.onclick = null;
     if (!(/.*Version.*Safari.*/.test(navigator.userAgent))) return;
     blop.play();
