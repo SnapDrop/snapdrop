@@ -1,13 +1,14 @@
-var CACHE_NAME = 'snapdrop-cache-v1.045';
+var CACHE_NAME = 'snapdrop-cache-v2';
 var urlsToCache = [
-  '/',
-  '/styles.css',
-  '/scripts/network.js',
-  '/scripts/ui.js',
-  '/scripts/clipboard.js',
-  '/scripts/theme.js',
-  '/sounds/blop.mp3',
-  '/images/favicon-96x96.png'
+  'index.html',
+  './',
+  'styles.css',
+  'scripts/network.js',
+  'scripts/ui.js',
+  'scripts/clipboard.js',
+  'scripts/theme.js',
+  'sounds/blop.mp3',
+  'images/favicon-96x96.png'
 ];
 
 self.addEventListener('install', function(event) {
