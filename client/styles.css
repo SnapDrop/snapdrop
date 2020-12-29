@@ -375,7 +375,6 @@ x-dialog a {
 
 #receiveTextDialog #text {
     width: 100%;
-    word-break: break-all;
     max-height: 300px;
     overflow-x: hidden;
     overflow-y: auto;
