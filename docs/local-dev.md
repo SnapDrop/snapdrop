@@ -13,7 +13,7 @@ Now point your browser to `http://localhost:8080`.
 
 - To restart the containers run `docker-compose restart`.
 - To stop the containers run `docker-compose stop`.
-- To display the nodejs logs for debugging run `docker logs snapdrop_node_1`.
+- To debug the NodeJS server run `docker logs snapdrop_node_1`.
 
 
 
