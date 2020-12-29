@@ -382,7 +382,7 @@ x-dialog a {
     -webkit-user-select: all;
     -moz-user-select: all;
     user-select: all;
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 #receiveTextDialog #text a {
