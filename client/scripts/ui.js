@@ -578,7 +578,7 @@ Events.on('load', () => {
     }
     window.onresize = init;
 
-    function drawCicrle(radius) {
+    function drawCircle(radius) {
         ctx.beginPath();
         let color = Math.round(255 * (1 - radius / Math.max(w, h)));
         ctx.strokeStyle = 'rgba(' + color + ',' + color + ',' + color + ',0.1)';
@@ -592,7 +592,7 @@ Events.on('load', () => {
     function drawCircles() {
         ctx.clearRect(0, 0, w, h);
         for (let i = 0; i < 8; i++) {
-            drawCicrle(dw * i + step % dw);
+            drawCircle(dw * i + step % dw);
         }
         step += 1;
     }
