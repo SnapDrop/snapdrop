@@ -27,6 +27,7 @@ class PeersUI {
         if ($(peer.id)) return; // peer already exists
         const peerUI = new PeerUI(peer);
         $$('x-peers').appendChild(peerUI.$el);
+        setTimeout(e => window.animateBackground(false), 1000); // Stop animation
     }
 
     _onPeers(peers) {
@@ -613,7 +614,6 @@ Events.on('load', () => {
     };
     init();
     animate();
-    setTimeout(e => window.animateBackground(false), 3000);
 });
 
 Notifications.PERMISSION_ERROR = `
