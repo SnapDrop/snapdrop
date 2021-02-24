@@ -529,10 +529,10 @@ button::-moz-focus-inner {
 
 #about x-background {
     position: absolute;
-    top: calc(32px - 500px);
-    right: calc(32px - 500px);
-    width: 1000px;
-    height: 1000px;
+    top: calc(32px - 250px);
+    right: calc(32px - 250px);
+    width: 500px;
+    height: 500px;
     border-radius: 50%;
     background: var(--primary-color);
     transform: scale(0);
