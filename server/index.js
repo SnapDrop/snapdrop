@@ -213,17 +213,15 @@ class Peer {
         if (ua.os && ua.os.name) {
             deviceName = ua.os.name.replace('Mac OS', 'Mac') + ' ';
         }
-
-        if(ua.device){
-            if (ua.device.model) {
-                deviceName += ua.device.model;
-            } else {
-                deviceName += ua.browser.name;
-            }
+        
+        if (ua.device.model) {
+            deviceName += ua.device.model;
         } else {
-            if(!deviceName)
-                deviceName = 'Unknown Device';
+            deviceName += ua.browser.name;
         }
+
+        if(!deviceName)
+            deviceName = 'Unknown Device';
 
         const displayName = uniqueNamesGenerator({
             length: 2,
