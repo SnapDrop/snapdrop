@@ -16,9 +16,9 @@ const { uniqueNamesGenerator, animals, colors } = require('unique-names-generato
 
 class SnapdropServer {
 
-    constructor(port) {
+    constructor(host, port) {
         const WebSocket = require('ws');
-        this._wss = new WebSocket.Server({ port: port });
+        this._wss = new WebSocket.Server({ host: host, port: port });
         this._wss.on('connection', (socket, request) => this._onConnection(new Peer(socket, request)));
         this._wss.on('headers', (headers, response) => this._onHeaders(headers, response));
 
@@ -288,4 +288,4 @@ Object.defineProperty(String.prototype, 'hashCode', {
   }
 });
 
-const server = new SnapdropServer(process.env.PORT || 3000);
+const server = new SnapdropServer(process.env.HOST || null, process.env.PORT || 3000);
