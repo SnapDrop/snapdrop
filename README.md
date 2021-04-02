@@ -30,13 +30,13 @@ Thanks a lot for supporting free and open software!
 
 ## Other projects using Snapdrop
 
-### Android App
+#### Android App
 https://github.com/fm-sys/snapdrop-android
 
-### iOS App
+#### iOS App
 https://github.com/CDsigma/Snapdrop-iOS-App
 
-### Firefox Addon (Chrome support coming soon)
+#### Firefox Addon (Chrome support coming soon)
 https://github.com/ueen/SnapdropFirefoxAddon
 
 
