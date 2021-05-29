@@ -11,6 +11,6 @@
   "dependencies": {
     "ua-parser-js": "^0.7.21",
     "unique-names-generator": "^4.3.0",
-    "ws": "^7.3.1"
+    "ws": "^7.4.6"
   }
 }
