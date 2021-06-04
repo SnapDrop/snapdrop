@@ -20,6 +20,7 @@ body {
     flex-direction: column;
     width: 100%;
     overflow-x: hidden;
+    overscroll-behavior-y: none;
 }
 
 body {
@@ -528,10 +529,10 @@ button::-moz-focus-inner {
 
 #about x-background {
     position: absolute;
-    top: calc(32px - 200px);
-    right: calc(32px - 200px);
-    width: 400px;
-    height: 400px;
+    top: calc(32px - 250px);
+    right: calc(32px - 250px);
+    width: 500px;
+    height: 500px;
     border-radius: 50%;
     background: var(--primary-color);
     transform: scale(0);
