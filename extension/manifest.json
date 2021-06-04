@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Snapdrop",
+  "version": "1.0",
+  "description": "A Progressive Web App for local file sharing ",
+  "icons": {
+    "128": "./images/logo_transparent_128x128.png"
+  },
+  "action": {
+    "default_icon": "./images/logo_transparent_128x128.png",
+    "default_popup": "popup.html"
+  }
+}
