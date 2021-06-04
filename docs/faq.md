@@ -50,6 +50,8 @@ Here's a list of some third-party Snapdrop apps:
 
 1. [Snapdrop iOS App](https://github.com/CDsigma/Snapdrop-iOS-App)
 
+1. [Snapdrop Node App (with completely Node server)](https://github.com/Bellisario/node-snapdrop)
+
 1. Feel free to make one :)
 
 
