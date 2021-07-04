@@ -38,8 +38,4 @@ Thanks a lot for supporting free and open software!
 
 #### Firefox/Chrome Addon
 <a href="https://github.com/ueen/SnapdropFirefoxAddon" target="_blank">Snapdrop Web Extension</a>
-
-## Alternative Servers
-<a href="https://drop.silkky.cloud/" target="_blank">drop.silkky.cloud</a>
-
  
