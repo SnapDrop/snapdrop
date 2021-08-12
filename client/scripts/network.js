@@ -487,6 +487,8 @@ class FileDigester {
         this._bytesReceived += chunk.byteLength || chunk.size;
         const totalChunks = this._buffer.length;
         this.progress = this._bytesReceived / this._size;
+        if (isNaN(this.progress)) this.progress = 1
+
         if (this._bytesReceived < this._size) return;
         // we are done
         let blob = new Blob(this._buffer, { type: this._mime });
