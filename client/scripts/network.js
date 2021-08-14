@@ -465,7 +465,7 @@ class FileChunker {
     }
 
     isFileEnd() {
-        return this._offset > this._file.size;
+        return this._offset >= this._file.size;
     }
 
     get progress() {
