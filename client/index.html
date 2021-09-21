@@ -10,21 +10,28 @@
     <meta name="theme-color" content="#3367d6">
     <meta name="color-scheme" content="dark light">
     <meta name="apple-mobile-web-app-capable" content="no">
-    <meta name="apple-mobile-web-app-title" content="Snapdrop">
+    <meta name="apple-mobile-web-app-title" content="mango.im">
     <!-- Descriptions -->
-    <meta name="description" content="立即与附近的人共享图像、视频、PDF 和链接。 Peer2Peer 和开源。 无需设置，无需注册。">
-    <meta name="keywords" content="文件、传输、共享、Peer2Peer">
+    <meta name="description" content="立即与附近的人共享图像、视频、PDF和链接。 P2P 方式且开源。 无需设置，无需注册。">
+    <meta name="keywords" content="文件,传输,共享,Snapdrop">
     <!-- Icons -->
     <link rel="icon" sizes="96x96" href="images/favicon-96x96.png">
     <link rel="shortcut icon" href="images/favicon-96x96.png">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <meta name="msapplication-TileImage" content="images/mstile-150x150.png">
     <link rel="fluid-icon" type="image/png" href="images/android-chrome-192x192.png">
-    <meta name="twitter:image" content="https://snapdrop.net/images/twitter-stream.jpg">
-    <meta property="og:image" content="https://snapdrop.net/images/twitter-stream.jpg">
     <!-- Resources -->
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="manifest" href="manifest.json">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SHKDCEW39R"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-SHKDCEW39R');
+    </script>
 </head>
 
 <body translate="no">
@@ -62,7 +69,7 @@
             <use xlink:href="#wifi-tethering" />
         </svg>
         <div id="displayName" placeholder="跨设备传输数据的最简单方法"></div>
-        <div class="font-body2">你可以被这个网络上的每个人发现</div>
+        <div class="font-body2">你可以被这个网络上的所有人发现</div>
     </footer>
     <!-- Receive Dialog -->
     <x-dialog id="receiveDialog">

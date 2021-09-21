@@ -13,8 +13,8 @@ process.on('SIGTERM', () => {
 
 const parser = require('ua-parser-js');
 // const { uniqueNamesGenerator, animals, colors } = require('unique-names-generator');
-const { uniqueNamesGenerator, NumberDictionary } = require('unique-names-generator');
-const numberDictionary = NumberDictionary.generate({ min: 100, max: 999 });
+const { uniqueNamesGenerator} = require('unique-names-generator');
+// const numberDictionary = NumberDictionary.generate({ min: 100, max: 999 });
 
 class SnapdropServer {
 
@@ -234,10 +234,14 @@ class Peer {
         // })
         
         const displayName = uniqueNamesGenerator({
-            dictionaries: [['小苹果'], ['小芒果'], numberDictionary],
-            length: 3,
+            dictionaries: [['隔壁'],['赵','钱','孙','李','周','吴','郑','王','冯','陈','褚','卫','蒋','沈','韩','杨','鲁','韦','昌','马','苗','凤','花','方'],
+            ['一','二','三','四','五','六','七','八','九','十','十一'],
+            ['郎','娘','弟','妹','姐'],
+        ],
+            length: 4,
             separator: '',
-            style: 'capital'
+            style: 'capital',
+            seed: this.id.hashCode()
         })
 
         this.name = {
