@@ -9,7 +9,7 @@ window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 Events.on('display-name', e => {
     const me = e.detail.message;
     const $displayName = $('displayName')
-    $displayName.textContent = 'You are known as ' + me.displayName;
+    $displayName.textContent = '你被称为' + me.displayName;
     $displayName.title = me.deviceName;
 });
 
@@ -74,7 +74,7 @@ class PeerUI {
 
     html() {
         return `
-            <label class="column center" title="Click to send files or right click to send a text">
+            <label class="column center" title="单击以发送文件或右键单击以发送文本">
                 <input type="file" multiple>
                 <x-icon shadow="1">
                     <svg class="icon"><use xlink:href="#"/></svg>

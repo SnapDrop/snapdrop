@@ -12,7 +12,9 @@ process.on('SIGTERM', () => {
 })
 
 const parser = require('ua-parser-js');
-const { uniqueNamesGenerator, animals, colors } = require('unique-names-generator');
+// const { uniqueNamesGenerator, animals, colors } = require('unique-names-generator');
+const { uniqueNamesGenerator, NumberDictionary } = require('unique-names-generator');
+const numberDictionary = NumberDictionary.generate({ min: 100, max: 999 });
 
 class SnapdropServer {
 
@@ -223,12 +225,19 @@ class Peer {
         if(!deviceName)
             deviceName = 'Unknown Device';
 
+        // const displayName = uniqueNamesGenerator({
+        //     length: 2,
+        //     separator: ' ',
+        //     dictionaries: [colors, animals],
+        //     style: 'capital',
+        //     seed: this.id.hashCode()
+        // })
+        
         const displayName = uniqueNamesGenerator({
-            length: 2,
-            separator: ' ',
-            dictionaries: [colors, animals],
-            style: 'capital',
-            seed: this.id.hashCode()
+            dictionaries: [['小苹果'], ['小芒果'], numberDictionary],
+            length: 3,
+            separator: '',
+            style: 'capital'
         })
 
         this.name = {
