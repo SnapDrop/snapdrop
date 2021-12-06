@@ -1,6 +1,6 @@
 // Polyfill for Navigator.clipboard.writeText
-if (!navigator.clipboard) {
-    navigator.clipboard = {
+if (!navigator.clipboard) { navigator.clipboard = newClipboard; }
+    newClipboard = {
         writeText: text => {
 
             // A <span> contains the text to copy
@@ -32,7 +32,6 @@ if (!navigator.clipboard) {
             selection.removeAllRanges();
             span.remove();
 
-            return Promise.resolve();
+            return success ? Promise.resolve() : false;
         }
     }
-}

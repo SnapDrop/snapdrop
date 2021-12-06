@@ -465,8 +465,7 @@ class Notifications {
 
     _copyText(message, notification) {
         notification.close();
-        if (!navigator.clipboard.writeText(message)) return;
-        this._notify('Copied text to clipboard');
+        newClipboard.writeText(message) ? this._notify('Copied text to clipboard') : this._notify('Copy failed, please return web page to copy.');
     }
 
     _bind(notification, handler) {
