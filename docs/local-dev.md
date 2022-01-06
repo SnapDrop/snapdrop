@@ -22,7 +22,11 @@ acme is a script to automatically issue & renew the free certificates. In this w
 First, [Install docker with docker-compose.](https://docs.docker.com/compose/install/)
 
 Then, [Install nginx-proxy with acme-companion.](https://github.com/nginx-proxy/acme-companion)
-
+Create a bridged network with nginx-proxy
+```
+    docker network create proxy-tier
+    docker network connect proxy-tier nginx-proxy
+```
 clone the repository:
 ```
     git clone https://github.com/RobinLinus/snapdrop.git
