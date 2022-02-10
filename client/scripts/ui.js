@@ -338,13 +338,6 @@ class SendTextDialog extends Dialog {
         this._recipient = recipient;
         this._handleShareTargetText();
         this.show();
-
-        const range = document.createRange();
-        const sel = window.getSelection();
-
-        range.selectNodeContents(this.$text);
-        sel.removeAllRanges();
-        sel.addRange(range);
     }
 
     _handleShareTargetText() {
