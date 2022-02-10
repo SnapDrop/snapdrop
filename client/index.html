@@ -100,7 +100,14 @@
             <x-background class="full center">
                 <x-paper shadow="2">
                     <h3>Send a Message</h3>
-                    <div id="textInput" class="textarea" role="textbox" placeholder="Send a message" autocomplete="off" autofocus contenteditable></div>
+
+					<div class="textarea">
+						<!-- use `!` to preserve spacing when empty -->
+						<div id="textDouble" class="textDouble" aria-hidden="true">!</div>
+
+						<textarea id="textInput" class="textInput" placeholder="Send a message" autocomplete="off" autofocus></textarea>
+					</div>
+
                     <div class="row-reverse">
                         <button class="button" type="submit" close>Send</button>
                         <a class="button" close>Cancel</a>
