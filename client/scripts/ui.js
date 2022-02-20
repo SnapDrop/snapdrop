@@ -537,17 +537,12 @@ class Snapdrop {
     }
 
     async lockScreen() {
+        const noSleep = new NoSleep();
+
         try {
-            if (!('wakeLock' in navigator)) {
-                throw new Error();
-            }
-
-            await navigator.wakeLock.request('screen');
-            console.info("Screen locked successfully.");
-
+            noSleep.enable();
         } catch (err) {
             Events.fire('notify-user', 'Your browser doesn\'t support screen locking. Your display will dim after a short period of time.');
-            console.trace("Couldn't request screen lock.");
         }
     }
 }
