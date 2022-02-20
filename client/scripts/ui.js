@@ -531,7 +531,24 @@ class Snapdrop {
             const notifications = new Notifications();
             const networkStatusUI = new NetworkStatusUI();
             const webShareTargetUI = new WebShareTargetUI();
+
+            this.lockScreen();
         });
+    }
+
+    async lockScreen() {
+        try {
+            if (!('wakeLock' in navigator)) {
+                throw new Error();
+            }
+
+            await navigator.wakeLock.request('screen');
+            console.info("Screen locked successfully.");
+
+        } catch (err) {
+            Events.fire('notify-user', 'Your browser doesn\'t support screen locking. Your display will dim after a short period of time.');
+            console.trace("Couldn't request screen lock.");
+        }
     }
 }
 
