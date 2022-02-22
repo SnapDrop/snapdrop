@@ -536,7 +536,7 @@ class Snapdrop {
         });
     }
 
-    async lockScreen() {
+    lockScreen() {
         const noSleep = new NoSleep();
 
         try {
