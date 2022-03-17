@@ -7,7 +7,7 @@
 * Vanilla HTML5 / ES6 / CSS3 frontend
 * [WebRTC](http://webrtc.org/) / [WebSockets](http://www.websocket.org/)
 * [NodeJS](https://nodejs.org/en/) backend
-* [Progressive Web App](https://de.wikipedia.org/wiki/Progressive_Web_App)
+* [Progressive Web App](https://wikipedia.org/wiki/Progressive_Web_App)
 
 
 Have any questions? Read our [FAQ](/docs/faq.md).
