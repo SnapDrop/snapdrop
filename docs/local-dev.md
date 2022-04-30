@@ -16,6 +16,28 @@ Now point your browser to `http://localhost:8080`.
 - To debug the NodeJS server run `docker logs snapdrop_node_1`.
 
 
+## Install using nginx-proxy and acme-companion
+acme is a script to automatically issue & renew the free certificates. In this way, you do not need to install the local CA certificate on client before the PWA installation on client
+
+First, [Install docker with docker-compose.](https://docs.docker.com/compose/install/)
+
+Then, [Install nginx-proxy with acme-companion.](https://github.com/nginx-proxy/acme-companion)
+Create a bridged network with nginx-proxy
+```
+    docker network create proxy-tier
+    docker network connect proxy-tier nginx-proxy
+```
+clone the repository:
+```
+    git clone https://github.com/RobinLinus/snapdrop.git
+    cd snapdrop
+```
+Open nginx-proxy.yml and replace **your.domain** with your domain name.
+
+Create and run docker:
+```
+    docker-compose -f nginx-proxy.yml up -d
+```
 
 
 
