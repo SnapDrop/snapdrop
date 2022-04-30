@@ -8,10 +8,7 @@ services:
     command: ash -c "npm i && node index.js"
     restart: always
   nginx:
-    build:
-      context: ./docker/
-      dockerfile: nginx.Dockerfile
-    image: "nginx"
+    image: "nginx:alpine"
     volumes:
       - ./client:/usr/share/nginx/html
       - ./docker/nginx/default-nossl.conf:/etc/nginx/conf.d/default.conf
@@ -22,7 +19,6 @@ services:
     environment:
       - VIRTUAL_HOST=your.domain
       - LETSENCRYPT_HOST=your.domain
-      - VIRTUAL_PORT=80
     restart: always
     networks:
       - proxy-tier
