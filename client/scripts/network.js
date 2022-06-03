@@ -278,7 +278,7 @@ class Peer {
     }
 
     _onFileReceived(uuid, proxyFile) {
-        Events.fire(Events.FILE_RECEIVED, proxyFile);
+        Events.fire(Events.FILE_RECEIVED, { file: proxyFile, uuid });
         this.sendJSON({ type: 'transfer-complete', uuid });
     }
 

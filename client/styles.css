@@ -328,29 +328,93 @@ footer .font-body2 {
 
 #filesListView {
     box-sizing: border-box;
-    border: 1px solid black;
     border-radius: 20px;
     position: fixed;
-    left: 1vw;
-    top: 1vh;
-    width: 80px;
-    height: 20px;
-    max-width: 400px;
-    max-height: 700px;
-    background-color: rgba(255, 255, 255, 0.3);
+    left: 2vw;
+    top: 2.5vh;
+    width: 90px;
+    height: 45px;
+    max-width: 600px;
+    padding: 10px;
+    background-color: var(--bg-color-secondary);
     transition-duration: 0.3s;
-    transition-property: width, height;
+    transition-property: width, height, overflow-y;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: hidden;
+    z-index: 100;
+}
+
+#filesListView [toggle] {
+    display: block;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    cursor: pointer;
 }
 
 #filesListView[show] {
     width: 98vw;
-    height: 98vh;
+    height: 95vh;
+    overflow-y: scroll;
 }
 
 #filesListView > div {
     width: 98vw;
+    max-width: 100%;
+}
+
+#filesListView ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#filesListView li {
+    display: flex;
+    margin: 10px 0;
+    padding: 10px 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+}
+
+#filesListView li .preview {
+    width: 0px;
+    border-radius: 8px;
+    background-size: cover;
+    transition-duration: 0.3s;
+    transition-property: width, opacity, margin;
+    opacity: 0;
+    margin-right: 15px;
+}
+
+#filesListView li .preview[preview] {
+    width: 80px;
+    opacity: 1;
+}
+
+#filesListView li .content {
+    flex: 1;
+}
+
+#filesListView li .content > div {
+    display: flex;
+    align-items: flex-end;
+}
+
+#filesListView li div > span {
+    display: block;
+    flex: 1;
+}
+
+#filesListView .details {
+    text-align: right;
+    font-size: 0.7em;
+}
+
+#filesListView progress {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 

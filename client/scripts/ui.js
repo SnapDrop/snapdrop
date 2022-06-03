@@ -300,7 +300,7 @@ class ReceiveDialog extends Dialog {
     constructor() {
         super('receiveDialog');
         Events.on(Events.FILE_RECEIVED, e => {
-            this._nextFile(e.detail);
+            this._nextFile(e.detail.file);
             window.blop.play();
         });
         this._filesQueue = [];
@@ -464,7 +464,7 @@ class Notifications {
             this.$button.addEventListener('click', e => this._requestPermission());
         }
         Events.on(Events.TEXT_RECEIVED, e => this._messageNotification(e.detail.text));
-        Events.on(Events.FILE_RECEIVED, e => this._downloadNotification(e.detail.name));
+        Events.on(Events.FILE_RECEIVED, e => this._downloadNotification(e.detail.file.name));
     }
 
     _requestPermission() {
@@ -587,6 +587,8 @@ class FilesListView {
         Events.on(Events.FILE_ACCEPT, ({detail}) => this._addFile(detail))
         Events.on(Events.FILE_REQUEST, ({detail}) => this._addFile(detail.file))
         Events.on(Events.FILE_PROGRESS, ({detail}) => this._files[detail.uuid].setProgress(detail.fileProgress))
+        Events.on(Events.FILE_RECEIVED, ({detail}) => this._files[detail.uuid].preview(detail.file) );
+
     }
 
     _addFile(file) {
@@ -601,6 +603,7 @@ class FilesListView {
             this.$el.removeAttribute('show');
         }
     }
+
 }
 
 class FilesListItemView {
@@ -608,14 +611,20 @@ class FilesListItemView {
         this._file = file
         this.$el = document.createElement('li')
         this.$el.innerHTML = `
-        <div><span class="name">${file.name}</span></div>
-        <div>
-            <span class="progressLabel">${(0).bytesToHumanFileSize()}</span> / ${file.size.bytesToHumanFileSize()}
-            <progress value="0" max="1" />
+        <div class="preview"></div>
+        <div class="content">
+            <div>
+                <span class="name">${file.name}</span>
+                <div class="details">
+                    <span class="progressLabel">${(0).bytesToHumanFileSize()}</span> / ${file.size.bytesToHumanFileSize()}
+                </div>
+            </div>
+            <progress value="0" max="1"></progress>
         </div>
         `
         this.$progress = this.$el.querySelector('progress')
-        this.$progressLabel = this.$el.querySelector('.progressLabel') 
+        this.$progressLabel = this.$el.querySelector('.progressLabel')
+        this.$preview = this.$el.querySelector('.preview')
     }
 
     setProgress(value) {
@@ -626,6 +635,15 @@ class FilesListItemView {
     root(root) {
         root.appendChild(this.$el)
         return this
+    }
+
+    preview(file) {
+        const url = URL.createObjectURL(file.blob);
+        if(file.mime.split('/')[0] === 'image'){
+            console.log('the file is image');
+            this.$preview.style.backgroundImage = `url(${url})`;
+            this.$preview.setAttribute('preview','loaded')
+        }
     }
 
 }
