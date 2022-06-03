@@ -123,6 +123,9 @@ class Peer {
         this._filesQueue = [];
         this._busy = false;
         this._files = {}
+        this._requestingPermission = 0
+        this._totalBytesAccepted = 0;
+        this._totalBytesReceived = 0;
     }
 
     sendJSON(message) {
@@ -190,8 +193,8 @@ class Peer {
         chunker.nextPartition();
     }
 
-    _sendProgress(uuid, progress) {
-        this.sendJSON({ type: 'progress', uuid, progress });
+    _sendProgress(uuid, progress, total) {
+        this.sendJSON({ type: 'progress', uuid, progress, total });
     }
 
     _onMessage(message) {
@@ -244,7 +247,10 @@ class Peer {
         }
         Events.fire(Events.FILE_REQUEST, {
             file: header,
-            accept: () => this.sendJSON({type: Events.FILE_ACCEPT, uuid: header.uuid}),
+            accept: () => {
+                this._totalBytesAccepted += header.size
+                this.sendJSON({type: Events.FILE_ACCEPT, uuid: header.uuid})
+            },
             deny: () => this.sendJSON({type: Events.FILE_DENY, uuid: header.uuid})
         })
     }
@@ -258,17 +264,30 @@ class Peer {
         let file = this._files[uuid];
         file.digester.unchunk(chunk);
 
-        const progress = file.digester.progress;
-        this._onDownloadProgress(progress);
+        this._totalBytesReceived += chunk.byteLength
+        const totalProgress = this._totalBytesReceived / this._totalBytesAccepted
+        const fileProgress = file.digester.progress;
+        this._onDownloadProgress(totalProgress, uuid, fileProgress);
 
         // occasionally notify sender about our progress 
-        if (progress - file.lastProgress < 0.01) return;
-        file.lastProgress = progress;
-        this._sendProgress(file.header.uuid, progress);
+        if (fileProgress - file.lastProgress < 0.05) return;
+        file.lastProgress = fileProgress;
+
+        this._sendProgress(file.header.uuid, totalProgress, file.digester.progress);
+
+        console.clear()
+        console.warn(
+            Object.keys(this._files).map(key => {
+                let file = this._files[key]
+                let prog = file.digester.progress
+                return file.header.name + ' - progress: ' + Math.round(prog * 100) + '% - ' +
+                ((file.header.size*prog).bytesToHumanFileSize()) + '/' + (file.header.size.bytesToHumanFileSize())
+            }).join('\n')
+        )
     }
 
-    _onDownloadProgress(progress) {
-        Events.fire(Events.FILE_PROGRESS, { sender: this._peerId, progress: progress });
+    _onDownloadProgress(totalProgress, uuid, fileProgress) {
+        Events.fire(Events.FILE_PROGRESS, { sender: this._peerId, uuid, progress: totalProgress, fileProgress });
     }
 
     _onFileReceived(uuid, proxyFile) {
