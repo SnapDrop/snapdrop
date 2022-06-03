@@ -91,11 +91,38 @@ class ServerConnection {
 
 class Peer {
 
+    // return uuid of form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+    static uuid() {
+        let uuid = '',
+            ii;
+        for (ii = 0; ii < 32; ii += 1) {
+            switch (ii) {
+                case 8:
+                case 20:
+                    uuid += '-';
+                    uuid += (Math.random() * 16 | 0).toString(16);
+                    break;
+                case 12:
+                    uuid += '-';
+                    uuid += '4';
+                    break;
+                case 16:
+                    uuid += '-';
+                    uuid += (Math.random() * 4 | 8).toString(16);
+                    break;
+                default:
+                    uuid += (Math.random() * 16 | 0).toString(16);
+            }
+        }
+        return uuid;
+    };
+
     constructor(serverConnection, peerId) {
         this._server = serverConnection;
         this._peerId = peerId;
         this._filesQueue = [];
         this._busy = false;
+        this._files = {}
     }
 
     sendJSON(message) {
@@ -114,6 +141,7 @@ class Peer {
         if (!this._filesQueue.length) return;
         this._busy = true;
         const file = this._filesQueue.shift();
+        file.uuid = Peer.uuid();
         this._sendFile(file);
     }
 
@@ -122,29 +150,42 @@ class Peer {
             type: 'header',
             name: file.name,
             mime: file.type,
-            size: file.size
+            size: file.size,
+            uuid: file.uuid,
         });
-        this._chunker = new FileChunker(file,
-            chunk => this._send(chunk),
-            offset => this._onPartitionEnd(offset));
-        this._chunker.nextPartition();
+        this._files[file.uuid] = {
+            header: file,
+            chunker: new FileChunker(
+                file,
+                chunk => {
+                    let uuidBytes = new TextEncoder().encode(file.uuid)
+                    let fileBytes = new Uint8Array(chunk);
+                    let bytes = new Uint8Array(uuidBytes.byteLength + fileBytes.byteLength);
+                    bytes.set(uuidBytes);
+                    bytes.set(fileBytes, uuidBytes.byteLength);
+                    this._send(bytes)
+                },
+                offset => this._onPartitionEnd(file.uuid, offset)
+            )
+        }
     }
 
-    _onPartitionEnd(offset) {
-        this.sendJSON({ type: 'partition', offset: offset });
+    _onPartitionEnd(uuid, offset) {
+        this.sendJSON({ type: 'partition', uuid, offset });
     }
 
-    _onReceivedPartitionEnd(offset) {
-        this.sendJSON({ type: 'partition-received', offset: offset });
+    _onReceivedPartitionEnd(uuid, offset) {
+        this.sendJSON({ type: 'partition-received', uuid, offset });
     }
 
-    _sendNextPartition() {
-        if (!this._chunker || this._chunker.isFileEnd()) return;
-        this._chunker.nextPartition();
+    _sendNextPartition(uuid) {
+        let chunker = this._files[uuid].chunker
+        if (!chunker || chunker.isFileEnd()) return;
+        chunker.nextPartition();
     }
 
-    _sendProgress(progress) {
-        this.sendJSON({ type: 'progress', progress: progress });
+    _sendProgress(uuid, progress) {
+        this.sendJSON({ type: 'progress', uuid, progress });
     }
 
     _onMessage(message) {
@@ -159,10 +200,14 @@ class Peer {
                 this._onFileHeader(message);
                 break;
             case 'partition':
-                this._onReceivedPartitionEnd(message);
+                this._onReceivedPartitionEnd(message.uuid, message.offset);
                 break;
+            case Events.FILE_DENY:
+                this._dequeueFile();
+                break;
+            case Events.FILE_ACCEPT:
             case 'partition-received':
-                this._sendNextPartition();
+                this._sendNextPartition(message.uuid);
                 break;
             case 'progress':
                 this._onDownloadProgress(message.progress);
@@ -177,34 +222,48 @@ class Peer {
     }
 
     _onFileHeader(header) {
-        this._lastProgress = 0;
-        this._digester = new FileDigester({
-            name: header.name,
-            mime: header.mime,
-            size: header.size
-        }, file => this._onFileReceived(file));
+        this._files[header.uuid] = {
+            header,
+            lastProgress: 0,
+            digester: new FileDigester({
+                name: header.name,
+                mime: header.mime,
+                size: header.size,
+                uuid: header.uuid
+            }, file => this._onFileReceived(header.uuid, file))
+        }
+        Events.fire(Events.FILE_REQUEST, {
+            file: header,
+            accept: () => this.sendJSON({type: Events.FILE_ACCEPT, uuid: header.uuid}),
+            deny: () => this.sendJSON({type: Events.FILE_DENY, uuid: header.uuid})
+        })
     }
 
-    _onChunkReceived(chunk) {
-        if(!chunk.byteLength) return;
+    _onChunkReceived(data) {
+        if(!data.byteLength) return;
+
+        let uuid = new TextDecoder().decode(data.slice(0,36));
+        var chunk = data.slice(36); 
         
-        this._digester.unchunk(chunk);
-        const progress = this._digester.progress;
+        let file = this._files[uuid];
+        file.digester.unchunk(chunk);
+
+        const progress = file.digester.progress;
         this._onDownloadProgress(progress);
 
         // occasionally notify sender about our progress 
-        if (progress - this._lastProgress < 0.01) return;
-        this._lastProgress = progress;
-        this._sendProgress(progress);
+        if (progress - file.lastProgress < 0.01) return;
+        file.lastProgress = progress;
+        this._sendProgress(file.header.uuid, progress);
     }
 
     _onDownloadProgress(progress) {
         Events.fire(Events.FILE_PROGRESS, { sender: this._peerId, progress: progress });
     }
 
-    _onFileReceived(proxyFile) {
+    _onFileReceived(uuid, proxyFile) {
         Events.fire(Events.FILE_RECEIVED, proxyFile);
-        this.sendJSON({ type: 'transfer-complete' });
+        this.sendJSON({ type: 'transfer-complete', uuid });
     }
 
     _onTransferCompleted() {
@@ -423,7 +482,7 @@ class WSPeer {
 class FileChunker {
 
     constructor(file, onChunk, onPartitionEnd) {
-        this._chunkSize = 64000; // 64 KB
+        this._chunkSize = 128000; // 128 KB
         this._maxPartitionSize = 1e6; // 1 MB
         this._offset = 0;
         this._partitionSize = 0;
