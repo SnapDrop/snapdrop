@@ -26,23 +26,23 @@ class ServerConnection {
         msg = JSON.parse(msg);
         console.log('WS:', msg);
         switch (msg.type) {
-            case 'peers':
-                Events.fire('peers', msg.peers);
+            case Events.PEERS:
+                Events.fire(Events.PEERS, msg.peers);
                 break;
-            case 'peer-joined':
-                Events.fire('peer-joined', msg.peer);
+            case Events.PEER_JOINED:
+                Events.fire(Events.PEER_JOINED, msg.peer);
                 break;
-            case 'peer-left':
-                Events.fire('peer-left', msg.peerId);
+            case Events.PEER_LEFT:
+                Events.fire(Events.PEER_LEFT, msg.peerId);
                 break;
-            case 'signal':
-                Events.fire('signal', msg);
+            case Events.SIGNAL:
+                Events.fire(Events.SIGNAL, msg);
                 break;
-            case 'ping':
-                this.send({ type: 'pong' });
+            case Events.DISPLAY_NAME:
+                Events.fire(Events.DISPLAY_NAME, msg);
                 break;
-            case 'display-name':
-                Events.fire('display-name', msg);
+            case Events.PING:
+                this.send({ type: Events.PONG });
                 break;
             default:
                 console.error('WS: unkown message type', msg);
@@ -70,7 +70,7 @@ class ServerConnection {
 
     _onDisconnect() {
         console.log('WS: server disconnected');
-        Events.fire('notify-user', 'Connection lost. Retry in 5 seconds...');
+        Events.fire(Events.NOTIFY_USER, 'Connection lost. Retry in 5 seconds...');
         clearTimeout(this._reconnectTimer);
         this._reconnectTimer = setTimeout(_ => this._connect(), 5000);
     }
@@ -199,11 +199,11 @@ class Peer {
     }
 
     _onDownloadProgress(progress) {
-        Events.fire('file-progress', { sender: this._peerId, progress: progress });
+        Events.fire(Events.FILE_PROGRESS, { sender: this._peerId, progress: progress });
     }
 
     _onFileReceived(proxyFile) {
-        Events.fire('file-received', proxyFile);
+        Events.fire(Events.FILE_RECEIVED, proxyFile);
         this.sendJSON({ type: 'transfer-complete' });
     }
 
@@ -212,7 +212,7 @@ class Peer {
         this._reader = null;
         this._busy = false;
         this._dequeueFile();
-        Events.fire('notify-user', 'File transfer completed.');
+        Events.fire(Events.NOTIFY_USER, 'File transfer completed.');
     }
 
     sendText(text) {
@@ -222,7 +222,7 @@ class Peer {
 
     _onTextReceived(message) {
         const escaped = decodeURIComponent(escape(atob(message.text)));
-        Events.fire('text-received', { text: escaped, sender: this._peerId });
+        Events.fire(Events.TEXT_RECEIVED, { text: escaped, sender: this._peerId });
     }
 }
 
@@ -364,11 +364,11 @@ class PeersManager {
     constructor(serverConnection) {
         this.peers = {};
         this._server = serverConnection;
-        Events.on('signal', e => this._onMessage(e.detail));
-        Events.on('peers', e => this._onPeers(e.detail));
-        Events.on('files-selected', e => this._onFilesSelected(e.detail));
-        Events.on('send-text', e => this._onSendText(e.detail));
-        Events.on('peer-left', e => this._onPeerLeft(e.detail));
+        Events.on(Events.SIGNAL, e => this._onMessage(e.detail));
+        Events.on(Events.PEERS, e => this._onPeers(e.detail));
+        Events.on(Events.FILES_SELECTED, e => this._onFilesSelected(e.detail));
+        Events.on(Events.SEND_TEXT, e => this._onSendText(e.detail));
+        Events.on(Events.PEER_LEFT, e => this._onPeerLeft(e.detail));
     }
 
     _onMessage(message) {
@@ -431,7 +431,7 @@ class FileChunker {
         this._onChunk = onChunk;
         this._onPartitionEnd = onPartitionEnd;
         this._reader = new FileReader();
-        this._reader.addEventListener('load', e => this._onChunkRead(e.target.result));
+        this._reader.addEventListener(Events.LOAD, e => this._onChunkRead(e.target.result));
     }
 
     nextPartition() {
@@ -506,12 +506,38 @@ class FileDigester {
 
 class Events {
     static fire(type, detail) {
+        console.warn('Events.fire: ', type)
         window.dispatchEvent(new CustomEvent(type, { detail: detail }));
     }
 
     static on(type, callback) {
+        console.warn('Events.on: ', type)
         return window.addEventListener(type, callback, false);
     }
+
+    static LOAD = 'load'
+
+    static PEERS = 'peers'
+    static PEER_JOINED = 'peer-joined'
+    static PEER_LEFT = 'peer-left'
+    static PING = 'ping'
+    static PONG = 'pong'
+
+    static SIGNAL = 'signal'
+    static DISPLAY_NAME = 'display-name'
+    static NOTIFY_USER = 'notify-user'
+
+    static FILES_SELECTED = 'files-selected'
+    static FILE_PROGRESS = 'file-progress'
+    static FILE_RECEIVED = 'file-received'
+    static FILE_REQUEST = 'file-request'
+    static FILE_ACCEPT = 'file-accept'
+    static FILE_DENY = 'file-deny'
+
+    static PASTE = 'paste'
+    static SEND_TEXT = 'send-text'
+    static TEXT_RECEIVED = 'text-received'
+    static TEXT_RECIPIENT = 'text-recipient'
 }
 
 

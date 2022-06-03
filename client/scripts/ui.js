@@ -6,7 +6,7 @@ window.isProductionEnvironment = !window.location.host.startsWith('localhost');
 window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 // set display name
-Events.on('display-name', e => {
+Events.on(Events.DISPLAY_NAME, e => {
     const me = e.detail.message;
     const $displayName = $('displayName')
     $displayName.textContent = 'You are known as ' + me.displayName;
@@ -16,11 +16,11 @@ Events.on('display-name', e => {
 class PeersUI {
 
     constructor() {
-        Events.on('peer-joined', e => this._onPeerJoined(e.detail));
-        Events.on('peer-left', e => this._onPeerLeft(e.detail));
-        Events.on('peers', e => this._onPeers(e.detail));
-        Events.on('file-progress', e => this._onFileProgress(e.detail));
-        Events.on('paste', e => this._onPaste(e));
+        Events.on(Events.PEER_JOINED, e => this._onPeerJoined(e.detail));
+        Events.on(Events.PEER_LEFT, e => this._onPeerLeft(e.detail));
+        Events.on(Events.PEERS, e => this._onPeers(e.detail));
+        Events.on(Events.FILE_PROGRESS, e => this._onFileProgress(e.detail));
+        Events.on(Events.PASTE, e => this._onPaste(e));
     }
 
     _onPeerJoined(peer) {
@@ -62,7 +62,7 @@ class PeersUI {
         // "image data has been pasted, click the client to which to send it"
         // not implemented
         if (files.length > 0 && peers.length === 1) {
-            Events.fire('files-selected', {
+            Events.fire(Events.FILES_SELECTED, {
                 files: files,
                 to: $$('x-peer').id
             });
@@ -143,7 +143,7 @@ class PeerUI {
     _onFilesSelected(e) {
         const $input = e.target;
         const files = $input.files;
-        Events.fire('files-selected', {
+        Events.fire(Events.FILES_SELECTED, {
             files: files,
             to: this._peer.id
         });
@@ -170,7 +170,7 @@ class PeerUI {
     _onDrop(e) {
         e.preventDefault();
         const files = e.dataTransfer.files;
-        Events.fire('files-selected', {
+        Events.fire(Events.FILES_SELECTED, {
             files: files,
             to: this._peer.id
         });
@@ -187,7 +187,7 @@ class PeerUI {
 
     _onRightClick(e) {
         e.preventDefault();
-        Events.fire('text-recipient', this._peer.id);
+        Events.fire(Events.TEXT_RECIPIENT, this._peer.id);
     }
 
     _onTouchStart(e) {
@@ -200,7 +200,7 @@ class PeerUI {
             clearTimeout(this._touchTimer);
         } else { // this was a long tap
             if (e) e.preventDefault();
-            Events.fire('text-recipient', this._peer.id);
+            Events.fire(Events.TEXT_RECIPIENT, this._peer.id);
         }
     }
 }
@@ -229,7 +229,7 @@ class ReceiveDialog extends Dialog {
 
     constructor() {
         super('receiveDialog');
-        Events.on('file-received', e => {
+        Events.on(Events.FILE_RECEIVED, e => {
             this._nextFile(e.detail);
             window.blop.play();
         });
@@ -313,7 +313,7 @@ class ReceiveDialog extends Dialog {
 class SendTextDialog extends Dialog {
     constructor() {
         super('sendTextDialog');
-        Events.on('text-recipient', e => this._onRecipient(e.detail))
+        Events.on(Events.TEXT_RECIPIENT, e => this._onRecipient(e.detail))
         this.$text = this.$el.querySelector('#textInput');
         const button = this.$el.querySelector('form');
         button.addEventListener('submit', e => this._send(e));
@@ -341,7 +341,7 @@ class SendTextDialog extends Dialog {
 
     _send(e) {
         e.preventDefault();
-        Events.fire('send-text', {
+        Events.fire(Events.SEND_TEXT, {
             to: this._recipient,
             text: this.$text.innerText
         });
@@ -351,7 +351,7 @@ class SendTextDialog extends Dialog {
 class ReceiveTextDialog extends Dialog {
     constructor() {
         super('receiveTextDialog');
-        Events.on('text-received', e => this._onText(e.detail))
+        Events.on(Events.TEXT_RECEIVED, e => this._onText(e.detail))
         this.$text = this.$el.querySelector('#text');
         const $copy = this.$el.querySelector('#copy');
         copy.addEventListener('click', _ => this._onCopy());
@@ -375,14 +375,14 @@ class ReceiveTextDialog extends Dialog {
 
     async _onCopy() {
         await navigator.clipboard.writeText(this.$text.textContent);
-        Events.fire('notify-user', 'Copied to clipboard');
+        Events.fire(Events.NOTIFY_USER, 'Copied to clipboard');
     }
 }
 
 class Toast extends Dialog {
     constructor() {
         super('toast');
-        Events.on('notify-user', e => this._onNotfiy(e.detail));
+        Events.on(Events.NOTIFY_USER, e => this._onNotfiy(e.detail));
     }
 
     _onNotfiy(message) {
@@ -405,14 +405,14 @@ class Notifications {
             this.$button.removeAttribute('hidden');
             this.$button.addEventListener('click', e => this._requestPermission());
         }
-        Events.on('text-received', e => this._messageNotification(e.detail.text));
-        Events.on('file-received', e => this._downloadNotification(e.detail.name));
+        Events.on(Events.TEXT_RECEIVED, e => this._messageNotification(e.detail.text));
+        Events.on(Events.FILE_RECEIVED, e => this._downloadNotification(e.detail.name));
     }
 
     _requestPermission() {
         Notification.requestPermission(permission => {
             if (permission !== 'granted') {
-                Events.fire('notify-user', Notifications.PERMISSION_ERROR || 'Error');
+                Events.fire(Events.NOTIFY_USER, Notifications.PERMISSION_ERROR || 'Error');
                 return;
             }
             this._notify('Even more snappy sharing!');
@@ -490,11 +490,11 @@ class NetworkStatusUI {
     }
 
     _showOfflineMessage() {
-        Events.fire('notify-user', 'You are offline');
+        Events.fire(Events.NOTIFY_USER, 'You are offline');
     }
 
     _showOnlineMessage() {
-        Events.fire('notify-user', 'You are back online');
+        Events.fire(Events.NOTIFY_USER, 'You are back online');
     }
 }
 
@@ -523,7 +523,7 @@ class Snapdrop {
         const server = new ServerConnection();
         const peers = new PeersManager(server);
         const peersUI = new PeersUI();
-        Events.on('load', e => {
+        Events.on(Events.LOAD, e => {
             const receiveDialog = new ReceiveDialog();
             const sendTextDialog = new SendTextDialog();
             const receiveTextDialog = new ReceiveTextDialog();
@@ -560,7 +560,7 @@ window.addEventListener('beforeinstallprompt', e => {
 });
 
 // Background Animation
-Events.on('load', () => {
+Events.on(Events.LOAD, () => {
     let c = document.createElement('canvas');
     document.body.appendChild(c);
     let style = c.style;
