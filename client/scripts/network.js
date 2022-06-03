@@ -121,9 +121,8 @@ class Peer {
         this._server = serverConnection;
         this._peerId = peerId;
         this._filesQueue = [];
-        this._busy = false;
         this._files = {}
-        this._requestingPermission = 0
+        this._sendingSimultaneos = 0
         this._totalBytesAccepted = 0;
         this._totalBytesReceived = 0;
     }
@@ -134,23 +133,12 @@ class Peer {
 
     sendFiles(files) {
         for (let i = 0; i < files.length; i++) {
-            this._filesQueue.push(files[i]);
+            this._sendFile(files[i])
         }
-        if (this._busy) return;
-        this._dequeueFile();
-    }
-
-    static MAX_SIMULTANEOUS_REQUEST = 5
-
-    _dequeueFile() {
-        if (!this._filesQueue.length) return;
-        this._busy = true;
-        const file = this._filesQueue.shift();
-        file.uuid = Peer.uuid();
-        this._sendFile(file);
     }
 
     _sendFile(file) {
+        file.uuid = Peer.uuid();
         this.sendJSON({
             type: 'header',
             name: file.name,
@@ -158,7 +146,6 @@ class Peer {
             size: file.size,
             uuid: file.uuid,
         });
-        this._requestingPermission++
         this._files[file.uuid] = {
             header: file,
             chunker: new FileChunker(
@@ -174,9 +161,18 @@ class Peer {
                 offset => this._onPartitionEnd(file.uuid, offset)
             )
         }
-        if(this._requestingPermission < Peer.MAX_SIMULTANEOUS_REQUEST){
-            this._dequeueFile()
-        }
+    }
+
+    static MAX_SIMULTANEOUS_REQUEST = 3
+
+    _dequeueFile() {
+        if (
+            this._sendingSimultaneos >= Peer.MAX_SIMULTANEOUS_REQUEST |
+            !this._filesQueue.length
+        ) return;
+        this._sendingSimultaneos++
+        const uuid = this._filesQueue.shift();
+        this._sendNextPartition(uuid);
     }
 
     _onPartitionEnd(uuid, offset) {
@@ -212,13 +208,12 @@ class Peer {
                 this._onReceivedPartitionEnd(message.uuid, message.offset);
                 break;
             case Events.FILE_DENY:
-                this._requestingPermission--;
                 this._dequeueFile();
                 break;
             case Events.FILE_ACCEPT:
-                this._requestingPermission--;
                 Events.fire(Events.FILE_ACCEPT, this._files[message.uuid].header)
-                this._sendNextPartition(message.uuid);
+                this._filesQueue.push(message.uuid);
+                this._dequeueFile();
                 break
             case 'partition-received':
                 this._sendNextPartition(message.uuid);
@@ -288,10 +283,8 @@ class Peer {
     }
 
     _onTransferCompleted() {
-        // TODO
-        // this._onDownloadProgress(null,null,1);
+        this._sendingSimultaneos--
         this._reader = null;
-        this._busy = false;
         this._dequeueFile();
         Events.fire(Events.NOTIFY_USER, 'File transfer completed.');
     }
