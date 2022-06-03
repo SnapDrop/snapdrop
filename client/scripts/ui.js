@@ -13,6 +13,21 @@ Events.on(Events.DISPLAY_NAME, e => {
     $displayName.title = me.deviceName;
 });
 
+Number.prototype.bytesToHumanFileSize = function () {
+    let bytes = this;
+    if (bytes >= 1e12) {
+        return (Math.round(bytes / 1e11) / 10) + ' TB';
+    } else if (bytes >= 1e9) {
+        return (Math.round(bytes / 1e8) / 10) + ' GB';
+    } else if (bytes >= 1e6) {
+        return (Math.round(bytes / 1e5) / 10) + ' MB';
+    } else if (bytes > 1000) {
+        return Math.round(bytes / 1000) + ' KB';
+    } else {
+        return bytes + ' Bytes';
+    }
+}
+
 class PeersUI {
 
     constructor() {
@@ -225,6 +240,45 @@ class Dialog {
     }
 }
 
+class RequestDialog extends Dialog {
+
+    constructor() {
+        super('requestDialog');
+        Events.on(Events.FILE_REQUEST, e => {
+            window.blop.play();
+            this.lastDetail = e.detail
+            if(this._autoDownload()) {
+                this._accept();
+            } else {
+                this._ask(e.detail.file);
+            }
+        });
+        this.$el.querySelector('.accept').addEventListener('click', () => this._accept())
+        this.$el.querySelector('.deny').addEventListener('click', () => this._deny())
+    }
+
+    _ask(file) {
+        this.$el.querySelector('.fileName').textContent = file.name;
+        this.$el.querySelector('.fileSize').textContent = file.size.bytesToHumanFileSize();
+        this.show()
+    }
+
+    _accept() {
+        this.lastDetail && this.lastDetail.accept();
+        this.hide()
+    }
+
+    _deny() {
+        this.lastDetail && this.lastDetail.deny();
+        this.hide()
+    }
+
+    _autoDownload(){
+        return !this.$el.querySelector('.autoDownload').checked
+    }
+
+}
+
 class ReceiveDialog extends Dialog {
 
     constructor() {
@@ -273,7 +327,7 @@ class ReceiveDialog extends Dialog {
         }
 
         this.$el.querySelector('.fileName').textContent = file.name;
-        this.$el.querySelector('.fileSize').textContent = this._formatFileSize(file.size);
+        this.$el.querySelector('.fileSize').textContent = file.size.bytesToHumanFileSize();
         this.show();
 
         if (window.isDownloadSupported) return;
@@ -282,18 +336,6 @@ class ReceiveDialog extends Dialog {
         const reader = new FileReader();
         reader.onload = e => $a.href = reader.result;
         reader.readAsDataURL(file.blob);
-    }
-
-    _formatFileSize(bytes) {
-        if (bytes >= 1e9) {
-            return (Math.round(bytes / 1e8) / 10) + ' GB';
-        } else if (bytes >= 1e6) {
-            return (Math.round(bytes / 1e5) / 10) + ' MB';
-        } else if (bytes > 1000) {
-            return Math.round(bytes / 1000) + ' KB';
-        } else {
-            return bytes + ' Bytes';
-        }
     }
 
     hide() {
@@ -525,6 +567,7 @@ class Snapdrop {
         const peersUI = new PeersUI();
         Events.on(Events.LOAD, e => {
             const receiveDialog = new ReceiveDialog();
+            const requestDialog = new RequestDialog();
             const sendTextDialog = new SendTextDialog();
             const receiveTextDialog = new ReceiveTextDialog();
             const toast = new Toast();

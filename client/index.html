@@ -73,6 +73,27 @@
         <div id="displayName" placeholder="The easiest way to transfer data across devices"></div>
         <div class="font-body2">You can be discovered by everyone on this network</div>
     </footer>
+    <!-- Request Dialog -->
+    <x-dialog id="requestDialog">
+        <x-background class="full center">
+            <x-paper shadow="2">
+                <h3>File Request</h3>
+                <div class="font-subheading fileName">Filename</div>
+                <div class="font-body2 fileSize"></div>
+                <div class='preview' style="visibility: hidden;">
+                    <img id='img-preview' src="">
+                </div>
+                <div class="row">
+                    <label for="autoDownload" class="grow">Ask to save each file before downloading</label>
+                    <input type="checkbox" class="autoDownload" checked="">
+                </div>
+                <div class="row-reverse">
+                    <button class="button accept" autofocus>Accept</button>
+                    <button class="button deny" close>Deny</button>
+                </div>
+            </x-paper>
+        </x-background>
+    </x-dialog>
     <!-- Receive Dialog -->
     <x-dialog id="receiveDialog">
         <x-background class="full center">
