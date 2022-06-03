@@ -272,8 +272,8 @@ class ReceiveDialog extends Dialog {
             this.$el.querySelector("#img-preview").src = url;
         }
 
-        this.$el.querySelector('#fileName').textContent = file.name;
-        this.$el.querySelector('#fileSize').textContent = this._formatFileSize(file.size);
+        this.$el.querySelector('.fileName').textContent = file.name;
+        this.$el.querySelector('.fileSize').textContent = this._formatFileSize(file.size);
         this.show();
 
         if (window.isDownloadSupported) return;
@@ -305,7 +305,7 @@ class ReceiveDialog extends Dialog {
 
 
     _autoDownload(){
-        return !this.$el.querySelector('#autoDownload').checked
+        return !this.$el.querySelector('.autoDownload').checked
     }
 }
 

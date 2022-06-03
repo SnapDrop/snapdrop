@@ -78,14 +78,14 @@
         <x-background class="full center">
             <x-paper shadow="2">
                 <h3>File Received</h3>
-                <div class="font-subheading" id="fileName">Filename</div>
-                <div class="font-body2" id="fileSize"></div>
+                <div class="font-subheading fileName">Filename</div>
+                <div class="font-body2 fileSize"></div>
                 <div class='preview' style="visibility: hidden;">
                     <img id='img-preview' src="">
                 </div>
                 <div class="row">
                     <label for="autoDownload" class="grow">Ask to save each file before downloading</label>
-                    <input type="checkbox" id="autoDownload" checked="">
+                    <input type="checkbox" class="autoDownload" checked="">
                 </div>
                 <div class="row-reverse">
                     <a class="button" close id="download" title="Download File" autofocus>Save</a>
