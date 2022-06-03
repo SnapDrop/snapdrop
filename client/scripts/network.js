@@ -274,16 +274,6 @@ class Peer {
         file.lastProgress = fileProgress;
 
         this._sendProgress(file.header.uuid, totalProgress, file.digester.progress);
-
-        console.clear()
-        console.warn(
-            Object.keys(this._files).map(key => {
-                let file = this._files[key]
-                let prog = file.digester.progress
-                return file.header.name + ' - progress: ' + Math.round(prog * 100) + '% - ' +
-                ((file.header.size*prog).bytesToHumanFileSize()) + '/' + (file.header.size.bytesToHumanFileSize())
-            }).join('\n')
-        )
     }
 
     _onDownloadProgress(totalProgress, uuid, fileProgress) {

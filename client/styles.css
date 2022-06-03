@@ -322,6 +322,37 @@ footer .font-body2 {
     }
 }
 
+/* 
+    Files Listing
+*/
+
+#filesListView {
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 20px;
+    position: fixed;
+    left: 1vw;
+    top: 1vh;
+    width: 80px;
+    height: 20px;
+    max-width: 400px;
+    max-height: 700px;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition-duration: 0.3s;
+    transition-property: width, height;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#filesListView[show] {
+    width: 98vw;
+    height: 98vh;
+}
+
+#filesListView > div {
+    width: 98vw;
+}
+
 
 /* Dialog */
 
@@ -754,4 +785,3 @@ x-dialog x-paper {
         overflow: hidden;
     }
 }
-

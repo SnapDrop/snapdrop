@@ -559,6 +559,57 @@ class WebShareTargetUI {
     }
 }
 
+class FilesListView {
+    constructor() {
+        this.$el = $('filesListView');
+        this.$list = this.$el.querySelector('ul');
+        this.$el.querySelectorAll('[toggle]').forEach(el => el.addEventListener('click', e => this.toggle()))
+        this.$autoFocus = this.$el.querySelector('[autofocus]');
+        this._visible = false
+        this._files = {}
+
+        Events.on(Events.FILE_REQUEST, ({detail}) => {
+            this._files[detail.file.uuid] = new FilesListItemView(detail.file).root(this.$list)
+        })
+        Events.on(Events.FILE_PROGRESS, ({detail}) => {
+            this._files[detail.uuid].setProgress(detail.fileProgress)
+        })
+    }
+
+    toggle() {
+        this._visible = !this._visible
+        if (this._visible) {
+            this.$el.setAttribute('show', 1);
+        } else {
+            this.$el.removeAttribute('show');
+        }
+    }
+}
+
+class FilesListItemView {
+    constructor(file) {
+        this._file = file
+        this.$el = document.createElement('li')
+        this.$el.innerHTML = `
+        <div><span class="name">${file.name}</span></div>
+        <div><span class="size">${file.size.bytesToHumanFileSize()}</span></div>
+        <div><progress value="0" max="1" /></div>
+        <div><span class="progressLabel">${(0).bytesToHumanFileSize()}</span> / ${file.size.bytesToHumanFileSize()}</div>
+        `
+        this.$progress = this.$el.querySelector('progress')
+        this.$progressLabel = this.$el.querySelector('.progressLabel') 
+    }
+
+    setProgress(value) {
+        this.$progress.value = value
+    }
+
+    root(root) {
+        root.appendChild(this.$el)
+        return this
+    }
+
+}
 
 class Snapdrop {
     constructor() {
@@ -566,6 +617,7 @@ class Snapdrop {
         const peers = new PeersManager(server);
         const peersUI = new PeersUI();
         Events.on(Events.LOAD, e => {
+            const filesListView = new FilesListView();
             const receiveDialog = new ReceiveDialog();
             const requestDialog = new RequestDialog();
             const sendTextDialog = new SendTextDialog();
