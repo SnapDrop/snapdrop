@@ -611,7 +611,6 @@ class FilesListItemView {
         this._file = file
         this.$el = document.createElement('li')
         this.$el.innerHTML = `
-        <div class="preview"></div>
         <div class="content">
             <div>
                 <span class="name">${file.name}</span>
@@ -621,6 +620,7 @@ class FilesListItemView {
             </div>
             <progress value="0" max="1"></progress>
         </div>
+        <div class="preview"></div>
         `
         this.$progress = this.$el.querySelector('progress')
         this.$progressLabel = this.$el.querySelector('.progressLabel')
@@ -639,9 +639,17 @@ class FilesListItemView {
 
     preview(file) {
         const url = URL.createObjectURL(file.blob);
-        if(file.mime.split('/')[0] === 'image'){
+        let mine = file.mime.split('/')[0]
+        if(mine === 'image'){
             console.log('the file is image');
             this.$preview.style.backgroundImage = `url(${url})`;
+            this.$preview.setAttribute('preview','loaded')
+        } else if (mine === 'video' || mine === 'audio') {
+            let video = document.createElement(mine)
+            this.$preview.appendChild(video)
+            video.src = url;
+            video.controls = true
+            video.load();
             this.$preview.setAttribute('preview','loaded')
         }
     }
