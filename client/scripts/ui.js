@@ -568,12 +568,13 @@ class FilesListView {
         this._visible = false
         this._files = {}
 
-        Events.on(Events.FILE_REQUEST, ({detail}) => {
-            this._files[detail.file.uuid] = new FilesListItemView(detail.file).root(this.$list)
-        })
-        Events.on(Events.FILE_PROGRESS, ({detail}) => {
-            this._files[detail.uuid].setProgress(detail.fileProgress)
-        })
+        Events.on(Events.FILE_ACCEPT, ({detail}) => this._addFile(detail))
+        Events.on(Events.FILE_REQUEST, ({detail}) => this._addFile(detail.file))
+        Events.on(Events.FILE_PROGRESS, ({detail}) => this._files[detail.uuid].setProgress(detail.fileProgress))
+    }
+
+    _addFile(file) {
+        this._files[file.uuid] = new FilesListItemView(file).root(this.$list)
     }
 
     toggle() {
@@ -592,9 +593,10 @@ class FilesListItemView {
         this.$el = document.createElement('li')
         this.$el.innerHTML = `
         <div><span class="name">${file.name}</span></div>
-        <div><span class="size">${file.size.bytesToHumanFileSize()}</span></div>
-        <div><progress value="0" max="1" /></div>
-        <div><span class="progressLabel">${(0).bytesToHumanFileSize()}</span> / ${file.size.bytesToHumanFileSize()}</div>
+        <div>
+            <span class="progressLabel">${(0).bytesToHumanFileSize()}</span> / ${file.size.bytesToHumanFileSize()}
+            <progress value="0" max="1" />
+        </div>
         `
         this.$progress = this.$el.querySelector('progress')
         this.$progressLabel = this.$el.querySelector('.progressLabel') 
@@ -602,6 +604,7 @@ class FilesListItemView {
 
     setProgress(value) {
         this.$progress.value = value
+        this.$progressLabel.innerHTML = (this._file.size * value).bytesToHumanFileSize()
     }
 
     root(root) {

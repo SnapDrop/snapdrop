@@ -193,8 +193,8 @@ class Peer {
         chunker.nextPartition();
     }
 
-    _sendProgress(uuid, progress, total) {
-        this.sendJSON({ type: 'progress', uuid, progress, total });
+    _sendProgress(totalProgress, uuid, fileProgress, ) {
+        this.sendJSON({ type: 'progress', uuid, totalProgress, fileProgress });
     }
 
     _onMessage(message) {
@@ -217,13 +217,15 @@ class Peer {
                 break;
             case Events.FILE_ACCEPT:
                 this._requestingPermission--;
+                Events.fire(Events.FILE_ACCEPT, this._files[message.uuid].header)
                 this._sendNextPartition(message.uuid);
                 break
             case 'partition-received':
                 this._sendNextPartition(message.uuid);
                 break;
             case 'progress':
-                this._onDownloadProgress(message.progress);
+                const {totalProgress, uuid, fileProgress} = message
+                this._onDownloadProgress(totalProgress, uuid, fileProgress);
                 break;
             case 'transfer-complete':
                 this._onTransferCompleted();
@@ -273,11 +275,11 @@ class Peer {
         if (fileProgress - file.lastProgress < 0.05) return;
         file.lastProgress = fileProgress;
 
-        this._sendProgress(file.header.uuid, totalProgress, file.digester.progress);
+        this._sendProgress(totalProgress, file.header.uuid, file.digester.progress);
     }
 
     _onDownloadProgress(totalProgress, uuid, fileProgress) {
-        Events.fire(Events.FILE_PROGRESS, { sender: this._peerId, uuid, progress: totalProgress, fileProgress });
+        Events.fire(Events.FILE_PROGRESS, { sender: this._peerId, uuid, totalProgress, fileProgress });
     }
 
     _onFileReceived(uuid, proxyFile) {
@@ -286,7 +288,8 @@ class Peer {
     }
 
     _onTransferCompleted() {
-        this._onDownloadProgress(1);
+        // TODO
+        // this._onDownloadProgress(null,null,1);
         this._reader = null;
         this._busy = false;
         this._dequeueFile();
