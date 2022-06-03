@@ -246,31 +246,47 @@ class RequestDialog extends Dialog {
         super('requestDialog');
         Events.on(Events.FILE_REQUEST, e => {
             window.blop.play();
-            this.lastDetail = e.detail
-            if(this._autoDownload()) {
-                this._accept();
-            } else {
-                this._ask(e.detail.file);
-            }
+            this._acceptQueue.push(e.detail)
+            this._proccess()
         });
+        this._acceptQueue = []
+        this._showing = false
         this.$el.querySelector('.accept').addEventListener('click', () => this._accept())
         this.$el.querySelector('.deny').addEventListener('click', () => this._deny())
+    }
+
+    _proccess () {
+        if(this._showing || this._acceptQueue.length == 0) return;
+        this.lastDetail = this._acceptQueue.shift()
+        if(this._autoDownload()) {
+             this._accept();
+        } else {
+            this._ask(this.lastDetail.file);
+        }
     }
 
     _ask(file) {
         this.$el.querySelector('.fileName').textContent = file.name;
         this.$el.querySelector('.fileSize').textContent = file.size.bytesToHumanFileSize();
         this.show()
+        this._showing = true
     }
 
     _accept() {
         this.lastDetail && this.lastDetail.accept();
-        this.hide()
+        this._hide()
     }
 
     _deny() {
         this.lastDetail && this.lastDetail.deny();
+        this._hide()
+    }
+
+    _hide() {
+        this._showing = false
+        this.lastDetail = null
         this.hide()
+        this._proccess()
     }
 
     _autoDownload(){
