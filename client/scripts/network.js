@@ -137,6 +137,8 @@ class Peer {
         this._dequeueFile();
     }
 
+    static MAX_SIMULTANEOUS_REQUEST = 5
+
     _dequeueFile() {
         if (!this._filesQueue.length) return;
         this._busy = true;
@@ -153,6 +155,7 @@ class Peer {
             size: file.size,
             uuid: file.uuid,
         });
+        this._requestingPermission++
         this._files[file.uuid] = {
             header: file,
             chunker: new FileChunker(
@@ -167,6 +170,9 @@ class Peer {
                 },
                 offset => this._onPartitionEnd(file.uuid, offset)
             )
+        }
+        if(this._requestingPermission < Peer.MAX_SIMULTANEOUS_REQUEST){
+            this._dequeueFile()
         }
     }
 
@@ -203,9 +209,13 @@ class Peer {
                 this._onReceivedPartitionEnd(message.uuid, message.offset);
                 break;
             case Events.FILE_DENY:
+                this._requestingPermission--;
                 this._dequeueFile();
                 break;
             case Events.FILE_ACCEPT:
+                this._requestingPermission--;
+                this._sendNextPartition(message.uuid);
+                break
             case 'partition-received':
                 this._sendNextPartition(message.uuid);
                 break;
@@ -565,12 +575,10 @@ class FileDigester {
 
 class Events {
     static fire(type, detail) {
-        console.warn('Events.fire: ', type)
         window.dispatchEvent(new CustomEvent(type, { detail: detail }));
     }
 
     static on(type, callback) {
-        console.warn('Events.on: ', type)
         return window.addEventListener(type, callback, false);
     }
 
