@@ -9,7 +9,7 @@ window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 Events.on('display-name', e => {
     const me = e.detail.message;
     const $displayName = $('displayName')
-    $displayName.textContent = 'You are known as ' + me.displayName;
+    $displayName.textContent = '你被称为' + me.displayName;
     $displayName.title = me.deviceName;
 });
 
@@ -74,7 +74,7 @@ class PeerUI {
 
     html() {
         return `
-            <label class="column center" title="Click to send files or right click to send a text">
+            <label class="column center" title="单击以发送文件或右键单击以发送文本">
                 <input type="file" multiple>
                 <x-icon shadow="1">
                     <svg class="icon"><use xlink:href="#"/></svg>
@@ -375,7 +375,7 @@ class ReceiveTextDialog extends Dialog {
 
     async _onCopy() {
         await navigator.clipboard.writeText(this.$text.textContent);
-        Events.fire('notify-user', 'Copied to clipboard');
+        Events.fire('notify-user', '复制到剪切板');
     }
 }
 
@@ -415,7 +415,7 @@ class Notifications {
                 Events.fire('notify-user', Notifications.PERMISSION_ERROR || 'Error');
                 return;
             }
-            this._notify('Even more snappy sharing!');
+            this._notify('更活泼的分享！');
             this.$button.setAttribute('hidden', 1);
         });
     }
@@ -444,16 +444,16 @@ class Notifications {
 
     _messageNotification(message) {
         if (isURL(message)) {
-            const notification = this._notify(message, 'Click to open link');
+            const notification = this._notify(message, '点击打开链接');
             this._bind(notification, e => window.open(message, '_blank', null, true));
         } else {
-            const notification = this._notify(message, 'Click to copy text');
+            const notification = this._notify(message, '点击复制文本');
             this._bind(notification, e => this._copyText(message, notification));
         }
     }
 
     _downloadNotification(message) {
-        const notification = this._notify(message, 'Click to download');
+        const notification = this._notify(message, '点击下载');
         if (!window.isDownloadSupported) return;
         this._bind(notification, e => this._download(notification));
     }
@@ -466,7 +466,7 @@ class Notifications {
     _copyText(message, notification) {
         notification.close();
         if (!navigator.clipboard.writeText(message)) return;
-        this._notify('Copied text to clipboard');
+        this._notify('复制文本到剪贴板');
     }
 
     _bind(notification, handler) {
@@ -490,11 +490,11 @@ class NetworkStatusUI {
     }
 
     _showOfflineMessage() {
-        Events.fire('notify-user', 'You are offline');
+        Events.fire('notify-user', '你已下线');
     }
 
     _showOnlineMessage() {
-        Events.fire('notify-user', 'You are back online');
+        Events.fire('notify-user', '你又上线了');
     }
 }
 

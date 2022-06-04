@@ -12,7 +12,9 @@ process.on('SIGTERM', () => {
 })
 
 const parser = require('ua-parser-js');
-const { uniqueNamesGenerator, animals, colors } = require('unique-names-generator');
+// const { uniqueNamesGenerator, animals, colors } = require('unique-names-generator');
+const { uniqueNamesGenerator} = require('unique-names-generator');
+// const numberDictionary = NumberDictionary.generate({ min: 100, max: 999 });
 
 class SnapdropServer {
 
@@ -223,10 +225,21 @@ class Peer {
         if(!deviceName)
             deviceName = 'Unknown Device';
 
+        // const displayName = uniqueNamesGenerator({
+        //     length: 2,
+        //     separator: ' ',
+        //     dictionaries: [colors, animals],
+        //     style: 'capital',
+        //     seed: this.id.hashCode()
+        // })
+        
         const displayName = uniqueNamesGenerator({
-            length: 2,
-            separator: ' ',
-            dictionaries: [colors, animals],
+            dictionaries: [['赵','钱','孙','李','周','吴','郑','王','冯','陈','褚','卫','蒋','沈','韩','杨','鲁','韦','昌','马','苗','凤','花','方','萧'],
+            ['一','二','三','四','五','六','七','八','九','十','十一'],
+            ['郎','娘','弟','妹','姐'],
+        ],
+            length: 3,
+            separator: '',
             style: 'capital',
             seed: this.id.hashCode()
         })
