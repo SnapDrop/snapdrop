@@ -163,7 +163,7 @@ class Peer {
         }
     }
 
-    static MAX_SIMULTANEOUS_REQUEST = 3
+    static MAX_SIMULTANEOUS_REQUEST = 5
 
     _dequeueFile() {
         if (
@@ -413,7 +413,7 @@ class RTCPeer extends Peer {
     }
 
     _sendSignal(signal) {
-        signal.type = 'signal';
+        signal.type = Events.SIGNAL;
         signal.to = this._peerId;
         this._server.send(signal);
     }
