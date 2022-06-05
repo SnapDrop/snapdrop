@@ -234,6 +234,7 @@ class ReceiveDialog extends Dialog {
             window.blop.play();
         });
         this._filesQueue = [];
+        this.$previewBox = this.$el.querySelector('.preview')
     }
 
     _nextFile(nextFile) {
@@ -266,10 +267,23 @@ class ReceiveDialog extends Dialog {
             $a.click()
             return
         }
-        if(file.mime.split('/')[0] === 'image'){
-            console.log('the file is image');
-            this.$el.querySelector('.preview').style.visibility = 'inherit';
-            this.$el.querySelector("#img-preview").src = url;
+        
+        let mine = file.mime.split('/')[0]
+        let previewElement = {
+            image: 'img',
+            audio: 'audio',
+            video: 'video'
+        }
+
+        if(Object.keys(previewElement).indexOf(mine) !== -1){
+            console.log('the file is able to preview');
+            let element = document.createElement(previewElement[mine]);
+            element.src = url;
+            element.controls = true;
+            element.classList = 'element-preview'
+
+            this.$previewBox.style.visibility = 'inherit';
+            this.$previewBox.appendChild(element)
         }
 
         this.$el.querySelector('#fileName').textContent = file.name;
@@ -297,8 +311,8 @@ class ReceiveDialog extends Dialog {
     }
 
     hide() {
-        this.$el.querySelector('.preview').style.visibility = 'hidden';
-        this.$el.querySelector("#img-preview").src = "";
+        this.$previewBox.style.visibility = 'hidden';
+        this.$previewBox.innerHTML = '';
         super.hide();
         this._dequeueFile();
     }
