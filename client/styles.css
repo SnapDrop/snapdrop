@@ -322,6 +322,109 @@ footer .font-body2 {
     }
 }
 
+/* 
+    Files Listing
+*/
+
+#filesListView {
+    box-sizing: border-box;
+    border-radius: 20px;
+    position: fixed;
+    left: 2vw;
+    top: 2.5vh;
+    width: 90px;
+    height: 45px;
+    max-width: 600px;
+    padding: 10px;
+    background-color: var(--bg-color-secondary);
+    transition-duration: 0.3s;
+    transition-property: width, height, overflow-y;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 15;
+}
+
+#filesListView [toggle] {
+    display: block;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    cursor: pointer;
+}
+
+#filesListView[show] {
+    width: 98vw;
+    height: 95vh;
+    overflow-y: scroll;
+    z-index: 3;
+}
+
+#filesListView > div {
+    width: 98vw;
+    max-width: 100%;
+}
+
+#filesListView ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#filesListView li {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+}
+
+#filesListView li .preview {
+    display: flex;
+    align-items: end;
+    max-width: 0px;
+    max-height: 100px;
+    border-radius: 8px;
+    transition-duration: 0.3s;
+    transition-property: max-width, opacity, margin;
+    opacity: 0;
+    margin-left: 0;
+    overflow: hidden;
+}
+
+#filesListView li .preview > * {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+#filesListView li .preview[preview] {
+    margin-left: 15px;
+    max-width: 100px;
+    max-height: 100px;
+    opacity: 1;
+}
+
+#filesListView li .content {
+    flex: 1;
+}
+
+#filesListView li .content > div {
+    display: flex;
+    align-items: flex-end;
+}
+
+
+#filesListView .details {
+    text-align: right;
+    font-size: 0.7em;
+}
+
+#filesListView progress {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+}
+
 
 /* Dialog */
 
@@ -717,8 +820,9 @@ x-dialog x-paper {
     color: var(--text-color);
     background-color: var(--bg-color-secondary);
 }
-/* Image Preview */
-#img-preview{
+/* Image/Video/Audio Preview */
+.element-preview {
+    max-width: 100%;
     max-height: 50vh;
     margin: auto;
     display: block;
@@ -754,4 +858,3 @@ x-dialog x-paper {
         overflow: hidden;
     }
 }
-

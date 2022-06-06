@@ -6,21 +6,66 @@ window.isProductionEnvironment = !window.location.host.startsWith('localhost');
 window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 // set display name
-Events.on('display-name', e => {
+Events.on(Events.DISPLAY_NAME, e => {
     const me = e.detail.message;
     const $displayName = $('displayName')
     $displayName.textContent = 'You are known as ' + me.displayName;
     $displayName.title = me.deviceName;
 });
 
+Number.prototype.bytesToHumanFileSize = function () {
+    let bytes = this;
+    if (bytes >= 1e12) {
+        return (Math.round(bytes / 1e11) / 10) + ' TB';
+    } else if (bytes >= 1e9) {
+        return (Math.round(bytes / 1e8) / 10) + ' GB';
+    } else if (bytes >= 1e6) {
+        return (Math.round(bytes / 1e5) / 10) + ' MB';
+    } else if (bytes > 1000) {
+        return Math.round(bytes / 1000) + ' KB';
+    } else {
+        return bytes + ' Bytes';
+    }
+}
+
+class PreviewView {
+
+    static Elements = {
+        image: 'img',
+        audio: 'audio',
+        video: 'video'
+    }
+
+    static Keys = Object.keys(PreviewView.Elements)
+
+    constructor(file, parent) {
+        let mine = file.mime.split('/')[0]
+        this.url = URL.createObjectURL(file.blob);
+        this.isPlayable = PreviewView.Keys.indexOf(mine) !== -1
+        this.$parent = parent
+
+        if(this.isPlayable){
+            console.log('the file is able to preview');
+            let element = document.createElement(PreviewView.Elements[mine]);
+            element.src = this.url;
+            element.controls = true;
+            element.classList = 'element-preview'
+
+            this.$parent.appendChild(element)
+        }
+
+    }
+
+}
+
 class PeersUI {
 
     constructor() {
-        Events.on('peer-joined', e => this._onPeerJoined(e.detail));
-        Events.on('peer-left', e => this._onPeerLeft(e.detail));
-        Events.on('peers', e => this._onPeers(e.detail));
-        Events.on('file-progress', e => this._onFileProgress(e.detail));
-        Events.on('paste', e => this._onPaste(e));
+        Events.on(Events.PEER_JOINED, e => this._onPeerJoined(e.detail));
+        Events.on(Events.PEER_LEFT, e => this._onPeerLeft(e.detail));
+        Events.on(Events.PEERS, e => this._onPeers(e.detail));
+        Events.on(Events.FILE_PROGRESS, e => this._onFileProgress(e.detail));
+        Events.on(Events.PASTE, e => this._onPaste(e));
     }
 
     _onPeerJoined(peer) {
@@ -62,7 +107,7 @@ class PeersUI {
         // "image data has been pasted, click the client to which to send it"
         // not implemented
         if (files.length > 0 && peers.length === 1) {
-            Events.fire('files-selected', {
+            Events.fire(Events.FILES_SELECTED, {
                 files: files,
                 to: $$('x-peer').id
             });
@@ -143,7 +188,7 @@ class PeerUI {
     _onFilesSelected(e) {
         const $input = e.target;
         const files = $input.files;
-        Events.fire('files-selected', {
+        Events.fire(Events.FILES_SELECTED, {
             files: files,
             to: this._peer.id
         });
@@ -170,7 +215,7 @@ class PeerUI {
     _onDrop(e) {
         e.preventDefault();
         const files = e.dataTransfer.files;
-        Events.fire('files-selected', {
+        Events.fire(Events.FILES_SELECTED, {
             files: files,
             to: this._peer.id
         });
@@ -187,7 +232,7 @@ class PeerUI {
 
     _onRightClick(e) {
         e.preventDefault();
-        Events.fire('text-recipient', this._peer.id);
+        Events.fire(Events.TEXT_RECIPIENT, this._peer.id);
     }
 
     _onTouchStart(e) {
@@ -200,7 +245,7 @@ class PeerUI {
             clearTimeout(this._touchTimer);
         } else { // this was a long tap
             if (e) e.preventDefault();
-            Events.fire('text-recipient', this._peer.id);
+            Events.fire(Events.TEXT_RECIPIENT, this._peer.id);
         }
     }
 }
@@ -225,15 +270,71 @@ class Dialog {
     }
 }
 
+class RequestDialog extends Dialog {
+
+    constructor() {
+        super('requestDialog');
+        Events.on(Events.FILE_REQUEST, e => {
+            window.blop.play();
+            this._acceptQueue.push(e.detail)
+            this._proccess()
+        });
+        this._acceptQueue = []
+        this._showing = false
+        this.$el.querySelector('.accept').addEventListener('click', () => this._accept())
+        this.$el.querySelector('.deny').addEventListener('click', () => this._deny())
+    }
+
+    _proccess () {
+        if(this._showing || this._acceptQueue.length == 0) return;
+        this.lastDetail = this._acceptQueue.shift()
+        if(this._autoDownload()) {
+             this._accept();
+        } else {
+            this._ask(this.lastDetail.file);
+        }
+    }
+
+    _ask(file) {
+        this.$el.querySelector('.fileName').textContent = file.name;
+        this.$el.querySelector('.fileSize').textContent = file.size.bytesToHumanFileSize();
+        this.show()
+        this._showing = true
+    }
+
+    _accept() {
+        this.lastDetail && this.lastDetail.accept();
+        this._hide()
+    }
+
+    _deny() {
+        this.lastDetail && this.lastDetail.deny();
+        this._hide()
+    }
+
+    _hide() {
+        this._showing = false
+        this.lastDetail = null
+        this.hide()
+        this._proccess()
+    }
+
+    _autoDownload(){
+        return !this.$el.querySelector('.autoDownload').checked
+    }
+
+}
+
 class ReceiveDialog extends Dialog {
 
     constructor() {
         super('receiveDialog');
-        Events.on('file-received', e => {
-            this._nextFile(e.detail);
+        Events.on(Events.FILE_RECEIVED, e => {
+            this._nextFile(e.detail.file);
             window.blop.play();
         });
         this._filesQueue = [];
+        this.$previewBox = this.$el.querySelector('.preview')
     }
 
     _nextFile(nextFile) {
@@ -257,23 +358,23 @@ class ReceiveDialog extends Dialog {
     }
 
     _displayFile(file) {
+        const preview = new PreviewView(file, this.$previewBox);
+
         const $a = this.$el.querySelector('#download');
-        const url = URL.createObjectURL(file.blob);
-        $a.href = url;
+        $a.href = preview.url;
         $a.download = file.name;
 
         if(this._autoDownload()){
             $a.click()
             return
         }
-        if(file.mime.split('/')[0] === 'image'){
-            console.log('the file is image');
-            this.$el.querySelector('.preview').style.visibility = 'inherit';
-            this.$el.querySelector("#img-preview").src = url;
+        
+        if(preview.isPlayable) {
+            this.$previewBox.style.visibility = 'inherit';
         }
 
-        this.$el.querySelector('#fileName').textContent = file.name;
-        this.$el.querySelector('#fileSize').textContent = this._formatFileSize(file.size);
+        this.$el.querySelector('.fileName').textContent = file.name;
+        this.$el.querySelector('.fileSize').textContent = file.size.bytesToHumanFileSize();
         this.show();
 
         if (window.isDownloadSupported) return;
@@ -284,28 +385,16 @@ class ReceiveDialog extends Dialog {
         reader.readAsDataURL(file.blob);
     }
 
-    _formatFileSize(bytes) {
-        if (bytes >= 1e9) {
-            return (Math.round(bytes / 1e8) / 10) + ' GB';
-        } else if (bytes >= 1e6) {
-            return (Math.round(bytes / 1e5) / 10) + ' MB';
-        } else if (bytes > 1000) {
-            return Math.round(bytes / 1000) + ' KB';
-        } else {
-            return bytes + ' Bytes';
-        }
-    }
-
     hide() {
-        this.$el.querySelector('.preview').style.visibility = 'hidden';
-        this.$el.querySelector("#img-preview").src = "";
+        this.$previewBox.style.visibility = 'hidden';
+        this.$previewBox.innerHTML = '';
         super.hide();
         this._dequeueFile();
     }
 
 
     _autoDownload(){
-        return !this.$el.querySelector('#autoDownload').checked
+        return !this.$el.querySelector('.autoDownload').checked
     }
 }
 
@@ -313,7 +402,7 @@ class ReceiveDialog extends Dialog {
 class SendTextDialog extends Dialog {
     constructor() {
         super('sendTextDialog');
-        Events.on('text-recipient', e => this._onRecipient(e.detail))
+        Events.on(Events.TEXT_RECIPIENT, e => this._onRecipient(e.detail))
         this.$text = this.$el.querySelector('#textInput');
         const button = this.$el.querySelector('form');
         button.addEventListener('submit', e => this._send(e));
@@ -341,7 +430,7 @@ class SendTextDialog extends Dialog {
 
     _send(e) {
         e.preventDefault();
-        Events.fire('send-text', {
+        Events.fire(Events.SEND_TEXT, {
             to: this._recipient,
             text: this.$text.innerText
         });
@@ -351,7 +440,7 @@ class SendTextDialog extends Dialog {
 class ReceiveTextDialog extends Dialog {
     constructor() {
         super('receiveTextDialog');
-        Events.on('text-received', e => this._onText(e.detail))
+        Events.on(Events.TEXT_RECEIVED, e => this._onText(e.detail))
         this.$text = this.$el.querySelector('#text');
         const $copy = this.$el.querySelector('#copy');
         copy.addEventListener('click', _ => this._onCopy());
@@ -375,14 +464,14 @@ class ReceiveTextDialog extends Dialog {
 
     async _onCopy() {
         await navigator.clipboard.writeText(this.$text.textContent);
-        Events.fire('notify-user', 'Copied to clipboard');
+        Events.fire(Events.NOTIFY_USER, 'Copied to clipboard');
     }
 }
 
 class Toast extends Dialog {
     constructor() {
         super('toast');
-        Events.on('notify-user', e => this._onNotfiy(e.detail));
+        Events.on(Events.NOTIFY_USER, e => this._onNotfiy(e.detail));
     }
 
     _onNotfiy(message) {
@@ -405,14 +494,14 @@ class Notifications {
             this.$button.removeAttribute('hidden');
             this.$button.addEventListener('click', e => this._requestPermission());
         }
-        Events.on('text-received', e => this._messageNotification(e.detail.text));
-        Events.on('file-received', e => this._downloadNotification(e.detail.name));
+        Events.on(Events.TEXT_RECEIVED, e => this._messageNotification(e.detail.text));
+        Events.on(Events.FILE_RECEIVED, e => this._downloadNotification(e.detail.file.name));
     }
 
     _requestPermission() {
         Notification.requestPermission(permission => {
             if (permission !== 'granted') {
-                Events.fire('notify-user', Notifications.PERMISSION_ERROR || 'Error');
+                Events.fire(Events.NOTIFY_USER, Notifications.PERMISSION_ERROR || 'Error');
                 return;
             }
             this._notify('Even more snappy sharing!');
@@ -490,11 +579,11 @@ class NetworkStatusUI {
     }
 
     _showOfflineMessage() {
-        Events.fire('notify-user', 'You are offline');
+        Events.fire(Events.NOTIFY_USER, 'You are offline');
     }
 
     _showOnlineMessage() {
-        Events.fire('notify-user', 'You are back online');
+        Events.fire(Events.NOTIFY_USER, 'You are back online');
     }
 }
 
@@ -517,14 +606,86 @@ class WebShareTargetUI {
     }
 }
 
+class FilesListView {
+    constructor() {
+        this.$el = $('filesListView');
+        this.$list = this.$el.querySelector('ul');
+        this.$el.querySelectorAll('[toggle]').forEach(el => el.addEventListener('click', e => this.toggle()))
+        this.$autoFocus = this.$el.querySelector('[autofocus]');
+        this._visible = false
+        this._files = {}
+
+        Events.on(Events.FILE_ACCEPT, ({detail}) => this._addFile(detail))
+        Events.on(Events.FILE_REQUEST, ({detail}) => this._addFile(detail.file))
+        Events.on(Events.FILE_PROGRESS, ({detail}) => this._files[detail.uuid].setProgress(detail.fileProgress))
+        Events.on(Events.FILE_RECEIVED, ({detail}) => this._files[detail.uuid].preview(detail.file) );
+
+    }
+
+    _addFile(file) {
+        this._files[file.uuid] = new FilesListItemView(file).root(this.$list)
+    }
+
+    toggle() {
+        this._visible = !this._visible
+        if (this._visible) {
+            this.$el.setAttribute('show', 1);
+        } else {
+            this.$el.removeAttribute('show');
+        }
+    }
+
+}
+
+class FilesListItemView {
+    constructor(file) {
+        this._file = file
+        this.$el = document.createElement('li')
+        this.$el.innerHTML = `
+        <div class="content">
+            <div>
+                <span class="filename">${file.name}</span>
+                <div class="details">
+                    <span class="progressLabel">${(0).bytesToHumanFileSize()}</span> / ${file.size.bytesToHumanFileSize()}
+                </div>
+            </div>
+            <progress value="0" max="1"></progress>
+        </div>
+        <div class="preview"></div>
+        `
+        this.$progress = this.$el.querySelector('progress')
+        this.$progressLabel = this.$el.querySelector('.progressLabel')
+        this.$previewBox = this.$el.querySelector('.preview')
+    }
+
+    setProgress(value) {
+        this.$progress.value = value
+        this.$progressLabel.innerHTML = (this._file.size * value).bytesToHumanFileSize()
+    }
+
+    root(root) {
+        root.appendChild(this.$el)
+        return this
+    }
+
+    preview(file) {
+        let preview = new PreviewView(file, this.$previewBox);
+        if(preview.isPlayable) {
+            this.$previewBox.setAttribute('preview','loaded')
+        }
+    }
+
+}
 
 class Snapdrop {
     constructor() {
         const server = new ServerConnection();
         const peers = new PeersManager(server);
         const peersUI = new PeersUI();
-        Events.on('load', e => {
+        Events.on(Events.LOAD, e => {
+            const filesListView = new FilesListView();
             const receiveDialog = new ReceiveDialog();
+            const requestDialog = new RequestDialog();
             const sendTextDialog = new SendTextDialog();
             const receiveTextDialog = new ReceiveTextDialog();
             const toast = new Toast();
@@ -560,7 +721,7 @@ window.addEventListener('beforeinstallprompt', e => {
 });
 
 // Background Animation
-Events.on('load', () => {
+Events.on(Events.LOAD, () => {
     let c = document.createElement('canvas');
     document.body.appendChild(c);
     let style = c.style;
