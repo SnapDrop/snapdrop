@@ -341,7 +341,7 @@ footer .font-body2 {
     transition-property: width, height, overflow-y;
     overflow-x: hidden;
     overflow-y: hidden;
-    z-index: 100;
+    z-index: 15;
 }
 
 #filesListView [toggle] {
@@ -356,6 +356,7 @@ footer .font-body2 {
     width: 98vw;
     height: 95vh;
     overflow-y: scroll;
+    z-index: 3;
 }
 
 #filesListView > div {
@@ -371,6 +372,7 @@ footer .font-body2 {
 
 #filesListView li {
     display: flex;
+    align-items: center;
     margin: 10px 0;
     padding: 10px 12px;
     background-color: rgba(255, 255, 255, 0.08);
@@ -378,23 +380,27 @@ footer .font-body2 {
 }
 
 #filesListView li .preview {
-    width: 0px;
+    display: flex;
+    align-items: end;
+    max-width: 0px;
+    max-height: 100px;
     border-radius: 8px;
-    background-size: cover;
     transition-duration: 0.3s;
-    transition-property: width, opacity, margin;
+    transition-property: max-width, opacity, margin;
     opacity: 0;
-    margin-left: 15px;
+    margin-left: 0;
     overflow: hidden;
 }
 
 #filesListView li .preview > * {
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 #filesListView li .preview[preview] {
-    width: 80px;
+    margin-left: 15px;
+    max-width: 100px;
+    max-height: 100px;
     opacity: 1;
 }
 
@@ -407,10 +413,6 @@ footer .font-body2 {
     align-items: flex-end;
 }
 
-#filesListView li div > span {
-    display: block;
-    flex: 1;
-}
 
 #filesListView .details {
     text-align: right;

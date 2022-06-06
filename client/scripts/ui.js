@@ -28,6 +28,36 @@ Number.prototype.bytesToHumanFileSize = function () {
     }
 }
 
+class PreviewView {
+
+    static Elements = {
+        image: 'img',
+        audio: 'audio',
+        video: 'video'
+    }
+
+    static Keys = Object.keys(PreviewView.Elements)
+
+    constructor(file, parent) {
+        let mine = file.mime.split('/')[0]
+        this.url = URL.createObjectURL(file.blob);
+        this.isPlayable = PreviewView.Keys.indexOf(mine) !== -1
+        this.$parent = parent
+
+        if(this.isPlayable){
+            console.log('the file is able to preview');
+            let element = document.createElement(PreviewView.Elements[mine]);
+            element.src = this.url;
+            element.controls = true;
+            element.classList = 'element-preview'
+
+            this.$parent.appendChild(element)
+        }
+
+    }
+
+}
+
 class PeersUI {
 
     constructor() {
@@ -328,9 +358,10 @@ class ReceiveDialog extends Dialog {
     }
 
     _displayFile(file) {
+        const preview = new PreviewView(file, this.$previewBox);
+
         const $a = this.$el.querySelector('#download');
-        const url = URL.createObjectURL(file.blob);
-        $a.href = url;
+        $a.href = preview.url;
         $a.download = file.name;
 
         if(this._autoDownload()){
@@ -338,22 +369,8 @@ class ReceiveDialog extends Dialog {
             return
         }
         
-        let mine = file.mime.split('/')[0]
-        let previewElement = {
-            image: 'img',
-            audio: 'audio',
-            video: 'video'
-        }
-
-        if(Object.keys(previewElement).indexOf(mine) !== -1){
-            console.log('the file is able to preview');
-            let element = document.createElement(previewElement[mine]);
-            element.src = url;
-            element.controls = true;
-            element.classList = 'element-preview'
-
+        if(preview.isPlayable) {
             this.$previewBox.style.visibility = 'inherit';
-            this.$previewBox.appendChild(element)
         }
 
         this.$el.querySelector('.fileName').textContent = file.name;
@@ -627,7 +644,7 @@ class FilesListItemView {
         this.$el.innerHTML = `
         <div class="content">
             <div>
-                <span class="name">${file.name}</span>
+                <span class="filename">${file.name}</span>
                 <div class="details">
                     <span class="progressLabel">${(0).bytesToHumanFileSize()}</span> / ${file.size.bytesToHumanFileSize()}
                 </div>
@@ -638,7 +655,7 @@ class FilesListItemView {
         `
         this.$progress = this.$el.querySelector('progress')
         this.$progressLabel = this.$el.querySelector('.progressLabel')
-        this.$preview = this.$el.querySelector('.preview')
+        this.$previewBox = this.$el.querySelector('.preview')
     }
 
     setProgress(value) {
@@ -652,19 +669,9 @@ class FilesListItemView {
     }
 
     preview(file) {
-        const url = URL.createObjectURL(file.blob);
-        let mine = file.mime.split('/')[0]
-        if(mine === 'image'){
-            console.log('the file is image');
-            this.$preview.style.backgroundImage = `url(${url})`;
-            this.$preview.setAttribute('preview','loaded')
-        } else if (mine === 'video' || mine === 'audio') {
-            let video = document.createElement(mine)
-            this.$preview.appendChild(video)
-            video.src = url;
-            video.controls = true
-            video.load();
-            this.$preview.setAttribute('preview','loaded')
+        let preview = new PreviewView(file, this.$previewBox);
+        if(preview.isPlayable) {
+            this.$previewBox.setAttribute('preview','loaded')
         }
     }
 
