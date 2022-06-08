@@ -268,16 +268,16 @@ class ReceiveDialog extends Dialog {
             return
         }
         
-        let mine = file.mime.split('/')[0]
+        let mime = file.mime.split('/')[0]
         let previewElement = {
             image: 'img',
             audio: 'audio',
             video: 'video'
         }
 
-        if(Object.keys(previewElement).indexOf(mine) !== -1){
+        if(Object.keys(previewElement).indexOf(mime) !== -1){
             console.log('the file is able to preview');
-            let element = document.createElement(previewElement[mine]);
+            let element = document.createElement(previewElement[mime]);
             element.src = url;
             element.controls = true;
             element.classList = 'element-preview'
