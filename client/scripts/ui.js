@@ -242,6 +242,7 @@ class ReceiveDialog extends Dialog {
         this._busy = true;
         const file = this._filesQueue.shift();
         this._displayFile(file);
+        this._storeAutoDownload();
     }
 
     _dequeueFile() {
@@ -304,8 +305,18 @@ class ReceiveDialog extends Dialog {
     }
 
 
-    _autoDownload(){
-        return !this.$el.querySelector('#autoDownload').checked
+    _autoDownload() {
+        const autoDownload = localStorage.getItem('autoDownload');
+        if (autoDownload === null) {
+            return !this.$el.querySelector('#autoDownload').checked;
+        }
+        return autoDownload;
+    }
+
+    _storeAutoDownload() {
+        if (localStorage.hasOwnProperty('autoDownload')) return;
+        const autoDownload = this._autoDownload();
+        localStorage.setItem('autoDownload', autoDownload);
     }
 }
 
@@ -634,3 +645,19 @@ document.body.onclick = e => { // safari hack to fix audio
     if (!(/.*Version.*Safari.*/.test(navigator.userAgent))) return;
     blop.play();
 }
+
+(function autoDownloadChangeColor() {
+    const primaryColor = getComputedStyle(document.body).getPropertyValue('--primary-color');
+    let autoDownload = localStorage.getItem('autoDownload');
+    let useElement = document.querySelector("#auto-download > svg > use");
+    useElement.setAttribute("fill", autoDownload === "true" ? primaryColor : "auto");
+
+    // Listen for a click on the button
+    let btnAutoDownload = document.getElementById("auto-download");
+    btnAutoDownload.addEventListener('click', function() {
+        let useElement = document.querySelector("#auto-download > svg > use");
+        let autoDownload = useElement.getAttribute("fill") === primaryColor;
+        useElement.setAttribute("fill", autoDownload ? "auto" : primaryColor);
+        localStorage.setItem('autoDownload', String(!autoDownload));
+  });
+})();
