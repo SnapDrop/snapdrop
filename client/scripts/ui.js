@@ -83,12 +83,11 @@ class PeersUI {
     _onLoadCheckPaste() {
         const urlParams = new URLSearchParams(window.location.search);
         if(urlParams.has('paste')) {
-            this._activatePasteMode(() => this._getClipboardData())
+            this._activatePasteMode(this._getClipboardData)
         }
     }
 
     async _onPaste(e) {
-        //only paste, when no dialog is open
         const dialogNodes = document.querySelectorAll('x-dialog');
         let dialogIsOpen = false
         dialogNodes.forEach(function (dialogNode) {
@@ -99,13 +98,12 @@ class PeersUI {
                 }
             }
         });
-        if(!dialogIsOpen) {
+        if(!dialogIsOpen && !this.pasteMode) {
+            // prevent send on paste when dialog is open and when pastMode is already triggered
             e.preventDefault()
             const files = e.clipboardData.files;
             const text = e.clipboardData.getData("Text");
-            this._activatePasteMode(function () {
-                return [files, text];
-            });
+            this._activatePasteMode(() => [files, text]);
         }
     }
 
@@ -177,15 +175,17 @@ class PeersUI {
         return [[], ""]
     }
 
-    async getClipboardDataCallback(e, _callback) {
+    async _getClipboardDataCallback(e, _callback) {
         const [files, text] = await _callback();
         const peerId = e.detail.peerId;
         this._sendClipboardData(files, text, peerId);
     }
 
     _activatePasteMode(_callback) {
-        Events.on('paste-touchend-click', e => this.getClipboardDataCallback(e, _callback));
-        Events.on('notify-user', e => this._deactivatePasteMode(e, _callback));
+        this.clipboardDataCallback = (e) => this._getClipboardDataCallback(e, _callback);
+        this.deactivatePasteModeCallback = (e) => this._deactivatePasteMode(e, _callback)
+        Events.on('paste-touchend-click', this.clipboardDataCallback);
+        Events.on('notify-user', this.deactivatePasteModeCallback);
         this.pasteMode = true;
         this._onPeers(this._getPeers());
         const xInstructions = document.querySelectorAll('x-instructions')[0];
@@ -198,8 +198,8 @@ class PeersUI {
     _deactivatePasteMode(e, _callback) {
         if (['File transfer completed.', 'Message transfer completed.', 'File not supported. Use Paste-Area.',
             'Browser not supported.'].includes(e.detail)) {
-            Events.off('paste-touchend-click', e => this.getClipboardDataCallback(e, _callback));
-            Events.off('notify-user', e => this._deactivatePasteMode(e, _callback));
+            Events.off('paste-touchend-click', this.clipboardDataCallback);
+            Events.off('notify-user', this.deactivatePasteModeCallback);
             this.pasteMode = false;
             this._onPeers(this._getPeers());
             const xInstructions = document.querySelectorAll('x-instructions')[0];
@@ -208,7 +208,7 @@ class PeersUI {
             const xPasteArea = document.querySelectorAll('x-paste-area')[0];
             xPasteArea.style.display = 'inline';
             //replace url in history to prevent unwanted pasting on reload or back/forward
-            // window.history.replaceState({}, "title**", '/');
+            window.history.replaceState({}, "title**", '/');
         }
     }
 
