@@ -134,7 +134,7 @@ class PeersUI {
             return [files, text];
         } catch (err) {
             console.error('Failed to read clipboard contents: ', err);
-            if (err === 'DOMException: No valid data on clipboard.') {
+            if (err.message === 'No valid data on clipboard.') {
                 Events.fire('notify-user', 'File not supported. Use Paste-Area.');
             } else {
                 console.log('Asynchronous Clipboard API is not implemented yet by some browsers including Firefox.')
@@ -174,7 +174,8 @@ class PeersUI {
     }
 
     _deactivatePasteMode(e, _callback) {
-        if (e.detail === 'File transfer completed.' || e.detail === 'Message transfer completed.' ) {
+        if (['File transfer completed.', 'Message transfer completed.', 'File not supported. Use Paste-Area.',
+            'Browser not supported.'].includes(e.detail)) {
             Events.off('paste-touchend-click', e => this.getClipboardDataCallback(e, _callback));
             Events.off('notify-user', e => this._deactivatePasteMode(e, _callback));
             this.pasteMode = false;
