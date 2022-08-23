@@ -109,6 +109,15 @@ class PeersUI {
         }
     }
 
+    _dataURLtoFile(data, filename) {
+        let arr = data.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, );
+    }
+
     async _getClipboardData() {
         try {
             let dataTransfer = new DataTransfer();
@@ -130,6 +139,19 @@ class PeersUI {
                 // text only
                 const blob = await clipboardItems[0].getType(typesText[0]);
                 text = await blob.text();
+            }
+
+            // Add possibility to paste base64 encoded file as text
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('base64file')) {
+                // check whether text is valid base64 encoded
+                const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+                if (base64regex.test(text.split(',')[1])) {
+                    console.log(true)
+                    const filename = urlParams.has('filename') ? urlParams.get('filename') : "file";
+                    files = [this._dataURLtoFile(text, filename)];
+                    text = "";
+                }
             }
             return [files, text];
         } catch (err) {
