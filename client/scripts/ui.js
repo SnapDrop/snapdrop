@@ -23,6 +23,7 @@ class PeersUI {
         Events.on('file-progress', e => this._onFileProgress(e.detail));
         Events.on('paste', e => this._onPaste(e));
         Events.on('load', e => this._onLoadCheckPaste());
+        this._restrictPasteAreaEditing()
     }
 
     _onPeerJoined(peer) {
@@ -65,6 +66,18 @@ class PeersUI {
             })
         });
         return peers;
+    }
+
+    _restrictPasteAreaEditing() {
+        const xPasteArea = document.querySelectorAll('x-paste-area')[0];
+        xPasteArea.addEventListener('keydown', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        xPasteArea.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
     }
 
     _onLoadCheckPaste() {

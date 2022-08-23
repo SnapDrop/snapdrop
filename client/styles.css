@@ -175,6 +175,28 @@ body>header a {
     margin-left: 8px;
 }
 
+/* Paste Area */
+x-paste-area {
+    position: absolute;
+    top: 150px;
+    width: 100%;
+    height: 30%;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 0;
+    outline: 0 solid transparent;
+    opacity: 0.5;
+    caret-color: transparent;
+}
+
+x-paste-area {
+    content: attr(mobile);
+}
+
+x-peers:empty~x-paste-area {
+    opacity: 0;
+}
+
 /* Peers List */
 
 x-peers {
