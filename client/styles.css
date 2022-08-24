@@ -187,14 +187,17 @@ x-paste-area {
     outline: 0 solid transparent;
     opacity: 0.5;
     caret-color: transparent;
-}
-
-x-paste-area {
-    content: attr(mobile);
+    display: flex;
+    justify-content: center;
 }
 
 x-peers:empty~x-paste-area {
     opacity: 0;
+}
+
+x-paste-area>.button {
+    align-self: baseline;
+    display: flex;
 }
 
 /* Peers List */

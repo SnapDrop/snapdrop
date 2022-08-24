@@ -181,16 +181,20 @@ class PeersUI {
         xInstructions.setAttribute('desktop', 'Click to send clipboard content');
         xInstructions.setAttribute('mobile', 'Tap to send clipboard content');
         const xPasteArea = document.querySelectorAll('x-paste-area')[0];
-        xPasteArea.style.display = 'none';
+        xPasteArea.getElementsByTagName('span')[0].setAttribute('hidden', "");
+        const xPasteAreaCancelBtn = xPasteArea.getElementsByClassName('button')[0];
+        xPasteAreaCancelBtn.addEventListener('click',
+            () => Events.fire('notify-user', 'Paste Mode canceled'))
+        xPasteAreaCancelBtn.removeAttribute('hidden');
         this.sendClipboardDataCallback = (e) => this._sendClipboardData(e, _callback);
-        this.deactivatePasteModeCallback = (e) => this._deactivatePasteMode(e, _callback)
+        this.deactivatePasteModeCallback = (e) => this._deactivatePasteMode(e, _callback);
         Events.on('paste-touchend-click', this.sendClipboardDataCallback);
         Events.on('notify-user', this.deactivatePasteModeCallback);
     }
 
     _deactivatePasteMode(e, _callback) {
         if (['File transfer completed.', 'Message transfer completed.', 'File not supported. Use paste area.',
-            'Browser not supported. Use paste area!'].includes(e.detail)) {
+            'Browser not supported. Use paste area!', 'Paste Mode canceled'].includes(e.detail)) {
             Events.off('paste-touchend-click', this.sendClipboardDataCallback);
             Events.off('notify-user', this.deactivatePasteModeCallback);
             this.pasteMode = false;
@@ -199,9 +203,10 @@ class PeersUI {
             xInstructions.setAttribute('desktop', 'Click to send files or right click to send a message');
             xInstructions.setAttribute('mobile', 'Tap to send files or long tap to send a message');
             const xPasteArea = document.querySelectorAll('x-paste-area')[0];
-            xPasteArea.style.display = 'inline';
+            xPasteArea.getElementsByClassName('button')[0].setAttribute('hidden', "");
+            xPasteArea.getElementsByTagName('span')[0].removeAttribute('hidden');
             //replace url in history to prevent unwanted pasting on reload or back/forward
-            // window.history.replaceState({}, "title**", '/');
+            window.history.replaceState({}, "title**", '/');
         }
     }
 
