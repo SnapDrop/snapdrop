@@ -124,11 +124,18 @@ class PeersUI {
             const clipboardItems = await navigator.clipboard.read();
 
             let files = [];
-            const typesFiles = clipboardItems[0].types.filter(i => i.indexOf('text') === -1);
-            if (typesFiles.length > 0) {
-                // everything except text
-                const blob = await clipboardItems[0].getType(typesFiles[0]);
-                files.push(new File([blob], 'file', {type: typesFiles[0]}));
+            for (const clipboardItem of clipboardItems) {
+                if (clipboardItems.length === 1 && clipboardItem.types.length === 0) {
+                    // On ios Safari somehow clipboardItems of pasted photos have empty types arrays. Abort.
+                    Events.fire('notify-user', 'File not supported. Use paste area.');
+                }
+
+                let typesFiles = clipboardItem.types.filter(i => i.indexOf('text') === -1);
+                if (typesFiles.length > 0) {
+                    // everything except text
+                    let blob = await clipboardItem.getType(typesFiles[0]);
+                    files.push(new File([blob], 'file', {type: typesFiles[0]}));
+                }
             }
 
             let text = '';
@@ -141,7 +148,7 @@ class PeersUI {
 
             // Add possibility to paste base64 encoded file as text
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('base64file')) {
+            if (urlParams.has('base64file') && text.indexOf(",") > -1) {
                 // check whether text is valid base64 encoded
                 const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
                 if (base64regex.test(text.split(',')[1])) {
