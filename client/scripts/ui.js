@@ -195,14 +195,14 @@ class PeersUI {
         xPasteAreaCancelBtn.removeAttribute('hidden');
         this.sendClipboardDataCallback = (e) => this._sendClipboardData(e, _callback);
         this.deactivatePasteModeCallback = (e) => this._deactivatePasteMode(e, _callback);
-        Events.on('paste-touchend-click', this.sendClipboardDataCallback);
+        Events.on('paste-pointerdown', this.sendClipboardDataCallback);
         Events.on('notify-user', this.deactivatePasteModeCallback);
     }
 
     _deactivatePasteMode(e, _callback) {
         if (['File transfer completed.', 'Message transfer completed.', 'File not supported. Use paste area.',
             'Browser not supported. Use paste area!', 'Paste Mode canceled'].includes(e.detail)) {
-            Events.off('paste-touchend-click', this.sendClipboardDataCallback);
+            Events.off('paste-pointerdown', this.sendClipboardDataCallback);
             Events.off('notify-user', this.deactivatePasteModeCallback);
             this.pasteMode = false;
             this._onPeers(this._getPeers());
@@ -265,7 +265,7 @@ class PeerUI {
         this._bindListeners(this.$el);
     }
 
-        _initDom() {
+    _initDom() {
         const el = document.createElement('x-peer');
         el.id = this._peer.id;
         el.name = this._peer.name;
@@ -293,13 +293,17 @@ class PeerUI {
             Events.on('dragover', e => e.preventDefault());
             Events.on('drop', e => e.preventDefault());
         } else {
-            el.addEventListener('click', e => this._onPasteTouchEndOrClick());
-            el.addEventListener('touchend', e => this._onPasteTouchEndOrClick());
+            // somehow pointerdown event does not work with Async Clipboard API on Safari.
+            el.addEventListener('touchend', (e) => this._onPastePointerDown(e));
+            el.addEventListener('click', (e) => this._onPastePointerDown(e));
         }
     }
 
-    _onPasteTouchEndOrClick() {
-        Events.fire('paste-touchend-click', {
+    _onPastePointerDown(e) {
+        // Prevents triggering of event twice on touch devices
+        e.stopPropagation();
+        e.preventDefault();
+        Events.fire('paste-pointerdown', {
             peerId: this._peer.id
         });
     }

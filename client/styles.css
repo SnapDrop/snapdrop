@@ -186,7 +186,8 @@ x-paste-area {
     z-index: 0;
     outline: 0 solid transparent;
     opacity: 0.5;
-    caret-color: transparent;
+    /*easier to paste with caret*/
+    /*caret-color: transparent;*/
     display: flex;
     justify-content: center;
 }
