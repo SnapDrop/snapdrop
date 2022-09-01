@@ -4,6 +4,8 @@ const isURL = text => /^((https?:\/\/|www)[^\s]+)/g.test(text.toLowerCase());
 window.isDownloadSupported = (typeof document.createElement('a').download !== 'undefined');
 window.isProductionEnvironment = !window.location.host.startsWith('localhost');
 window.iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+window.pasteMode = {};
+window.pasteMode.activated = false;
 
 // set display name
 Events.on('display-name', e => {
@@ -14,21 +16,18 @@ Events.on('display-name', e => {
 });
 
 class PeersUI {
-    pasteMode = false;
-
     constructor() {
         Events.on('peer-joined', e => this._onPeerJoined(e.detail));
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
         Events.on('peers', e => this._onPeers(e.detail));
         Events.on('file-progress', e => this._onFileProgress(e.detail));
         Events.on('paste', e => this._onPaste(e));
-        Events.on('load', e => this._onLoadCheckPaste());
-        this._restrictPasteAreaEditing()
+        Events.on('activate-pastemode', e => this._activatePasteMode(() => this._getClipboardData()))
     }
 
     _onPeerJoined(peer) {
         if ($(peer.id)) return; // peer already exists
-        const peerUI = new PeerUI(peer, this.pasteMode);
+        const peerUI = new PeerUI(peer);
         $$('x-peers').appendChild(peerUI.$el);
         setTimeout(e => window.animateBackground(false), 1750); // Stop animation
     }
@@ -68,25 +67,6 @@ class PeersUI {
         return peers;
     }
 
-    _restrictPasteAreaEditing() {
-        const xPasteArea = document.querySelectorAll('x-paste-area')[0];
-        xPasteArea.addEventListener('keydown', function(e) {
-            e.preventDefault();
-            return false;
-        });
-        xPasteArea.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-            return false;
-        });
-    }
-
-    _onLoadCheckPaste() {
-        const urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.has('paste')) {
-            this._activatePasteMode(() => this._getClipboardData())
-        }
-    }
-
     async _onPaste(e) {
         const dialogNodes = document.querySelectorAll('x-dialog');
         let dialogIsOpen = false
@@ -98,8 +78,8 @@ class PeersUI {
                 }
             }
         });
-        if(!dialogIsOpen && !this.pasteMode) {
-            // prevent send on paste when dialog is open and when pastMode is already triggered
+        if(!dialogIsOpen) {
+            // prevent send on paste when dialog is open
             e.preventDefault()
             const files = e.clipboardData.files;
             const text = e.clipboardData.getData("Text");
@@ -107,23 +87,14 @@ class PeersUI {
         }
     }
 
-    _dataURLtoFile(data, filename) {
-        let arr = data.split(','), mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new File([u8arr], filename);
-    }
-
     async _getClipboardData() {
+        let files = [];
+        let text = '';
         try {
             let dataTransfer = new DataTransfer();
             dataTransfer.effectAllowed = "all";
 
             const clipboardItems = await navigator.clipboard.read();
-
-            let files = [];
             for (const clipboardItem of clipboardItems) {
                 if (clipboardItems.length === 1 && clipboardItem.types.length === 0) {
                     // On ios Safari somehow clipboardItems of pasted photos have empty types arrays. Abort.
@@ -138,26 +109,12 @@ class PeersUI {
                 }
             }
 
-            let text = '';
             const typesText = clipboardItems[0].types.filter(i => i.indexOf('text') > -1);
             if (typesText.length > 0) {
                 // text only
                 const blob = await clipboardItems[0].getType(typesText[0]);
                 text = await blob.text();
             }
-
-            // Add possibility to paste base64 encoded file as text
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('base64file') && text.indexOf(",") > -1) {
-                // check whether text is valid base64 encoded
-                const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
-                if (base64regex.test(text.split(',')[1])) {
-                    const filename = urlParams.has('filename') ? urlParams.get('filename') : "file";
-                    files = [this._dataURLtoFile(text, filename)];
-                    text = "";
-                }
-            }
-            return [files, text];
         } catch (err) {
             console.error('Failed to read clipboard contents: ', err);
             if (err.message === 'No valid data on clipboard.') {
@@ -166,9 +123,8 @@ class PeersUI {
                 console.log('Asynchronous Clipboard API is not implemented yet by some browsers including Firefox.')
                 console.log('Trying readText() function instead')
                 try {
-                    const text = await navigator.clipboard.readText();
-                    const files = [];
-                    return [files, text]
+                    files = [];
+                    text = await navigator.clipboard.readText();
                 } catch (err) {
                     console.error('Failed to read clipboard contents user readText() function: ', err);
                     console.log('In Firefox readText() function can be enabled by setting ' +
@@ -178,33 +134,40 @@ class PeersUI {
                 }
             }
         }
-        return [[], ""]
+        return [files, text];
     }
 
     _activatePasteMode(_callback) {
-        this.pasteMode = true;
-        this._onPeers(this._getPeers());
-        const xInstructions = document.querySelectorAll('x-instructions')[0];
-        xInstructions.setAttribute('desktop', 'Click to send clipboard content');
-        xInstructions.setAttribute('mobile', 'Tap to send clipboard content');
-        const xPasteArea = document.querySelectorAll('x-paste-area')[0];
-        xPasteArea.getElementsByTagName('span')[0].setAttribute('hidden', "");
-        const xPasteAreaCancelBtn = xPasteArea.getElementsByClassName('button')[0];
-        xPasteAreaCancelBtn.addEventListener('click',
-            () => Events.fire('notify-user', 'Paste Mode canceled'))
-        xPasteAreaCancelBtn.removeAttribute('hidden');
-        this.sendClipboardDataCallback = (e) => this._sendClipboardData(e, _callback);
-        this.deactivatePasteModeCallback = (e) => this._deactivatePasteMode(e, _callback);
-        Events.on('paste-pointerdown', this.sendClipboardDataCallback);
-        Events.on('notify-user', this.deactivatePasteModeCallback);
+        if (!window.pasteMode.activated) {
+            window.pasteMode.activated = true;
+            console.log('Paste mode activated.')
+            this._onPeers(this._getPeers());
+            const xInstructions = document.querySelectorAll('x-instructions')[0];
+            xInstructions.setAttribute('desktop', 'Click to send clipboard content');
+            xInstructions.setAttribute('mobile', 'Tap to send clipboard content');
+            const xPasteArea = document.querySelectorAll('x-paste-area')[0];
+            xPasteArea.getElementsByTagName('span')[0].setAttribute('hidden', "");
+            const xPasteAreaCancelBtn = xPasteArea.getElementsByClassName('button')[0];
+            xPasteAreaCancelBtn.addEventListener('click',
+                () => Events.fire('notify-user', 'Paste Mode canceled'))
+            xPasteAreaCancelBtn.removeAttribute('hidden');
+            this.sendClipboardDataCallback = (e) => this._sendClipboardData(e, _callback);
+            this.deactivatePasteModeCallback = (e) => this._deactivatePasteMode(e);
+            Events.on('paste-pointerdown', this.sendClipboardDataCallback);
+            Events.on('notify-user', this.deactivatePasteModeCallback);
+        }
     }
 
-    _deactivatePasteMode(e, _callback) {
-        if (['File transfer completed.', 'Message transfer completed.', 'File not supported. Use paste area.',
+    _deactivatePasteMode(e) {
+        if (window.pasteMode.activated &&
+            ['File transfer completed.', 'Message transfer completed.', 'File not supported. Use paste area.',
             'Browser not supported. Use paste area!', 'Paste Mode canceled'].includes(e.detail)) {
+            window.pasteMode.activated = false;
+            window.pasteMode.textIsDataUri = false;
+            window.pasteMode.filename = "";
+            console.log('Paste mode deactivated.')
             Events.off('paste-pointerdown', this.sendClipboardDataCallback);
             Events.off('notify-user', this.deactivatePasteModeCallback);
-            this.pasteMode = false;
             this._onPeers(this._getPeers());
             const xInstructions = document.querySelectorAll('x-instructions')[0];
             xInstructions.setAttribute('desktop', 'Click to send files or right click to send a message');
@@ -217,10 +180,27 @@ class PeersUI {
         }
     }
 
+    _dataURLtoFile(data, filename) {
+        let arr = data.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename);
+    }
+
     async _sendClipboardData(e, _callback) {
         // send the pasted file/text content
-        const [files, text] = await _callback();
         const peerId = e.detail.peerId;
+        let [files, text] = await _callback();
+
+        // Add possibility to paste base64 encoded file as text
+        if (window.pasteMode.textIsDataUri && text.indexOf(",") > -1) {
+            const filename = window.pasteMode.filename ?? "file";
+            files = [this._dataURLtoFile(text, filename)];
+            text = "";
+        }
+
         if (files.length > 0) {
             Events.fire('files-selected', {
                 files: files,
@@ -238,13 +218,17 @@ class PeersUI {
 class PeerUI {
 
     html() {
-        let title = !this._pasteMode
+        let title = !window.pasteMode.activated
             ? 'Click to send files or right click to send a message'
-            : 'Click to send clipboard content'
+            : 'Click to send clipboard content';
+
+        let text = !window.pasteMode.activated
+            ? '<input type="file" multiple>'
+            : '';
 
         return `
             <label class="column center" title="${title}">
-                ${!this._pasteMode ? '<input type="file" multiple>' : ''}
+                ${text}
                 <x-icon shadow="1">
                     <svg class="icon"><use xlink:href="#"/></svg>
                 </x-icon>
@@ -255,12 +239,11 @@ class PeerUI {
                 <div class="name font-subheading"></div>
                 <div class="device-name font-body2"></div>
                 <div class="status font-body2"></div>
-            </label>`
+            </label>`;
     }
 
-    constructor(peer, pasteMode = false) {
+    constructor(peer) {
         this._peer = peer;
-        this._pasteMode = pasteMode
         this._initDom();
         this._bindListeners(this.$el);
     }
@@ -280,7 +263,7 @@ class PeerUI {
     }
 
     _bindListeners(el) {
-        if(!this._pasteMode) {
+        if(!window.pasteMode.activated) {
             el.querySelector('input').addEventListener('change', e => this._onFilesSelected(e));
             el.addEventListener('drop', e => this._onDrop(e));
             el.addEventListener('dragend', e => this._onDragEnd(e));
@@ -687,10 +670,10 @@ class NetworkStatusUI {
 
 class WebShareTargetUI {
     constructor() {
-        const parsedUrl = new URL(window.location);
-        const title = parsedUrl.searchParams.get('title');
-        const text = parsedUrl.searchParams.get('text');
-        const url = parsedUrl.searchParams.get('url');
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('title');
+        const text = urlParams.get('text');
+        const url = urlParams.get('url');
 
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
@@ -701,6 +684,36 @@ class WebShareTargetUI {
         window.shareTargetText = shareTargetText;
         history.pushState({}, 'URL Rewrite', '/');
         console.log('Shared Target Text:', '"' + shareTargetText + '"');
+    }
+}
+
+class PasteUI {
+    constructor() {
+        // restrict paste area editing
+        const xPasteArea = document.querySelectorAll('x-paste-area')[0];
+        xPasteArea.addEventListener('keydown', function(e) {
+            if (!(e.ctrlKey && e.code === 'KeyV')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        xPasteArea.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        //prepare base64 decoding of text in clipboard
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.get('text_is_data_uri') === 'true') {
+            window.pasteMode.textIsDataUri = true
+            if(urlParams.has('filename')) {
+                window.pasteMode.filename = urlParams.get('filename')
+            }
+        }
+        // activate paste mode if 'paste' is true
+        if(urlParams.get('paste') === 'true') {
+            Events.fire('activate async-clipboard')
+        }
     }
 }
 
@@ -718,6 +731,7 @@ class Snapdrop {
             const notifications = new Notifications();
             const networkStatusUI = new NetworkStatusUI();
             const webShareTargetUI = new WebShareTargetUI();
+            const pasteUI = new PasteUI();
         });
     }
 }
