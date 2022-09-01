@@ -196,7 +196,8 @@ class PeersUI {
 
         // Add possibility to paste base64 encoded file as text
         if (window.pasteMode.textIsDataUri && text.indexOf(",") > -1) {
-            const filename = window.pasteMode.filename ?? "file";
+            const mime = text.split(',')[0].match(/:(.*?);/)[1];
+            const filename = window.pasteMode.filename ?? "file." + window.pasteMode.mimeTypeSuffixMap[mime];
             files = [this._dataURLtoFile(text, filename)];
             text = "";
         }
@@ -706,6 +707,19 @@ class PasteUI {
         const urlParams = new URLSearchParams(window.location.search);
         if(urlParams.get('text_is_data_uri') === 'true') {
             window.pasteMode.textIsDataUri = true
+            let req = new XMLHttpRequest();
+            req.open('GET', 'mime.types');
+            req.onload = function () {
+                window.pasteMode.mimeTypeSuffixMap = {}
+                const lines = this.responseText.split(/\r?\n/);
+                for (let line of lines) {
+                    if (!line.startsWith('#')) {
+                        let [mime, suffix] = line.split(/\s+/)
+                        window.pasteMode.mimeTypeSuffixMap[mime] = suffix;
+                    }
+                }
+            }
+            req.send();
             if(urlParams.has('filename')) {
                 window.pasteMode.filename = urlParams.get('filename')
             }
