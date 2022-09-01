@@ -1,1856 +1,879 @@
-# source: https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
-# This file maps Internet media types to unique file extension(s).
-# Although created for httpd, this file is used by many software systems
-# and has been placed in the public domain for unlimited redisribution.
-#
-# The table below contains both registered and (common) unregistered types.
-# A type that has no unique extension can be ignored -- they are listed
-# here to guide configurations toward known types and to make it easier to
-# identify "new" types.  File extensions are also commonly used to indicate
-# content languages and encodings, so choose them carefully.
-#
-# Internet media types should be registered as described in RFC 4288.
-# The registry is at <http://www.iana.org/assignments/media-types/>.
-#
-# MIME type (lowercased)			Extensions
-# ============================================	==========
-# application/1d-interleaved-parityfec
-# application/3gpdash-qoe-report+xml
-# application/3gpp-ims+xml
-# application/a2l
-# application/activemessage
-# application/alto-costmap+json
-# application/alto-costmapfilter+json
-# application/alto-directory+json
-# application/alto-endpointcost+json
-# application/alto-endpointcostparams+json
-# application/alto-endpointprop+json
-# application/alto-endpointpropparams+json
-# application/alto-error+json
-# application/alto-networkmap+json
-# application/alto-networkmapfilter+json
-# application/aml
-application/andrew-inset			ez
-# application/applefile
-application/applixware				aw
-# application/atf
-# application/atfx
-application/atom+xml				atom
-application/atomcat+xml				atomcat
-# application/atomdeleted+xml
-# application/atomicmail
-application/atomsvc+xml				atomsvc
-# application/atxml
-# application/auth-policy+xml
-# application/bacnet-xdd+zip
-# application/batch-smtp
-# application/beep+xml
-# application/calendar+json
-# application/calendar+xml
-# application/call-completion
-# application/cals-1840
-# application/cbor
-# application/ccmp+xml
-application/ccxml+xml				ccxml
-# application/cdfx+xml
-application/cdmi-capability			cdmia
-application/cdmi-container			cdmic
-application/cdmi-domain				cdmid
-application/cdmi-object				cdmio
-application/cdmi-queue				cdmiq
-# application/cdni
-# application/cea
-# application/cea-2018+xml
-# application/cellml+xml
-# application/cfw
-# application/cms
-# application/cnrp+xml
-# application/coap-group+json
-# application/commonground
-# application/conference-info+xml
-# application/cpl+xml
-# application/csrattrs
-# application/csta+xml
-# application/cstadata+xml
-# application/csvm+json
-application/cu-seeme				cu
-# application/cybercash
-# application/dash+xml
-# application/dashdelta
-application/davmount+xml			davmount
-# application/dca-rft
-# application/dcd
-# application/dec-dx
-# application/dialog-info+xml
-# application/dicom
-# application/dii
-# application/dit
-# application/dns
-application/docbook+xml				dbk
-# application/dskpp+xml
-application/dssc+der				dssc
-application/dssc+xml				xdssc
-# application/dvcs
-application/ecmascript				ecma
-# application/edi-consent
-# application/edi-x12
-# application/edifact
-# application/efi
-# application/emergencycalldata.comment+xml
-# application/emergencycalldata.deviceinfo+xml
-# application/emergencycalldata.providerinfo+xml
-# application/emergencycalldata.serviceinfo+xml
-# application/emergencycalldata.subscriberinfo+xml
-application/emma+xml				emma
-# application/emotionml+xml
-# application/encaprtp
-# application/epp+xml
-application/epub+zip				epub
-# application/eshop
-# application/example
-application/exi					exi
-# application/fastinfoset
-# application/fastsoap
-# application/fdt+xml
-# application/fits
-application/font-tdpfr				pfr
-# application/framework-attributes+xml
-# application/geo+json
-application/gml+xml				gml
-application/gpx+xml				gpx
-application/gxf					gxf
-# application/gzip
-# application/h224
-# application/held+xml
-# application/http
-application/hyperstudio				stk
-# application/ibe-key-request+xml
-# application/ibe-pkg-reply+xml
-# application/ibe-pp-data
-# application/iges
-# application/im-iscomposing+xml
-# application/index
-# application/index.cmd
-# application/index.obj
-# application/index.response
-# application/index.vnd
-application/inkml+xml				ink inkml
-# application/iotp
-application/ipfix				ipfix
-# application/ipp
-# application/isup
-# application/its+xml
-application/java-archive			jar
-application/java-serialized-object		ser
-application/java-vm				class
-# application/javascript
-# application/jose
-# application/jose+json
-# application/jrd+json
-application/json				json
-# application/json-patch+json
-# application/json-seq
-application/jsonml+json				jsonml
-# application/jwk+json
-# application/jwk-set+json
-# application/jwt
-# application/kpml-request+xml
-# application/kpml-response+xml
-# application/ld+json
-# application/lgr+xml
-# application/link-format
-# application/load-control+xml
-application/lost+xml				lostxml
-# application/lostsync+xml
-# application/lxf
-application/mac-binhex40			hqx
-application/mac-compactpro			cpt
-# application/macwriteii
-application/mads+xml				mads
-application/marc				mrc
-application/marcxml+xml				mrcx
-application/mathematica				ma nb mb
-application/mathml+xml				mathml
-# application/mathml-content+xml
-# application/mathml-presentation+xml
-# application/mbms-associated-procedure-description+xml
-# application/mbms-deregister+xml
-# application/mbms-envelope+xml
-# application/mbms-msk+xml
-# application/mbms-msk-response+xml
-# application/mbms-protection-description+xml
-# application/mbms-reception-report+xml
-# application/mbms-register+xml
-# application/mbms-register-response+xml
-# application/mbms-schedule+xml
-# application/mbms-user-service-description+xml
-application/mbox				mbox
-# application/media-policy-dataset+xml
-# application/media_control+xml
-application/mediaservercontrol+xml		mscml
-# application/merge-patch+json
-application/metalink+xml			metalink
-application/metalink4+xml			meta4
-application/mets+xml				mets
-# application/mf4
-# application/mikey
-application/mods+xml				mods
-# application/moss-keys
-# application/moss-signature
-# application/mosskey-data
-# application/mosskey-request
-application/mp21				m21 mp21
-application/mp4					mp4s
-# application/mpeg4-generic
-# application/mpeg4-iod
-# application/mpeg4-iod-xmt
-# application/mrb-consumer+xml
-# application/mrb-publish+xml
-# application/msc-ivr+xml
-# application/msc-mixer+xml
-application/msword				doc dot
-application/mxf					mxf
-# application/nasdata
-# application/news-checkgroups
-# application/news-groupinfo
-# application/news-transmission
-# application/nlsml+xml
-# application/nss
-# application/ocsp-request
-# application/ocsp-response
-application/octet-stream	bin dms lrf mar so dist distz pkg bpk dump elc deploy
-application/oda					oda
-# application/odx
-application/oebps-package+xml			opf
-application/ogg					ogx
-application/omdoc+xml				omdoc
-application/onenote				onetoc onetoc2 onetmp onepkg
-application/oxps				oxps
-# application/p2p-overlay+xml
-# application/parityfec
-application/patch-ops-error+xml			xer
-application/pdf					pdf
-# application/pdx
-application/pgp-encrypted			pgp
-# application/pgp-keys
-application/pgp-signature			asc sig
-application/pics-rules				prf
-# application/pidf+xml
-# application/pidf-diff+xml
-application/pkcs10				p10
-# application/pkcs12
-application/pkcs7-mime				p7m p7c
-application/pkcs7-signature			p7s
-application/pkcs8				p8
-application/pkix-attr-cert			ac
-application/pkix-cert				cer
-application/pkix-crl				crl
-application/pkix-pkipath			pkipath
-application/pkixcmp				pki
-application/pls+xml				pls
-# application/poc-settings+xml
-application/postscript				ai eps ps
-# application/ppsp-tracker+json
-# application/problem+json
-# application/problem+xml
-# application/provenance+xml
-# application/prs.alvestrand.titrax-sheet
-application/prs.cww				cww
-# application/prs.hpub+zip
-# application/prs.nprend
-# application/prs.plucker
-# application/prs.rdf-xml-crypt
-# application/prs.xsf+xml
-application/pskc+xml				pskcxml
-# application/qsig
-# application/raptorfec
-# application/rdap+json
-application/rdf+xml				rdf
-application/reginfo+xml				rif
-application/relax-ng-compact-syntax		rnc
-# application/remote-printing
-# application/reputon+json
-application/resource-lists+xml			rl
-application/resource-lists-diff+xml		rld
-# application/rfc+xml
-# application/riscos
-# application/rlmi+xml
-application/rls-services+xml			rs
-application/rpki-ghostbusters			gbr
-application/rpki-manifest			mft
-application/rpki-roa				roa
-# application/rpki-updown
-application/rsd+xml				rsd
-application/rss+xml				rss
-application/rtf					rtf
-# application/rtploopback
-# application/rtx
-# application/samlassertion+xml
-# application/samlmetadata+xml
-application/sbml+xml				sbml
-# application/scaip+xml
-# application/scim+json
-application/scvp-cv-request			scq
-application/scvp-cv-response			scs
-application/scvp-vp-request			spq
-application/scvp-vp-response			spp
-application/sdp					sdp
-# application/sep+xml
-# application/sep-exi
-# application/session-info
-# application/set-payment
-application/set-payment-initiation		setpay
-# application/set-registration
-application/set-registration-initiation		setreg
-# application/sgml
-# application/sgml-open-catalog
-application/shf+xml				shf
-# application/sieve
-# application/simple-filter+xml
-# application/simple-message-summary
-# application/simplesymbolcontainer
-# application/slate
-# application/smil
-application/smil+xml				smi smil
-# application/smpte336m
-# application/soap+fastinfoset
-# application/soap+xml
-application/sparql-query			rq
-application/sparql-results+xml			srx
-# application/spirits-event+xml
-# application/sql
-application/srgs				gram
-application/srgs+xml				grxml
-application/sru+xml				sru
-application/ssdl+xml				ssdl
-application/ssml+xml				ssml
-# application/tamp-apex-update
-# application/tamp-apex-update-confirm
-# application/tamp-community-update
-# application/tamp-community-update-confirm
-# application/tamp-error
-# application/tamp-sequence-adjust
-# application/tamp-sequence-adjust-confirm
-# application/tamp-status-query
-# application/tamp-status-response
-# application/tamp-update
-# application/tamp-update-confirm
-application/tei+xml				tei teicorpus
-application/thraud+xml				tfi
-# application/timestamp-query
-# application/timestamp-reply
-application/timestamped-data			tsd
-# application/ttml+xml
-# application/tve-trigger
-# application/ulpfec
-# application/urc-grpsheet+xml
-# application/urc-ressheet+xml
-# application/urc-targetdesc+xml
-# application/urc-uisocketdesc+xml
-# application/vcard+json
-# application/vcard+xml
-# application/vemmi
-# application/vividence.scriptfile
-# application/vnd.3gpp-prose+xml
-# application/vnd.3gpp-prose-pc3ch+xml
-# application/vnd.3gpp.access-transfer-events+xml
-# application/vnd.3gpp.bsf+xml
-# application/vnd.3gpp.mid-call+xml
-application/vnd.3gpp.pic-bw-large		plb
-application/vnd.3gpp.pic-bw-small		psb
-application/vnd.3gpp.pic-bw-var			pvb
-# application/vnd.3gpp.sms
-# application/vnd.3gpp.sms+xml
-# application/vnd.3gpp.srvcc-ext+xml
-# application/vnd.3gpp.srvcc-info+xml
-# application/vnd.3gpp.state-and-event-info+xml
-# application/vnd.3gpp.ussd+xml
-# application/vnd.3gpp2.bcmcsinfo+xml
-# application/vnd.3gpp2.sms
-application/vnd.3gpp2.tcap			tcap
-# application/vnd.3lightssoftware.imagescal
-application/vnd.3m.post-it-notes		pwn
-application/vnd.accpac.simply.aso		aso
-application/vnd.accpac.simply.imp		imp
-application/vnd.acucobol			acu
-application/vnd.acucorp				atc acutc
-application/vnd.adobe.air-application-installer-package+zip	air
-# application/vnd.adobe.flash.movie
-application/vnd.adobe.formscentral.fcdt		fcdt
-application/vnd.adobe.fxp			fxp fxpl
-# application/vnd.adobe.partial-upload
-application/vnd.adobe.xdp+xml			xdp
-application/vnd.adobe.xfdf			xfdf
-# application/vnd.aether.imp
-# application/vnd.ah-barcode
-application/vnd.ahead.space			ahead
-application/vnd.airzip.filesecure.azf		azf
-application/vnd.airzip.filesecure.azs		azs
-application/vnd.amazon.ebook			azw
-# application/vnd.amazon.mobi8-ebook
-application/vnd.americandynamics.acc		acc
-application/vnd.amiga.ami			ami
-# application/vnd.amundsen.maze+xml
-application/vnd.android.package-archive		apk
-# application/vnd.anki
-application/vnd.anser-web-certificate-issue-initiation	cii
-application/vnd.anser-web-funds-transfer-initiation	fti
-application/vnd.antix.game-component		atx
-# application/vnd.apache.thrift.binary
-# application/vnd.apache.thrift.compact
-# application/vnd.apache.thrift.json
-# application/vnd.api+json
-application/vnd.apple.installer+xml		mpkg
-application/vnd.apple.mpegurl			m3u8
-# application/vnd.arastra.swi
-application/vnd.aristanetworks.swi		swi
-# application/vnd.artsquare
-application/vnd.astraea-software.iota		iota
-application/vnd.audiograph			aep
-# application/vnd.autopackage
-# application/vnd.avistar+xml
-# application/vnd.balsamiq.bmml+xml
-# application/vnd.balsamiq.bmpr
-# application/vnd.bekitzur-stech+json
-# application/vnd.biopax.rdf+xml
-application/vnd.blueice.multipass		mpm
-# application/vnd.bluetooth.ep.oob
-# application/vnd.bluetooth.le.oob
-application/vnd.bmi				bmi
-application/vnd.businessobjects			rep
-# application/vnd.cab-jscript
-# application/vnd.canon-cpdl
-# application/vnd.canon-lips
-# application/vnd.cendio.thinlinc.clientconf
-# application/vnd.century-systems.tcp_stream
-application/vnd.chemdraw+xml			cdxml
-# application/vnd.chess-pgn
-application/vnd.chipnuts.karaoke-mmd		mmd
-application/vnd.cinderella			cdy
-# application/vnd.cirpack.isdn-ext
-# application/vnd.citationstyles.style+xml
-application/vnd.claymore			cla
-application/vnd.cloanto.rp9			rp9
-application/vnd.clonk.c4group			c4g c4d c4f c4p c4u
-application/vnd.cluetrust.cartomobile-config		c11amc
-application/vnd.cluetrust.cartomobile-config-pkg	c11amz
-# application/vnd.coffeescript
-# application/vnd.collection+json
-# application/vnd.collection.doc+json
-# application/vnd.collection.next+json
-# application/vnd.comicbook+zip
-# application/vnd.commerce-battelle
-application/vnd.commonspace			csp
-application/vnd.contact.cmsg			cdbcmsg
-# application/vnd.coreos.ignition+json
-application/vnd.cosmocaller			cmc
-application/vnd.crick.clicker			clkx
-application/vnd.crick.clicker.keyboard		clkk
-application/vnd.crick.clicker.palette		clkp
-application/vnd.crick.clicker.template		clkt
-application/vnd.crick.clicker.wordbank		clkw
-application/vnd.criticaltools.wbs+xml		wbs
-application/vnd.ctc-posml			pml
-# application/vnd.ctct.ws+xml
-# application/vnd.cups-pdf
-# application/vnd.cups-postscript
-application/vnd.cups-ppd			ppd
-# application/vnd.cups-raster
-# application/vnd.cups-raw
-# application/vnd.curl
-application/vnd.curl.car			car
-application/vnd.curl.pcurl			pcurl
-# application/vnd.cyan.dean.root+xml
-# application/vnd.cybank
-application/vnd.dart				dart
-application/vnd.data-vision.rdz			rdz
-# application/vnd.debian.binary-package
-application/vnd.dece.data			uvf uvvf uvd uvvd
-application/vnd.dece.ttml+xml			uvt uvvt
-application/vnd.dece.unspecified		uvx uvvx
-application/vnd.dece.zip			uvz uvvz
-application/vnd.denovo.fcselayout-link		fe_launch
-# application/vnd.desmume.movie
-# application/vnd.dir-bi.plate-dl-nosuffix
-# application/vnd.dm.delegation+xml
-application/vnd.dna				dna
-# application/vnd.document+json
-application/vnd.dolby.mlp			mlp
-# application/vnd.dolby.mobile.1
-# application/vnd.dolby.mobile.2
-# application/vnd.doremir.scorecloud-binary-document
-application/vnd.dpgraph				dpg
-application/vnd.dreamfactory			dfac
-# application/vnd.drive+json
-application/vnd.ds-keypoint			kpxx
-# application/vnd.dtg.local
-# application/vnd.dtg.local.flash
-# application/vnd.dtg.local.html
-application/vnd.dvb.ait				ait
-# application/vnd.dvb.dvbj
-# application/vnd.dvb.esgcontainer
-# application/vnd.dvb.ipdcdftnotifaccess
-# application/vnd.dvb.ipdcesgaccess
-# application/vnd.dvb.ipdcesgaccess2
-# application/vnd.dvb.ipdcesgpdd
-# application/vnd.dvb.ipdcroaming
-# application/vnd.dvb.iptv.alfec-base
-# application/vnd.dvb.iptv.alfec-enhancement
-# application/vnd.dvb.notif-aggregate-root+xml
-# application/vnd.dvb.notif-container+xml
-# application/vnd.dvb.notif-generic+xml
-# application/vnd.dvb.notif-ia-msglist+xml
-# application/vnd.dvb.notif-ia-registration-request+xml
-# application/vnd.dvb.notif-ia-registration-response+xml
-# application/vnd.dvb.notif-init+xml
-# application/vnd.dvb.pfr
-application/vnd.dvb.service			svc
-# application/vnd.dxr
-application/vnd.dynageo				geo
-# application/vnd.dzr
-# application/vnd.easykaraoke.cdgdownload
-# application/vnd.ecdis-update
-application/vnd.ecowin.chart			mag
-# application/vnd.ecowin.filerequest
-# application/vnd.ecowin.fileupdate
-# application/vnd.ecowin.series
-# application/vnd.ecowin.seriesrequest
-# application/vnd.ecowin.seriesupdate
-# application/vnd.emclient.accessrequest+xml
-application/vnd.enliven				nml
-# application/vnd.enphase.envoy
-# application/vnd.eprints.data+xml
-application/vnd.epson.esf			esf
-application/vnd.epson.msf			msf
-application/vnd.epson.quickanime		qam
-application/vnd.epson.salt			slt
-application/vnd.epson.ssf			ssf
-# application/vnd.ericsson.quickcall
-application/vnd.eszigno3+xml			es3 et3
-# application/vnd.etsi.aoc+xml
-# application/vnd.etsi.asic-e+zip
-# application/vnd.etsi.asic-s+zip
-# application/vnd.etsi.cug+xml
-# application/vnd.etsi.iptvcommand+xml
-# application/vnd.etsi.iptvdiscovery+xml
-# application/vnd.etsi.iptvprofile+xml
-# application/vnd.etsi.iptvsad-bc+xml
-# application/vnd.etsi.iptvsad-cod+xml
-# application/vnd.etsi.iptvsad-npvr+xml
-# application/vnd.etsi.iptvservice+xml
-# application/vnd.etsi.iptvsync+xml
-# application/vnd.etsi.iptvueprofile+xml
-# application/vnd.etsi.mcid+xml
-# application/vnd.etsi.mheg5
-# application/vnd.etsi.overload-control-policy-dataset+xml
-# application/vnd.etsi.pstn+xml
-# application/vnd.etsi.sci+xml
-# application/vnd.etsi.simservs+xml
-# application/vnd.etsi.timestamp-token
-# application/vnd.etsi.tsl+xml
-# application/vnd.etsi.tsl.der
-# application/vnd.eudora.data
-application/vnd.ezpix-album			ez2
-application/vnd.ezpix-package			ez3
-# application/vnd.f-secure.mobile
-# application/vnd.fastcopy-disk-image
-application/vnd.fdf				fdf
-application/vnd.fdsn.mseed			mseed
-application/vnd.fdsn.seed			seed dataless
-# application/vnd.ffsns
-# application/vnd.filmit.zfc
-# application/vnd.fints
-# application/vnd.firemonkeys.cloudcell
-application/vnd.flographit			gph
-application/vnd.fluxtime.clip			ftc
-# application/vnd.font-fontforge-sfd
-application/vnd.framemaker			fm frame maker book
-application/vnd.frogans.fnc			fnc
-application/vnd.frogans.ltf			ltf
-application/vnd.fsc.weblaunch			fsc
-application/vnd.fujitsu.oasys			oas
-application/vnd.fujitsu.oasys2			oa2
-application/vnd.fujitsu.oasys3			oa3
-application/vnd.fujitsu.oasysgp			fg5
-application/vnd.fujitsu.oasysprs		bh2
-# application/vnd.fujixerox.art-ex
-# application/vnd.fujixerox.art4
-application/vnd.fujixerox.ddd			ddd
-application/vnd.fujixerox.docuworks		xdw
-application/vnd.fujixerox.docuworks.binder	xbd
-# application/vnd.fujixerox.docuworks.container
-# application/vnd.fujixerox.hbpl
-# application/vnd.fut-misnet
-application/vnd.fuzzysheet			fzs
-application/vnd.genomatix.tuxedo		txd
-# application/vnd.geo+json
-# application/vnd.geocube+xml
-application/vnd.geogebra.file			ggb
-application/vnd.geogebra.tool			ggt
-application/vnd.geometry-explorer		gex gre
-application/vnd.geonext				gxt
-application/vnd.geoplan				g2w
-application/vnd.geospace			g3w
-# application/vnd.gerber
-# application/vnd.globalplatform.card-content-mgt
-# application/vnd.globalplatform.card-content-mgt-response
-application/vnd.gmx				gmx
-application/vnd.google-earth.kml+xml		kml
-application/vnd.google-earth.kmz		kmz
-# application/vnd.gov.sk.e-form+xml
-# application/vnd.gov.sk.e-form+zip
-# application/vnd.gov.sk.xmldatacontainer+xml
-application/vnd.grafeq				gqf gqs
-# application/vnd.gridmp
-application/vnd.groove-account			gac
-application/vnd.groove-help			ghf
-application/vnd.groove-identity-message		gim
-application/vnd.groove-injector			grv
-application/vnd.groove-tool-message		gtm
-application/vnd.groove-tool-template		tpl
-application/vnd.groove-vcard			vcg
-# application/vnd.hal+json
-application/vnd.hal+xml				hal
-application/vnd.handheld-entertainment+xml	zmm
-application/vnd.hbci				hbci
-# application/vnd.hcl-bireports
-# application/vnd.hdt
-# application/vnd.heroku+json
-application/vnd.hhe.lesson-player		les
-application/vnd.hp-hpgl				hpgl
-application/vnd.hp-hpid				hpid
-application/vnd.hp-hps				hps
-application/vnd.hp-jlyt				jlt
-application/vnd.hp-pcl				pcl
-application/vnd.hp-pclxl			pclxl
-# application/vnd.httphone
-application/vnd.hydrostatix.sof-data		sfd-hdstx
-# application/vnd.hyperdrive+json
-# application/vnd.hzn-3d-crossword
-# application/vnd.ibm.afplinedata
-# application/vnd.ibm.electronic-media
-application/vnd.ibm.minipay			mpy
-application/vnd.ibm.modcap			afp listafp list3820
-application/vnd.ibm.rights-management		irm
-application/vnd.ibm.secure-container		sc
-application/vnd.iccprofile			icc icm
-# application/vnd.ieee.1905
-application/vnd.igloader			igl
-application/vnd.immervision-ivp			ivp
-application/vnd.immervision-ivu			ivu
-# application/vnd.ims.imsccv1p1
-# application/vnd.ims.imsccv1p2
-# application/vnd.ims.imsccv1p3
-# application/vnd.ims.lis.v2.result+json
-# application/vnd.ims.lti.v2.toolconsumerprofile+json
-# application/vnd.ims.lti.v2.toolproxy+json
-# application/vnd.ims.lti.v2.toolproxy.id+json
-# application/vnd.ims.lti.v2.toolsettings+json
-# application/vnd.ims.lti.v2.toolsettings.simple+json
-# application/vnd.informedcontrol.rms+xml
-# application/vnd.informix-visionary
-# application/vnd.infotech.project
-# application/vnd.infotech.project+xml
-# application/vnd.innopath.wamp.notification
-application/vnd.insors.igm			igm
-application/vnd.intercon.formnet		xpw xpx
-application/vnd.intergeo			i2g
-# application/vnd.intertrust.digibox
-# application/vnd.intertrust.nncp
-application/vnd.intu.qbo			qbo
-application/vnd.intu.qfx			qfx
-# application/vnd.iptc.g2.catalogitem+xml
-# application/vnd.iptc.g2.conceptitem+xml
-# application/vnd.iptc.g2.knowledgeitem+xml
-# application/vnd.iptc.g2.newsitem+xml
-# application/vnd.iptc.g2.newsmessage+xml
-# application/vnd.iptc.g2.packageitem+xml
-# application/vnd.iptc.g2.planningitem+xml
-application/vnd.ipunplugged.rcprofile		rcprofile
-application/vnd.irepository.package+xml		irp
-application/vnd.is-xpr				xpr
-application/vnd.isac.fcs			fcs
-application/vnd.jam				jam
-# application/vnd.japannet-directory-service
-# application/vnd.japannet-jpnstore-wakeup
-# application/vnd.japannet-payment-wakeup
-# application/vnd.japannet-registration
-# application/vnd.japannet-registration-wakeup
-# application/vnd.japannet-setstore-wakeup
-# application/vnd.japannet-verification
-# application/vnd.japannet-verification-wakeup
-application/vnd.jcp.javame.midlet-rms		rms
-application/vnd.jisp				jisp
-application/vnd.joost.joda-archive		joda
-# application/vnd.jsk.isdn-ngn
-application/vnd.kahootz				ktz ktr
-application/vnd.kde.karbon			karbon
-application/vnd.kde.kchart			chrt
-application/vnd.kde.kformula			kfo
-application/vnd.kde.kivio			flw
-application/vnd.kde.kontour			kon
-application/vnd.kde.kpresenter			kpr kpt
-application/vnd.kde.kspread			ksp
-application/vnd.kde.kword			kwd kwt
-application/vnd.kenameaapp			htke
-application/vnd.kidspiration			kia
-application/vnd.kinar				kne knp
-application/vnd.koan				skp skd skt skm
-application/vnd.kodak-descriptor		sse
-application/vnd.las.las+xml			lasxml
-# application/vnd.liberty-request+xml
-application/vnd.llamagraphics.life-balance.desktop	lbd
-application/vnd.llamagraphics.life-balance.exchange+xml	lbe
-application/vnd.lotus-1-2-3			123
-application/vnd.lotus-approach			apr
-application/vnd.lotus-freelance			pre
-application/vnd.lotus-notes			nsf
-application/vnd.lotus-organizer			org
-application/vnd.lotus-screencam			scm
-application/vnd.lotus-wordpro			lwp
-application/vnd.macports.portpkg		portpkg
-# application/vnd.mapbox-vector-tile
-# application/vnd.marlin.drm.actiontoken+xml
-# application/vnd.marlin.drm.conftoken+xml
-# application/vnd.marlin.drm.license+xml
-# application/vnd.marlin.drm.mdcf
-# application/vnd.mason+json
-# application/vnd.maxmind.maxmind-db
-application/vnd.mcd				mcd
-application/vnd.medcalcdata			mc1
-application/vnd.mediastation.cdkey		cdkey
-# application/vnd.meridian-slingshot
-application/vnd.mfer				mwf
-application/vnd.mfmp				mfm
-# application/vnd.micro+json
-application/vnd.micrografx.flo			flo
-application/vnd.micrografx.igx			igx
-# application/vnd.microsoft.portable-executable
-# application/vnd.miele+json
-application/vnd.mif				mif
-# application/vnd.minisoft-hp3000-save
-# application/vnd.mitsubishi.misty-guard.trustweb
-application/vnd.mobius.daf			daf
-application/vnd.mobius.dis			dis
-application/vnd.mobius.mbk			mbk
-application/vnd.mobius.mqy			mqy
-application/vnd.mobius.msl			msl
-application/vnd.mobius.plc			plc
-application/vnd.mobius.txf			txf
-application/vnd.mophun.application		mpn
-application/vnd.mophun.certificate		mpc
-# application/vnd.motorola.flexsuite
-# application/vnd.motorola.flexsuite.adsi
-# application/vnd.motorola.flexsuite.fis
-# application/vnd.motorola.flexsuite.gotap
-# application/vnd.motorola.flexsuite.kmr
-# application/vnd.motorola.flexsuite.ttc
-# application/vnd.motorola.flexsuite.wem
-# application/vnd.motorola.iprm
-application/vnd.mozilla.xul+xml			xul
-# application/vnd.ms-3mfdocument
-application/vnd.ms-artgalry			cil
-# application/vnd.ms-asf
-application/vnd.ms-cab-compressed		cab
-# application/vnd.ms-color.iccprofile
-application/vnd.ms-excel			xls xlm xla xlc xlt xlw
-application/vnd.ms-excel.addin.macroenabled.12		xlam
-application/vnd.ms-excel.sheet.binary.macroenabled.12	xlsb
-application/vnd.ms-excel.sheet.macroenabled.12		xlsm
-application/vnd.ms-excel.template.macroenabled.12	xltm
-application/vnd.ms-fontobject			eot
-application/vnd.ms-htmlhelp			chm
-application/vnd.ms-ims				ims
-application/vnd.ms-lrm				lrm
-# application/vnd.ms-office.activex+xml
-application/vnd.ms-officetheme			thmx
-# application/vnd.ms-opentype
-# application/vnd.ms-package.obfuscated-opentype
-application/vnd.ms-pki.seccat			cat
-application/vnd.ms-pki.stl			stl
-# application/vnd.ms-playready.initiator+xml
-application/vnd.ms-powerpoint			ppt pps pot
-application/vnd.ms-powerpoint.addin.macroenabled.12		ppam
-application/vnd.ms-powerpoint.presentation.macroenabled.12	pptm
-application/vnd.ms-powerpoint.slide.macroenabled.12		sldm
-application/vnd.ms-powerpoint.slideshow.macroenabled.12		ppsm
-application/vnd.ms-powerpoint.template.macroenabled.12		potm
-# application/vnd.ms-printdevicecapabilities+xml
-# application/vnd.ms-printing.printticket+xml
-# application/vnd.ms-printschematicket+xml
-application/vnd.ms-project			mpp mpt
-# application/vnd.ms-tnef
-# application/vnd.ms-windows.devicepairing
-# application/vnd.ms-windows.nwprinting.oob
-# application/vnd.ms-windows.printerpairing
-# application/vnd.ms-windows.wsd.oob
-# application/vnd.ms-wmdrm.lic-chlg-req
-# application/vnd.ms-wmdrm.lic-resp
-# application/vnd.ms-wmdrm.meter-chlg-req
-# application/vnd.ms-wmdrm.meter-resp
-application/vnd.ms-word.document.macroenabled.12	docm
-application/vnd.ms-word.template.macroenabled.12	dotm
-application/vnd.ms-works			wps wks wcm wdb
-application/vnd.ms-wpl				wpl
-application/vnd.ms-xpsdocument			xps
-# application/vnd.msa-disk-image
-application/vnd.mseq				mseq
-# application/vnd.msign
-# application/vnd.multiad.creator
-# application/vnd.multiad.creator.cif
-# application/vnd.music-niff
-application/vnd.musician			mus
-application/vnd.muvee.style			msty
-application/vnd.mynfc				taglet
-# application/vnd.ncd.control
-# application/vnd.ncd.reference
-# application/vnd.nervana
-# application/vnd.netfpx
-application/vnd.neurolanguage.nlu		nlu
-# application/vnd.nintendo.nitro.rom
-# application/vnd.nintendo.snes.rom
-application/vnd.nitf				ntf nitf
-application/vnd.noblenet-directory		nnd
-application/vnd.noblenet-sealer			nns
-application/vnd.noblenet-web			nnw
-# application/vnd.nokia.catalogs
-# application/vnd.nokia.conml+wbxml
-# application/vnd.nokia.conml+xml
-# application/vnd.nokia.iptv.config+xml
-# application/vnd.nokia.isds-radio-presets
-# application/vnd.nokia.landmark+wbxml
-# application/vnd.nokia.landmark+xml
-# application/vnd.nokia.landmarkcollection+xml
-# application/vnd.nokia.n-gage.ac+xml
-application/vnd.nokia.n-gage.data		ngdat
-application/vnd.nokia.n-gage.symbian.install	n-gage
-# application/vnd.nokia.ncd
-# application/vnd.nokia.pcd+wbxml
-# application/vnd.nokia.pcd+xml
-application/vnd.nokia.radio-preset		rpst
-application/vnd.nokia.radio-presets		rpss
-application/vnd.novadigm.edm			edm
-application/vnd.novadigm.edx			edx
-application/vnd.novadigm.ext			ext
-# application/vnd.ntt-local.content-share
-# application/vnd.ntt-local.file-transfer
-# application/vnd.ntt-local.ogw_remote-access
-# application/vnd.ntt-local.sip-ta_remote
-# application/vnd.ntt-local.sip-ta_tcp_stream
-application/vnd.oasis.opendocument.chart		odc
-application/vnd.oasis.opendocument.chart-template	otc
-application/vnd.oasis.opendocument.database		odb
-application/vnd.oasis.opendocument.formula		odf
-application/vnd.oasis.opendocument.formula-template	odft
-application/vnd.oasis.opendocument.graphics		odg
-application/vnd.oasis.opendocument.graphics-template	otg
-application/vnd.oasis.opendocument.image		odi
-application/vnd.oasis.opendocument.image-template	oti
-application/vnd.oasis.opendocument.presentation		odp
-application/vnd.oasis.opendocument.presentation-template	otp
-application/vnd.oasis.opendocument.spreadsheet		ods
-application/vnd.oasis.opendocument.spreadsheet-template	ots
-application/vnd.oasis.opendocument.text			odt
-application/vnd.oasis.opendocument.text-master		odm
-application/vnd.oasis.opendocument.text-template	ott
-application/vnd.oasis.opendocument.text-web		oth
-# application/vnd.obn
-# application/vnd.oftn.l10n+json
-# application/vnd.oipf.contentaccessdownload+xml
-# application/vnd.oipf.contentaccessstreaming+xml
-# application/vnd.oipf.cspg-hexbinary
-# application/vnd.oipf.dae.svg+xml
-# application/vnd.oipf.dae.xhtml+xml
-# application/vnd.oipf.mippvcontrolmessage+xml
-# application/vnd.oipf.pae.gem
-# application/vnd.oipf.spdiscovery+xml
-# application/vnd.oipf.spdlist+xml
-# application/vnd.oipf.ueprofile+xml
-# application/vnd.oipf.userprofile+xml
-application/vnd.olpc-sugar			xo
-# application/vnd.oma-scws-config
-# application/vnd.oma-scws-http-request
-# application/vnd.oma-scws-http-response
-# application/vnd.oma.bcast.associated-procedure-parameter+xml
-# application/vnd.oma.bcast.drm-trigger+xml
-# application/vnd.oma.bcast.imd+xml
-# application/vnd.oma.bcast.ltkm
-# application/vnd.oma.bcast.notification+xml
-# application/vnd.oma.bcast.provisioningtrigger
-# application/vnd.oma.bcast.sgboot
-# application/vnd.oma.bcast.sgdd+xml
-# application/vnd.oma.bcast.sgdu
-# application/vnd.oma.bcast.simple-symbol-container
-# application/vnd.oma.bcast.smartcard-trigger+xml
-# application/vnd.oma.bcast.sprov+xml
-# application/vnd.oma.bcast.stkm
-# application/vnd.oma.cab-address-book+xml
-# application/vnd.oma.cab-feature-handler+xml
-# application/vnd.oma.cab-pcc+xml
-# application/vnd.oma.cab-subs-invite+xml
-# application/vnd.oma.cab-user-prefs+xml
-# application/vnd.oma.dcd
-# application/vnd.oma.dcdc
-application/vnd.oma.dd2+xml			dd2
-# application/vnd.oma.drm.risd+xml
-# application/vnd.oma.group-usage-list+xml
-# application/vnd.oma.lwm2m+json
-# application/vnd.oma.lwm2m+tlv
-# application/vnd.oma.pal+xml
-# application/vnd.oma.poc.detailed-progress-report+xml
-# application/vnd.oma.poc.final-report+xml
-# application/vnd.oma.poc.groups+xml
-# application/vnd.oma.poc.invocation-descriptor+xml
-# application/vnd.oma.poc.optimized-progress-report+xml
-# application/vnd.oma.push
-# application/vnd.oma.scidm.messages+xml
-# application/vnd.oma.xcap-directory+xml
-# application/vnd.omads-email+xml
-# application/vnd.omads-file+xml
-# application/vnd.omads-folder+xml
-# application/vnd.omaloc-supl-init
-# application/vnd.onepager
-# application/vnd.openblox.game+xml
-# application/vnd.openblox.game-binary
-# application/vnd.openeye.oeb
-application/vnd.openofficeorg.extension		oxt
-# application/vnd.openxmlformats-officedocument.custom-properties+xml
-# application/vnd.openxmlformats-officedocument.customxmlproperties+xml
-# application/vnd.openxmlformats-officedocument.drawing+xml
-# application/vnd.openxmlformats-officedocument.drawingml.chart+xml
-# application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml
-# application/vnd.openxmlformats-officedocument.drawingml.diagramcolors+xml
-# application/vnd.openxmlformats-officedocument.drawingml.diagramdata+xml
-# application/vnd.openxmlformats-officedocument.drawingml.diagramlayout+xml
-# application/vnd.openxmlformats-officedocument.drawingml.diagramstyle+xml
-# application/vnd.openxmlformats-officedocument.extended-properties+xml
-# application/vnd.openxmlformats-officedocument.presentationml.commentauthors+xml
-# application/vnd.openxmlformats-officedocument.presentationml.comments+xml
-# application/vnd.openxmlformats-officedocument.presentationml.handoutmaster+xml
-# application/vnd.openxmlformats-officedocument.presentationml.notesmaster+xml
-# application/vnd.openxmlformats-officedocument.presentationml.notesslide+xml
-application/vnd.openxmlformats-officedocument.presentationml.presentation	pptx
-# application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml
-# application/vnd.openxmlformats-officedocument.presentationml.presprops+xml
-application/vnd.openxmlformats-officedocument.presentationml.slide	sldx
-# application/vnd.openxmlformats-officedocument.presentationml.slide+xml
-# application/vnd.openxmlformats-officedocument.presentationml.slidelayout+xml
-# application/vnd.openxmlformats-officedocument.presentationml.slidemaster+xml
-application/vnd.openxmlformats-officedocument.presentationml.slideshow	ppsx
-# application/vnd.openxmlformats-officedocument.presentationml.slideshow.main+xml
-# application/vnd.openxmlformats-officedocument.presentationml.slideupdateinfo+xml
-# application/vnd.openxmlformats-officedocument.presentationml.tablestyles+xml
-# application/vnd.openxmlformats-officedocument.presentationml.tags+xml
-application/vnd.openxmlformats-officedocument.presentationml.template	potx
-# application/vnd.openxmlformats-officedocument.presentationml.template.main+xml
-# application/vnd.openxmlformats-officedocument.presentationml.viewprops+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.calcchain+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.connections+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.dialogsheet+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.externallink+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.pivotcachedefinition+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.pivotcacherecords+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.pivottable+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.querytable+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.revisionheaders+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.revisionlog+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.sharedstrings+xml
-application/vnd.openxmlformats-officedocument.spreadsheetml.sheet	xlsx
-# application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.sheetmetadata+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.tablesinglecells+xml
-application/vnd.openxmlformats-officedocument.spreadsheetml.template	xltx
-# application/vnd.openxmlformats-officedocument.spreadsheetml.template.main+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.usernames+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.volatiledependencies+xml
-# application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml
-# application/vnd.openxmlformats-officedocument.theme+xml
-# application/vnd.openxmlformats-officedocument.themeoverride+xml
-# application/vnd.openxmlformats-officedocument.vmldrawing
-# application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml
-application/vnd.openxmlformats-officedocument.wordprocessingml.document	docx
-# application/vnd.openxmlformats-officedocument.wordprocessingml.document.glossary+xml
-# application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml
-# application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml
-# application/vnd.openxmlformats-officedocument.wordprocessingml.fonttable+xml
-# application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml
-# application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml
-# application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml
-# application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml
-# application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml
-application/vnd.openxmlformats-officedocument.wordprocessingml.template	dotx
-# application/vnd.openxmlformats-officedocument.wordprocessingml.template.main+xml
-# application/vnd.openxmlformats-officedocument.wordprocessingml.websettings+xml
-# application/vnd.openxmlformats-package.core-properties+xml
-# application/vnd.openxmlformats-package.digital-signature-xmlsignature+xml
-# application/vnd.openxmlformats-package.relationships+xml
-# application/vnd.oracle.resource+json
-# application/vnd.orange.indata
-# application/vnd.osa.netdeploy
-application/vnd.osgeo.mapguide.package		mgp
-# application/vnd.osgi.bundle
-application/vnd.osgi.dp				dp
-application/vnd.osgi.subsystem			esa
-# application/vnd.otps.ct-kip+xml
-# application/vnd.oxli.countgraph
-# application/vnd.pagerduty+json
-application/vnd.palm				pdb pqa oprc
-# application/vnd.panoply
-# application/vnd.paos.xml
-application/vnd.pawaafile			paw
-# application/vnd.pcos
-application/vnd.pg.format			str
-application/vnd.pg.osasli			ei6
-# application/vnd.piaccess.application-licence
-application/vnd.picsel				efif
-application/vnd.pmi.widget			wg
-# application/vnd.poc.group-advertisement+xml
-application/vnd.pocketlearn			plf
-application/vnd.powerbuilder6			pbd
-# application/vnd.powerbuilder6-s
-# application/vnd.powerbuilder7
-# application/vnd.powerbuilder7-s
-# application/vnd.powerbuilder75
-# application/vnd.powerbuilder75-s
-# application/vnd.preminet
-application/vnd.previewsystems.box		box
-application/vnd.proteus.magazine		mgz
-application/vnd.publishare-delta-tree		qps
-application/vnd.pvi.ptid1			ptid
-# application/vnd.pwg-multiplexed
-# application/vnd.pwg-xhtml-print+xml
-# application/vnd.qualcomm.brew-app-res
-# application/vnd.quarantainenet
-application/vnd.quark.quarkxpress		qxd qxt qwd qwt qxl qxb
-# application/vnd.quobject-quoxdocument
-# application/vnd.radisys.moml+xml
-# application/vnd.radisys.msml+xml
-# application/vnd.radisys.msml-audit+xml
-# application/vnd.radisys.msml-audit-conf+xml
-# application/vnd.radisys.msml-audit-conn+xml
-# application/vnd.radisys.msml-audit-dialog+xml
-# application/vnd.radisys.msml-audit-stream+xml
-# application/vnd.radisys.msml-conf+xml
-# application/vnd.radisys.msml-dialog+xml
-# application/vnd.radisys.msml-dialog-base+xml
-# application/vnd.radisys.msml-dialog-fax-detect+xml
-# application/vnd.radisys.msml-dialog-fax-sendrecv+xml
-# application/vnd.radisys.msml-dialog-group+xml
-# application/vnd.radisys.msml-dialog-speech+xml
-# application/vnd.radisys.msml-dialog-transform+xml
-# application/vnd.rainstor.data
-# application/vnd.rapid
-# application/vnd.rar
-application/vnd.realvnc.bed			bed
-application/vnd.recordare.musicxml		mxl
-application/vnd.recordare.musicxml+xml		musicxml
-# application/vnd.renlearn.rlprint
-application/vnd.rig.cryptonote			cryptonote
-application/vnd.rim.cod				cod
-application/vnd.rn-realmedia			rm
-application/vnd.rn-realmedia-vbr		rmvb
-application/vnd.route66.link66+xml		link66
-# application/vnd.rs-274x
-# application/vnd.ruckus.download
-# application/vnd.s3sms
-application/vnd.sailingtracker.track		st
-# application/vnd.sbm.cid
-# application/vnd.sbm.mid2
-# application/vnd.scribus
-# application/vnd.sealed.3df
-# application/vnd.sealed.csf
-# application/vnd.sealed.doc
-# application/vnd.sealed.eml
-# application/vnd.sealed.mht
-# application/vnd.sealed.net
-# application/vnd.sealed.ppt
-# application/vnd.sealed.tiff
-# application/vnd.sealed.xls
-# application/vnd.sealedmedia.softseal.html
-# application/vnd.sealedmedia.softseal.pdf
-application/vnd.seemail				see
-application/vnd.sema				sema
-application/vnd.semd				semd
-application/vnd.semf				semf
-application/vnd.shana.informed.formdata		ifm
-application/vnd.shana.informed.formtemplate	itp
-application/vnd.shana.informed.interchange	iif
-application/vnd.shana.informed.package		ipk
-application/vnd.simtech-mindmapper		twd twds
-# application/vnd.siren+json
-application/vnd.smaf				mmf
-# application/vnd.smart.notebook
-application/vnd.smart.teacher			teacher
-# application/vnd.software602.filler.form+xml
-# application/vnd.software602.filler.form-xml-zip
-application/vnd.solent.sdkm+xml			sdkm sdkd
-application/vnd.spotfire.dxp			dxp
-application/vnd.spotfire.sfs			sfs
-# application/vnd.sss-cod
-# application/vnd.sss-dtf
-# application/vnd.sss-ntf
-application/vnd.stardivision.calc		sdc
-application/vnd.stardivision.draw		sda
-application/vnd.stardivision.impress		sdd
-application/vnd.stardivision.math		smf
-application/vnd.stardivision.writer		sdw vor
-application/vnd.stardivision.writer-global	sgl
-application/vnd.stepmania.package		smzip
-application/vnd.stepmania.stepchart		sm
-# application/vnd.street-stream
-# application/vnd.sun.wadl+xml
-application/vnd.sun.xml.calc			sxc
-application/vnd.sun.xml.calc.template		stc
-application/vnd.sun.xml.draw			sxd
-application/vnd.sun.xml.draw.template		std
-application/vnd.sun.xml.impress			sxi
-application/vnd.sun.xml.impress.template	sti
-application/vnd.sun.xml.math			sxm
-application/vnd.sun.xml.writer			sxw
-application/vnd.sun.xml.writer.global		sxg
-application/vnd.sun.xml.writer.template		stw
-application/vnd.sus-calendar			sus susp
-application/vnd.svd				svd
-# application/vnd.swiftview-ics
-application/vnd.symbian.install			sis sisx
-application/vnd.syncml+xml			xsm
-application/vnd.syncml.dm+wbxml			bdm
-application/vnd.syncml.dm+xml			xdm
-# application/vnd.syncml.dm.notification
-# application/vnd.syncml.dmddf+wbxml
-# application/vnd.syncml.dmddf+xml
-# application/vnd.syncml.dmtnds+wbxml
-# application/vnd.syncml.dmtnds+xml
-# application/vnd.syncml.ds.notification
-application/vnd.tao.intent-module-archive	tao
-application/vnd.tcpdump.pcap			pcap cap dmp
-# application/vnd.tmd.mediaflex.api+xml
-# application/vnd.tml
-application/vnd.tmobile-livetv			tmo
-application/vnd.trid.tpt			tpt
-application/vnd.triscape.mxs			mxs
-application/vnd.trueapp				tra
-# application/vnd.truedoc
-# application/vnd.ubisoft.webplayer
-application/vnd.ufdl				ufd ufdl
-application/vnd.uiq.theme			utz
-application/vnd.umajin				umj
-application/vnd.unity				unityweb
-application/vnd.uoml+xml			uoml
-# application/vnd.uplanet.alert
-# application/vnd.uplanet.alert-wbxml
-# application/vnd.uplanet.bearer-choice
-# application/vnd.uplanet.bearer-choice-wbxml
-# application/vnd.uplanet.cacheop
-# application/vnd.uplanet.cacheop-wbxml
-# application/vnd.uplanet.channel
-# application/vnd.uplanet.channel-wbxml
-# application/vnd.uplanet.list
-# application/vnd.uplanet.list-wbxml
-# application/vnd.uplanet.listcmd
-# application/vnd.uplanet.listcmd-wbxml
-# application/vnd.uplanet.signal
-# application/vnd.uri-map
-# application/vnd.valve.source.material
-application/vnd.vcx				vcx
-# application/vnd.vd-study
-# application/vnd.vectorworks
-# application/vnd.vel+json
-# application/vnd.verimatrix.vcas
-# application/vnd.vidsoft.vidconference
-application/vnd.visio				vsd vst vss vsw
-application/vnd.visionary			vis
-# application/vnd.vividence.scriptfile
-application/vnd.vsf				vsf
-# application/vnd.wap.sic
-# application/vnd.wap.slc
-application/vnd.wap.wbxml			wbxml
-application/vnd.wap.wmlc			wmlc
-application/vnd.wap.wmlscriptc			wmlsc
-application/vnd.webturbo			wtb
-# application/vnd.wfa.p2p
-# application/vnd.wfa.wsc
-# application/vnd.windows.devicepairing
-# application/vnd.wmc
-# application/vnd.wmf.bootstrap
-# application/vnd.wolfram.mathematica
-# application/vnd.wolfram.mathematica.package
-application/vnd.wolfram.player			nbp
-application/vnd.wordperfect			wpd
-application/vnd.wqd				wqd
-# application/vnd.wrq-hp3000-labelled
-application/vnd.wt.stf				stf
-# application/vnd.wv.csp+wbxml
-# application/vnd.wv.csp+xml
-# application/vnd.wv.ssp+xml
-# application/vnd.xacml+json
-application/vnd.xara				xar
-application/vnd.xfdl				xfdl
-# application/vnd.xfdl.webform
-# application/vnd.xmi+xml
-# application/vnd.xmpie.cpkg
-# application/vnd.xmpie.dpkg
-# application/vnd.xmpie.plan
-# application/vnd.xmpie.ppkg
-# application/vnd.xmpie.xlim
-application/vnd.yamaha.hv-dic			hvd
-application/vnd.yamaha.hv-script		hvs
-application/vnd.yamaha.hv-voice			hvp
-application/vnd.yamaha.openscoreformat			osf
-application/vnd.yamaha.openscoreformat.osfpvg+xml	osfpvg
-# application/vnd.yamaha.remote-setup
-application/vnd.yamaha.smaf-audio		saf
-application/vnd.yamaha.smaf-phrase		spf
-# application/vnd.yamaha.through-ngn
-# application/vnd.yamaha.tunnel-udpencap
-# application/vnd.yaoweme
-application/vnd.yellowriver-custom-menu		cmp
-application/vnd.zul				zir zirz
-application/vnd.zzazz.deck+xml			zaz
-application/voicexml+xml			vxml
-# application/vq-rtcpxr
-# application/watcherinfo+xml
-# application/whoispp-query
-# application/whoispp-response
-application/widget				wgt
-application/winhlp				hlp
-# application/wita
-# application/wordperfect5.1
-application/wsdl+xml				wsdl
-application/wspolicy+xml			wspolicy
-application/x-7z-compressed			7z
-application/x-abiword				abw
-application/x-ace-compressed			ace
-# application/x-amf
-application/x-apple-diskimage			dmg
-application/x-authorware-bin			aab x32 u32 vox
-application/x-authorware-map			aam
-application/x-authorware-seg			aas
-application/x-bcpio				bcpio
-application/x-bittorrent			torrent
-application/x-blorb				blb blorb
-application/x-bzip				bz
-application/x-bzip2				bz2 boz
-application/x-cbr				cbr cba cbt cbz cb7
-application/x-cdlink				vcd
-application/x-cfs-compressed			cfs
-application/x-chat				chat
-application/x-chess-pgn				pgn
-# application/x-compress
-application/x-conference			nsc
-application/x-cpio				cpio
-application/x-csh				csh
-application/x-debian-package			deb udeb
-application/x-dgc-compressed			dgc
-application/x-director			dir dcr dxr cst cct cxt w3d fgd swa
-application/x-doom				wad
-application/x-dtbncx+xml			ncx
-application/x-dtbook+xml			dtb
-application/x-dtbresource+xml			res
-application/x-dvi				dvi
-application/x-envoy				evy
-application/x-eva				eva
-application/x-font-bdf				bdf
-# application/x-font-dos
-# application/x-font-framemaker
-application/x-font-ghostscript			gsf
-# application/x-font-libgrx
-application/x-font-linux-psf			psf
-application/x-font-pcf				pcf
-application/x-font-snf				snf
-# application/x-font-speedo
-# application/x-font-sunos-news
-application/x-font-type1			pfa pfb pfm afm
-# application/x-font-vfont
-application/x-freearc				arc
-application/x-futuresplash			spl
-application/x-gca-compressed			gca
-application/x-glulx				ulx
-application/x-gnumeric				gnumeric
-application/x-gramps-xml			gramps
-application/x-gtar				gtar
-# application/x-gzip
-application/x-hdf				hdf
-application/x-install-instructions		install
-application/x-iso9660-image			iso
-application/x-java-jnlp-file			jnlp
-application/x-latex				latex
-application/x-lzh-compressed			lzh lha
-application/x-mie				mie
-application/x-mobipocket-ebook			prc mobi
-application/x-ms-application			application
-application/x-ms-shortcut			lnk
-application/x-ms-wmd				wmd
-application/x-ms-wmz				wmz
-application/x-ms-xbap				xbap
-application/x-msaccess				mdb
-application/x-msbinder				obd
-application/x-mscardfile			crd
-application/x-msclip				clp
-application/x-msdownload			exe dll com bat msi
-application/x-msmediaview			mvb m13 m14
-application/x-msmetafile			wmf wmz emf emz
-application/x-msmoney				mny
-application/x-mspublisher			pub
-application/x-msschedule			scd
-application/x-msterminal			trm
-application/x-mswrite				wri
-application/x-netcdf				nc cdf
-application/x-nzb				nzb
-application/x-pkcs12				p12 pfx
-application/x-pkcs7-certificates		p7b spc
-application/x-pkcs7-certreqresp			p7r
-application/x-rar-compressed			rar
-application/x-research-info-systems		ris
-application/x-sh				sh
-application/x-shar				shar
-application/x-shockwave-flash			swf
-application/x-silverlight-app			xap
-application/x-sql				sql
-application/x-stuffit				sit
-application/x-stuffitx				sitx
-application/x-subrip				srt
-application/x-sv4cpio				sv4cpio
-application/x-sv4crc				sv4crc
-application/x-t3vm-image			t3
-application/x-tads				gam
-application/x-tar				tar
-application/x-tcl				tcl
-application/x-tex				tex
-application/x-tex-tfm				tfm
-application/x-texinfo				texinfo texi
-application/x-tgif				obj
-application/x-ustar				ustar
-application/x-wais-source			src
-# application/x-www-form-urlencoded
-application/x-x509-ca-cert			der crt
-application/x-xfig				fig
-application/x-xliff+xml				xlf
-application/x-xpinstall				xpi
-application/x-xz				xz
-application/x-zmachine				z1 z2 z3 z4 z5 z6 z7 z8
-# application/x400-bp
-# application/xacml+xml
-application/xaml+xml				xaml
-# application/xcap-att+xml
-# application/xcap-caps+xml
-application/xcap-diff+xml			xdf
-# application/xcap-el+xml
-# application/xcap-error+xml
-# application/xcap-ns+xml
-# application/xcon-conference-info+xml
-# application/xcon-conference-info-diff+xml
-application/xenc+xml				xenc
-application/xhtml+xml				xhtml xht
-# application/xhtml-voice+xml
-application/xml					xml xsl
-application/xml-dtd				dtd
-# application/xml-external-parsed-entity
-# application/xml-patch+xml
-# application/xmpp+xml
-application/xop+xml				xop
-application/xproc+xml				xpl
-application/xslt+xml				xslt
-application/xspf+xml				xspf
-application/xv+xml				mxml xhvml xvml xvm
-application/yang				yang
-application/yin+xml				yin
-application/zip					zip
-# application/zlib
-# audio/1d-interleaved-parityfec
-# audio/32kadpcm
-# audio/3gpp
-# audio/3gpp2
-# audio/ac3
-audio/adpcm					adp
-# audio/amr
-# audio/amr-wb
-# audio/amr-wb+
-# audio/aptx
-# audio/asc
-# audio/atrac-advanced-lossless
-# audio/atrac-x
-# audio/atrac3
-audio/basic					au snd
-# audio/bv16
-# audio/bv32
-# audio/clearmode
-# audio/cn
-# audio/dat12
-# audio/dls
-# audio/dsr-es201108
-# audio/dsr-es202050
-# audio/dsr-es202211
-# audio/dsr-es202212
-# audio/dv
-# audio/dvi4
-# audio/eac3
-# audio/encaprtp
-# audio/evrc
-# audio/evrc-qcp
-# audio/evrc0
-# audio/evrc1
-# audio/evrcb
-# audio/evrcb0
-# audio/evrcb1
-# audio/evrcnw
-# audio/evrcnw0
-# audio/evrcnw1
-# audio/evrcwb
-# audio/evrcwb0
-# audio/evrcwb1
-# audio/evs
-# audio/example
-# audio/fwdred
-# audio/g711-0
-# audio/g719
-# audio/g722
-# audio/g7221
-# audio/g723
-# audio/g726-16
-# audio/g726-24
-# audio/g726-32
-# audio/g726-40
-# audio/g728
-# audio/g729
-# audio/g7291
-# audio/g729d
-# audio/g729e
-# audio/gsm
-# audio/gsm-efr
-# audio/gsm-hr-08
-# audio/ilbc
-# audio/ip-mr_v2.5
-# audio/isac
-# audio/l16
-# audio/l20
-# audio/l24
-# audio/l8
-# audio/lpc
-audio/midi					mid midi kar rmi
-# audio/mobile-xmf
-audio/mp4					m4a mp4a
-# audio/mp4a-latm
-# audio/mpa
-# audio/mpa-robust
-audio/mpeg					mpga mp2 mp2a mp3 m2a m3a
-# audio/mpeg4-generic
-# audio/musepack
-audio/ogg					oga ogg spx opus
-# audio/opus
-# audio/parityfec
-# audio/pcma
-# audio/pcma-wb
-# audio/pcmu
-# audio/pcmu-wb
-# audio/prs.sid
-# audio/qcelp
-# audio/raptorfec
-# audio/red
-# audio/rtp-enc-aescm128
-# audio/rtp-midi
-# audio/rtploopback
-# audio/rtx
-audio/s3m					s3m
-audio/silk					sil
-# audio/smv
-# audio/smv-qcp
-# audio/smv0
-# audio/sp-midi
-# audio/speex
-# audio/t140c
-# audio/t38
-# audio/telephone-event
-# audio/tone
-# audio/uemclip
-# audio/ulpfec
-# audio/vdvi
-# audio/vmr-wb
-# audio/vnd.3gpp.iufp
-# audio/vnd.4sb
-# audio/vnd.audiokoz
-# audio/vnd.celp
-# audio/vnd.cisco.nse
-# audio/vnd.cmles.radio-events
-# audio/vnd.cns.anp1
-# audio/vnd.cns.inf1
-audio/vnd.dece.audio				uva uvva
-audio/vnd.digital-winds				eol
-# audio/vnd.dlna.adts
-# audio/vnd.dolby.heaac.1
-# audio/vnd.dolby.heaac.2
-# audio/vnd.dolby.mlp
-# audio/vnd.dolby.mps
-# audio/vnd.dolby.pl2
-# audio/vnd.dolby.pl2x
-# audio/vnd.dolby.pl2z
-# audio/vnd.dolby.pulse.1
-audio/vnd.dra					dra
-audio/vnd.dts					dts
-audio/vnd.dts.hd				dtshd
-# audio/vnd.dvb.file
-# audio/vnd.everad.plj
-# audio/vnd.hns.audio
-audio/vnd.lucent.voice				lvp
-audio/vnd.ms-playready.media.pya		pya
-# audio/vnd.nokia.mobile-xmf
-# audio/vnd.nortel.vbk
-audio/vnd.nuera.ecelp4800			ecelp4800
-audio/vnd.nuera.ecelp7470			ecelp7470
-audio/vnd.nuera.ecelp9600			ecelp9600
-# audio/vnd.octel.sbc
-# audio/vnd.qcelp
-# audio/vnd.rhetorex.32kadpcm
-audio/vnd.rip					rip
-# audio/vnd.sealedmedia.softseal.mpeg
-# audio/vnd.vmx.cvsd
-# audio/vorbis
-# audio/vorbis-config
-audio/webm					weba
-audio/x-aac					aac
-audio/x-aiff					aif aiff aifc
-audio/x-caf					caf
-audio/x-flac					flac
-audio/x-matroska				mka
-audio/x-mpegurl					m3u
-audio/x-ms-wax					wax
-audio/x-ms-wma					wma
-audio/x-pn-realaudio				ram ra
-audio/x-pn-realaudio-plugin			rmp
-# audio/x-tta
-audio/x-wav					wav
-audio/xm					xm
-chemical/x-cdx					cdx
-chemical/x-cif					cif
-chemical/x-cmdf					cmdf
-chemical/x-cml					cml
-chemical/x-csml					csml
-# chemical/x-pdb
-chemical/x-xyz					xyz
-font/collection					ttc
-font/otf					otf
-# font/sfnt
-font/ttf					ttf
-font/woff					woff
-font/woff2					woff2
-image/bmp					bmp
-image/cgm					cgm
-# image/dicom-rle
-# image/emf
-# image/example
-# image/fits
-image/g3fax					g3
-image/gif					gif
-image/ief					ief
-# image/jls
-# image/jp2
-image/jpeg					jpeg jpg jpe
-# image/jpm
-# image/jpx
-image/ktx					ktx
-# image/naplps
-image/png					png
-image/prs.btif					btif
-# image/prs.pti
-# image/pwg-raster
-image/sgi					sgi
-image/svg+xml					svg svgz
-# image/t38
-image/tiff					tiff tif
-# image/tiff-fx
-image/vnd.adobe.photoshop			psd
-# image/vnd.airzip.accelerator.azv
-# image/vnd.cns.inf2
-image/vnd.dece.graphic				uvi uvvi uvg uvvg
-image/vnd.djvu					djvu djv
-image/vnd.dvb.subtitle				sub
-image/vnd.dwg					dwg
-image/vnd.dxf					dxf
-image/vnd.fastbidsheet				fbs
-image/vnd.fpx					fpx
-image/vnd.fst					fst
-image/vnd.fujixerox.edmics-mmr			mmr
-image/vnd.fujixerox.edmics-rlc			rlc
-# image/vnd.globalgraphics.pgb
-# image/vnd.microsoft.icon
-# image/vnd.mix
-# image/vnd.mozilla.apng
-image/vnd.ms-modi				mdi
-image/vnd.ms-photo				wdp
-image/vnd.net-fpx				npx
-# image/vnd.radiance
-# image/vnd.sealed.png
-# image/vnd.sealedmedia.softseal.gif
-# image/vnd.sealedmedia.softseal.jpg
-# image/vnd.svf
-# image/vnd.tencent.tap
-# image/vnd.valve.source.texture
-image/vnd.wap.wbmp				wbmp
-image/vnd.xiff					xif
-# image/vnd.zbrush.pcx
-image/webp					webp
-# image/wmf
-image/x-3ds					3ds
-image/x-cmu-raster				ras
-image/x-cmx					cmx
-image/x-freehand				fh fhc fh4 fh5 fh7
-image/x-icon					ico
-image/x-mrsid-image				sid
-image/x-pcx					pcx
-image/x-pict					pic pct
-image/x-portable-anymap				pnm
-image/x-portable-bitmap				pbm
-image/x-portable-graymap			pgm
-image/x-portable-pixmap				ppm
-image/x-rgb					rgb
-image/x-tga					tga
-image/x-xbitmap					xbm
-image/x-xpixmap					xpm
-image/x-xwindowdump				xwd
-# message/cpim
-# message/delivery-status
-# message/disposition-notification
-# message/example
-# message/external-body
-# message/feedback-report
-# message/global
-# message/global-delivery-status
-# message/global-disposition-notification
-# message/global-headers
-# message/http
-# message/imdn+xml
-# message/news
-# message/partial
-message/rfc822					eml mime
-# message/s-http
-# message/sip
-# message/sipfrag
-# message/tracking-status
-# message/vnd.si.simp
-# message/vnd.wfa.wsc
-# model/example
-# model/gltf+json
-model/iges					igs iges
-model/mesh					msh mesh silo
-model/vnd.collada+xml				dae
-model/vnd.dwf					dwf
-# model/vnd.flatland.3dml
-model/vnd.gdl					gdl
-# model/vnd.gs-gdl
-# model/vnd.gs.gdl
-model/vnd.gtw					gtw
-# model/vnd.moml+xml
-model/vnd.mts					mts
-# model/vnd.opengex
-# model/vnd.parasolid.transmit.binary
-# model/vnd.parasolid.transmit.text
-# model/vnd.rosette.annotated-data-model
-# model/vnd.valve.source.compiled-map
-model/vnd.vtu					vtu
-model/vrml					wrl vrml
-model/x3d+binary				x3db x3dbz
-# model/x3d+fastinfoset
-model/x3d+vrml					x3dv x3dvz
-model/x3d+xml					x3d x3dz
-# model/x3d-vrml
-# multipart/alternative
-# multipart/appledouble
-# multipart/byteranges
-# multipart/digest
-# multipart/encrypted
-# multipart/example
-# multipart/form-data
-# multipart/header-set
-# multipart/mixed
-# multipart/parallel
-# multipart/related
-# multipart/report
-# multipart/signed
-# multipart/voice-message
-# multipart/x-mixed-replace
-# text/1d-interleaved-parityfec
-text/cache-manifest				appcache
-text/calendar					ics ifb
-text/css					css
-text/csv					csv
-# text/csv-schema
-# text/directory
-# text/dns
-# text/ecmascript
-# text/encaprtp
-# text/enriched
-# text/example
-# text/fwdred
-# text/grammar-ref-list
-text/html					html htm
-text/javascript					js mjs
-# text/jcr-cnd
-# text/markdown
-# text/mizar
-text/n3						n3
-# text/parameters
-# text/parityfec
-text/plain					txt text conf def list log in
-# text/provenance-notation
-# text/prs.fallenstein.rst
-text/prs.lines.tag				dsc
-# text/prs.prop.logic
-# text/raptorfec
-# text/red
-# text/rfc822-headers
-text/richtext					rtx
-# text/rtf
-# text/rtp-enc-aescm128
-# text/rtploopback
-# text/rtx
-text/sgml					sgml sgm
-# text/t140
-text/tab-separated-values			tsv
-text/troff					t tr roff man me ms
-text/turtle					ttl
-# text/ulpfec
-text/uri-list					uri uris urls
-text/vcard					vcard
-# text/vnd.a
-# text/vnd.abc
-text/vnd.curl					curl
-text/vnd.curl.dcurl				dcurl
-text/vnd.curl.mcurl				mcurl
-text/vnd.curl.scurl				scurl
-# text/vnd.debian.copyright
-# text/vnd.dmclientscript
-text/vnd.dvb.subtitle				sub
-# text/vnd.esmertec.theme-descriptor
-text/vnd.fly					fly
-text/vnd.fmi.flexstor				flx
-text/vnd.graphviz				gv
-text/vnd.in3d.3dml				3dml
-text/vnd.in3d.spot				spot
-# text/vnd.iptc.newsml
-# text/vnd.iptc.nitf
-# text/vnd.latex-z
-# text/vnd.motorola.reflex
-# text/vnd.ms-mediapackage
-# text/vnd.net2phone.commcenter.command
-# text/vnd.radisys.msml-basic-layout
-# text/vnd.si.uricatalogue
-text/vnd.sun.j2me.app-descriptor		jad
-# text/vnd.trolltech.linguist
-# text/vnd.wap.si
-# text/vnd.wap.sl
-text/vnd.wap.wml				wml
-text/vnd.wap.wmlscript				wmls
-text/x-asm					s asm
-text/x-c					c cc cxx cpp h hh dic
-text/x-fortran					f for f77 f90
-text/x-java-source				java
-text/x-nfo					nfo
-text/x-opml					opml
-text/x-pascal					p pas
-text/x-setext					etx
-text/x-sfv					sfv
-text/x-uuencode					uu
-text/x-vcalendar				vcs
-text/x-vcard					vcf
-# text/xml
-# text/xml-external-parsed-entity
-# video/1d-interleaved-parityfec
-video/3gpp					3gp
-# video/3gpp-tt
-video/3gpp2					3g2
-# video/bmpeg
-# video/bt656
-# video/celb
-# video/dv
-# video/encaprtp
-# video/example
-video/h261					h261
-video/h263					h263
-# video/h263-1998
-# video/h263-2000
-video/h264					h264
-# video/h264-rcdo
-# video/h264-svc
-# video/h265
-# video/iso.segment
-video/jpeg					jpgv
-# video/jpeg2000
-video/jpm					jpm jpgm
-video/mj2					mj2 mjp2
-# video/mp1s
-# video/mp2p
-# video/mp2t
-video/mp4					mp4 mp4v mpg4
-# video/mp4v-es
-video/mpeg					mpeg mpg mpe m1v m2v
-# video/mpeg4-generic
-# video/mpv
-# video/nv
-video/ogg					ogv
-# video/parityfec
-# video/pointer
-video/quicktime					qt mov
-# video/raptorfec
-# video/raw
-# video/rtp-enc-aescm128
-# video/rtploopback
-# video/rtx
-# video/smpte292m
-# video/ulpfec
-# video/vc1
-# video/vnd.cctv
-video/vnd.dece.hd				uvh uvvh
-video/vnd.dece.mobile				uvm uvvm
-# video/vnd.dece.mp4
-video/vnd.dece.pd				uvp uvvp
-video/vnd.dece.sd				uvs uvvs
-video/vnd.dece.video				uvv uvvv
-# video/vnd.directv.mpeg
-# video/vnd.directv.mpeg-tts
-# video/vnd.dlna.mpeg-tts
-video/vnd.dvb.file				dvb
-video/vnd.fvt					fvt
-# video/vnd.hns.video
-# video/vnd.iptvforum.1dparityfec-1010
-# video/vnd.iptvforum.1dparityfec-2005
-# video/vnd.iptvforum.2dparityfec-1010
-# video/vnd.iptvforum.2dparityfec-2005
-# video/vnd.iptvforum.ttsavc
-# video/vnd.iptvforum.ttsmpeg2
-# video/vnd.motorola.video
-# video/vnd.motorola.videop
-video/vnd.mpegurl				mxu m4u
-video/vnd.ms-playready.media.pyv		pyv
-# video/vnd.nokia.interleaved-multimedia
-# video/vnd.nokia.videovoip
-# video/vnd.objectvideo
-# video/vnd.radgamettools.bink
-# video/vnd.radgamettools.smacker
-# video/vnd.sealed.mpeg1
-# video/vnd.sealed.mpeg4
-# video/vnd.sealed.swf
-# video/vnd.sealedmedia.softseal.mov
-video/vnd.uvvu.mp4				uvu uvvu
-video/vnd.vivo					viv
-# video/vp8
-video/webm					webm
-video/x-f4v					f4v
-video/x-fli					fli
-video/x-flv					flv
-video/x-m4v					m4v
-video/x-matroska				mkv mk3d mks
-video/x-mng					mng
-video/x-ms-asf					asf asx
-video/x-ms-vob					vob
-video/x-ms-wm					wm
-video/x-ms-wmv					wmv
-video/x-ms-wmx					wmx
-video/x-ms-wvx					wvx
-video/x-msvideo					avi
-video/x-sgi-movie				movie
-video/x-smv					smv
-x-conference/x-cooltalk				ice
+# source: https://github.com/mime-types/mime-types-data/blob/main/data/content_type_mime.db
+ez          application/andrew-inset                                                  base64
+aw          application/applixware                                                    base64
+atom        application/atom+xml                                                      8bit
+atomcat     application/atomcat+xml                                                   8bit
+atomsvc     application/atomsvc+xml                                                   8bit
+ccxml       application/ccxml+xml                                                     base64
+cdmia       application/cdmi-capability                                               base64
+cdmic       application/cdmi-container                                                base64
+cdmid       application/cdmi-domain                                                   base64
+cdmio       application/cdmi-object                                                   base64
+cdmiq       application/cdmi-queue                                                    base64
+cu          application/cu-seeme                                                      base64
+davmount    application/davmount+xml                                                  base64
+dcm         application/dicom                                                         base64
+dbk         application/docbook+xml                                                   base64
+dssc        application/dssc+der                                                      base64
+xdssc       application/dssc+xml                                                      base64
+ecma        application/ecmascript                                                    base64
+emma        application/emma+xml                                                      base64
+epub        application/epub+zip                                                      base64
+exi         application/exi                                                           base64
+pfr         application/font-tdpfr                                                    base64
+gml         application/gml+xml                                                       base64
+gpx         application/gpx+xml                                                       base64
+gxf         application/gxf                                                           base64
+gz          application/gzip                                                          base64
+stk         application/hyperstudio                                                   base64
+ink         application/inkml+xml                                                     base64
+ipfix       application/ipfix                                                         base64
+jar         application/java-archive                                                  base64
+ser         application/java-serialized-object                                        base64
+js          application/javascript                                                    8bit
+json        application/json                                                          8bit
+jsonml      application/jsonml+json                                                   base64
+lostxml     application/lost+xml                                                      base64
+hqx         application/mac-binhex40                                                  8bit
+mads        application/mads+xml                                                      base64
+webmanifest application/manifest+json                                                 base64
+mrc         application/marc                                                          base64
+mrcx        application/marcxml+xml                                                   base64
+ma          application/mathematica                                                   base64
+mathml      application/mathml+xml                                                    base64
+mbox        application/mbox                                                          base64
+mscml       application/mediaservercontrol+xml                                        base64
+metalink    application/metalink+xml                                                  base64
+meta4       application/metalink4+xml                                                 base64
+mets        application/mets+xml                                                      base64
+mods        application/mods+xml                                                      base64
+m21         application/mp21                                                          base64
+mp4         application/mp4                                                           base64
+doc         application/msword                                                        base64
+mxf         application/mxf                                                           base64
+nc          application/netcdf                                                        base64
+bin         application/octet-stream                                                  base64
+oda         application/oda                                                           base64
+opf         application/oebps-package+xml                                             base64
+ogx         application/ogg                                                           base64
+omdoc       application/omdoc+xml                                                     base64
+onepkg      application/onenote                                                       base64
+oxps        application/oxps                                                          base64
+xer         application/patch-ops-error+xml                                           base64
+pdf         application/pdf                                                           base64
+asc         application/pgp-signature                                                 base64
+prf         application/pics-rules                                                    base64
+p10         application/pkcs10                                                        base64
+p7m         application/pkcs7-mime                                                    base64
+p7s         application/pkcs7-signature                                               base64
+p8          application/pkcs8                                                         base64
+ac          application/pkix-attr-cert                                                base64
+cer         application/pkix-cert                                                     base64
+crl         application/pkix-crl                                                      base64
+pkipath     application/pkix-pkipath                                                  base64
+pki         application/pkixcmp                                                       base64
+pls         application/pls+xml                                                       base64
+eps         application/postscript                                                    8bit
+cw          application/prs.cww                                                       base64
+rnd         application/prs.nprend                                                    base64
+pskcxml     application/pskc+xml                                                      base64
+rdf         application/rdf+xml                                                       8bit
+rif         application/reginfo+xml                                                   base64
+rnc         application/relax-ng-compact-syntax                                       base64
+rl          application/resource-lists+xml                                            base64
+rld         application/resource-lists-diff+xml                                       base64
+rs          application/rls-services+xml                                              base64
+gbr         application/rpki-ghostbusters                                             base64
+mft         application/rpki-manifest                                                 base64
+roa         application/rpki-roa                                                      base64
+rsd         application/rsd+xml                                                       base64
+rss         application/rss+xml                                                       base64
+rtf         application/rtf                                                           base64
+sbml        application/sbml+xml                                                      base64
+scq         application/scvp-cv-request                                               base64
+scs         application/scvp-cv-response                                              base64
+spq         application/scvp-vp-request                                               base64
+spp         application/scvp-vp-response                                              base64
+sdp         application/sdp                                                           base64
+setpay      application/set-payment-initiation                                        base64
+setreg      application/set-registration-initiation                                   base64
+sgml        application/sgml                                                          base64
+soc         application/sgml-open-catalog                                             base64
+shf         application/shf+xml                                                       base64
+siv         application/sieve                                                         base64
+smi         application/smil+xml                                                      8bit
+rq          application/sparql-query                                                  base64
+srx         application/sparql-results+xml                                            base64
+gram        application/srgs                                                          base64
+grxml       application/srgs+xml                                                      base64
+sru         application/sru+xml                                                       base64
+ssdl        application/ssdl+xml                                                      base64
+ssml        application/ssml+xml                                                      base64
+tei         application/tei+xml                                                       base64
+tfi         application/thraud+xml                                                    base64
+tsd         application/timestamped-data                                              base64
+pwn         application/vnd.3M.Post-it-Notes                                          base64
+plb         application/vnd.3gpp.pic-bw-large                                         base64
+psb         application/vnd.3gpp.pic-bw-small                                         base64
+pvb         application/vnd.3gpp.pic-bw-var                                           base64
+sms         application/vnd.3gpp.sms                                                  base64
+tcap        application/vnd.3gpp2.tcap                                                base64
+gph         application/vnd.FloGraphIt                                                base64
+zmm         application/vnd.HandHeld-Entertainment+xml                                base64
+kne         application/vnd.Kinar                                                     base64
+mwf         application/vnd.MFER                                                      base64
+daf         application/vnd.Mobius.DAF                                                base64
+dis         application/vnd.Mobius.DIS                                                base64
+mbk         application/vnd.Mobius.MBK                                                base64
+mqy         application/vnd.Mobius.MQY                                                base64
+msl         application/vnd.Mobius.MSL                                                base64
+plc         application/vnd.Mobius.PLC                                                base64
+txf         application/vnd.Mobius.TXF                                                base64
+qxd         application/vnd.Quark.QuarkXPress                                         8bit
+twd         application/vnd.SimTech-MindMapper                                        base64
+aso         application/vnd.accpac.simply.aso                                         base64
+imp         application/vnd.accpac.simply.imp                                         base64
+acu         application/vnd.acucobol                                                  base64
+atc         application/vnd.acucorp                                                   7bit
+air         application/vnd.adobe.air-application-installer-package+zip               base64
+fcdt        application/vnd.adobe.formscentral.fcdt                                   base64
+fxp         application/vnd.adobe.fxp                                                 base64
+xdp         application/vnd.adobe.xdp+xml                                             base64
+xfdf        application/vnd.adobe.xfdf                                                base64
+ahead       application/vnd.ahead.space                                               base64
+azf         application/vnd.airzip.filesecure.azf                                     base64
+azs         application/vnd.airzip.filesecure.azs                                     base64
+azw         application/vnd.amazon.ebook                                              base64
+acc         application/vnd.americandynamics.acc                                      base64
+ami         application/vnd.amiga.ami                                                 base64
+apk         application/vnd.android.package-archive                                   base64
+cii         application/vnd.anser-web-certificate-issue-initiation                    base64
+fti         application/vnd.anser-web-funds-transfer-initiation                       base64
+atx         application/vnd.antix.game-component                                      base64
+mpkg        application/vnd.apple.installer+xml                                       base64
+m3u8        application/vnd.apple.mpegurl                                             base64
+pkpass      application/vnd.apple.pkpass                                              base64
+swi         application/vnd.aristanetworks.swi                                        base64
+iota        application/vnd.astraea-software.iota                                     base64
+aep         application/vnd.audiograph                                                base64
+mpm         application/vnd.blueice.multipass                                         base64
+bmi         application/vnd.bmi                                                       base64
+rep         application/vnd.businessobjects                                           base64
+cdxml       application/vnd.chemdraw+xml                                              base64
+mmd         application/vnd.chipnuts.karaoke-mmd                                      base64
+cdy         application/vnd.cinderella                                                base64
+cla         application/vnd.claymore                                                  base64
+rp9         application/vnd.cloanto.rp9                                               base64
+c4d         application/vnd.clonk.c4group                                             base64
+c11amc      application/vnd.cluetrust.cartomobile-config                              base64
+c11amz      application/vnd.cluetrust.cartomobile-config-pkg                          base64
+csp         application/vnd.commonspace                                               base64
+cdbcmsg     application/vnd.contact.cmsg                                              base64
+cmc         application/vnd.cosmocaller                                               base64
+clkx        application/vnd.crick.clicker                                             base64
+clkk        application/vnd.crick.clicker.keyboard                                    base64
+clkp        application/vnd.crick.clicker.palette                                     base64
+clkt        application/vnd.crick.clicker.template                                    base64
+clkw        application/vnd.crick.clicker.wordbank                                    base64
+wbs         application/vnd.criticaltools.wbs+xml                                     base64
+pml         application/vnd.ctc-posml                                                 base64
+ppd         application/vnd.cups-ppd                                                  base64
+curl        application/vnd.curl                                                      base64
+car         application/vnd.curl.car                                                  base64
+pcurl       application/vnd.curl.pcurl                                                base64
+dart        application/vnd.dart                                                      base64
+rdz         application/vnd.data-vision.rdz                                           base64
+uvd         application/vnd.dece.data                                                 base64
+uvt         application/vnd.dece.ttml+xml                                             base64
+uvvx        application/vnd.dece.unspecified                                          base64
+uvvz        application/vnd.dece.zip                                                  base64
+fe_launch   application/vnd.denovo.fcselayout-link                                    base64
+dna         application/vnd.dna                                                       base64
+mlp         application/vnd.dolby.mlp                                                 base64
+dpg         application/vnd.dpgraph                                                   base64
+dfac        application/vnd.dreamfactory                                              base64
+kpxx        application/vnd.ds-keypoint                                               base64
+ait         application/vnd.dvb.ait                                                   base64
+svc         application/vnd.dvb.service                                               base64
+geo         application/vnd.dynageo                                                   base64
+mag         application/vnd.ecowin.chart                                              base64
+nml         application/vnd.enliven                                                   base64
+esf         application/vnd.epson.esf                                                 base64
+msf         application/vnd.epson.msf                                                 base64
+qam         application/vnd.epson.quickanime                                          base64
+slt         application/vnd.epson.salt                                                base64
+ssf         application/vnd.epson.ssf                                                 base64
+es3         application/vnd.eszigno3+xml                                              base64
+ez2         application/vnd.ezpix-album                                               base64
+ez3         application/vnd.ezpix-package                                             base64
+fdf         application/vnd.fdf                                                       base64
+mseed       application/vnd.fdsn.mseed                                                base64
+dataless    application/vnd.fdsn.seed                                                 base64
+ftc         application/vnd.fluxtime.clip                                             base64
+frm         application/vnd.framemaker                                                base64
+fnc         application/vnd.frogans.fnc                                               base64
+ltf         application/vnd.frogans.ltf                                               base64
+fsc         application/vnd.fsc.weblaunch                                             7bit
+oas         application/vnd.fujitsu.oasys                                             base64
+oa2         application/vnd.fujitsu.oasys2                                            base64
+oa3         application/vnd.fujitsu.oasys3                                            base64
+fg5         application/vnd.fujitsu.oasysgp                                           base64
+bh2         application/vnd.fujitsu.oasysprs                                          base64
+ddd         application/vnd.fujixerox.ddd                                             base64
+xdw         application/vnd.fujixerox.docuworks                                       base64
+xbd         application/vnd.fujixerox.docuworks.binder                                base64
+fzs         application/vnd.fuzzysheet                                                base64
+txd         application/vnd.genomatix.tuxedo                                          base64
+ggb         application/vnd.geogebra.file                                             base64
+ggt         application/vnd.geogebra.tool                                             base64
+gex         application/vnd.geometry-explorer                                         base64
+gxt         application/vnd.geonext                                                   base64
+g2w         application/vnd.geoplan                                                   base64
+g3w         application/vnd.geospace                                                  base64
+gmx         application/vnd.gmx                                                       base64
+kml         application/vnd.google-earth.kml+xml                                      8bit
+kmz         application/vnd.google-earth.kmz                                          8bit
+gqf         application/vnd.grafeq                                                    base64
+gac         application/vnd.groove-account                                            base64
+ghf         application/vnd.groove-help                                               base64
+gim         application/vnd.groove-identity-message                                   base64
+grv         application/vnd.groove-injector                                           base64
+gtm         application/vnd.groove-tool-message                                       base64
+tpl         application/vnd.groove-tool-template                                      base64
+vcg         application/vnd.groove-vcard                                              base64
+hal         application/vnd.hal+xml                                                   base64
+hbci        application/vnd.hbci                                                      base64
+les         application/vnd.hhe.lesson-player                                         base64
+plt         application/vnd.hp-HPGL                                                   base64
+pcl         application/vnd.hp-PCL                                                    base64
+pclxl       application/vnd.hp-PCLXL                                                  base64
+hpid        application/vnd.hp-hpid                                                   base64
+hps         application/vnd.hp-hps                                                    base64
+jlt         application/vnd.hp-jlyt                                                   base64
+sfd-hdstx   application/vnd.hydrostatix.sof-data                                      base64
+mpy         application/vnd.ibm.MiniPay                                               base64
+emm         application/vnd.ibm.electronic-media                                      base64
+afp         application/vnd.ibm.modcap                                                base64
+irm         application/vnd.ibm.rights-management                                     base64
+sc          application/vnd.ibm.secure-container                                      base64
+icc         application/vnd.iccprofile                                                base64
+igl         application/vnd.igloader                                                  base64
+ivp         application/vnd.immervision-ivp                                           base64
+ivu         application/vnd.immervision-ivu                                           base64
+igm         application/vnd.insors.igm                                                base64
+xpw         application/vnd.intercon.formnet                                          base64
+i2g         application/vnd.intergeo                                                  base64
+qbo         application/vnd.intu.qbo                                                  base64
+qfx         application/vnd.intu.qfx                                                  base64
+rcprofile   application/vnd.ipunplugged.rcprofile                                     base64
+irp         application/vnd.irepository.package+xml                                   base64
+xpr         application/vnd.is-xpr                                                    base64
+fcs         application/vnd.isac.fcs                                                  base64
+jam         application/vnd.jam                                                       base64
+rms         application/vnd.jcp.javame.midlet-rms                                     base64
+jisp        application/vnd.jisp                                                      base64
+joda        application/vnd.joost.joda-archive                                        base64
+ktr         application/vnd.kahootz                                                   base64
+karbon      application/vnd.kde.karbon                                                base64
+chrt        application/vnd.kde.kchart                                                base64
+kfo         application/vnd.kde.kformula                                              base64
+flw         application/vnd.kde.kivio                                                 base64
+kon         application/vnd.kde.kontour                                               base64
+kpr         application/vnd.kde.kpresenter                                            base64
+ksp         application/vnd.kde.kspread                                               base64
+kwd         application/vnd.kde.kword                                                 base64
+htke        application/vnd.kenameaapp                                                base64
+kia         application/vnd.kidspiration                                              base64
+skd         application/vnd.koan                                                      base64
+sse         application/vnd.kodak-descriptor                                          base64
+lasxml      application/vnd.las.las+xml                                               base64
+lbd         application/vnd.llamagraphics.life-balance.desktop                        base64
+lbe         application/vnd.llamagraphics.life-balance.exchange+xml                   base64
+wks         application/vnd.lotus-1-2-3                                               base64
+apr         application/vnd.lotus-approach                                            base64
+pre         application/vnd.lotus-freelance                                           base64
+nsf         application/vnd.lotus-notes                                               base64
+org         application/vnd.lotus-organizer                                           base64
+scm         application/vnd.lotus-screencam                                           base64
+lwp         application/vnd.lotus-wordpro                                             base64
+portpkg     application/vnd.macports.portpkg                                          base64
+mcd         application/vnd.mcd                                                       base64
+mc1         application/vnd.medcalcdata                                               base64
+cdkey       application/vnd.mediastation.cdkey                                        base64
+mfm         application/vnd.mfmp                                                      base64
+flo         application/vnd.micrografx.flo                                            base64
+igx         application/vnd.micrografx.igx                                            base64
+mif         application/vnd.mif                                                       base64
+mpn         application/vnd.mophun.application                                        base64
+mpc         application/vnd.mophun.certificate                                        base64
+xul         application/vnd.mozilla.xul+xml                                           base64
+cil         application/vnd.ms-artgalry                                               base64
+asf         application/vnd.ms-asf                                                    base64
+cab         application/vnd.ms-cab-compressed                                         base64
+xls         application/vnd.ms-excel                                                  base64
+xlam        application/vnd.ms-excel.addin.macroEnabled.12                            base64
+xlsb        application/vnd.ms-excel.sheet.binary.macroEnabled.12                     base64
+xlsm        application/vnd.ms-excel.sheet.macroEnabled.12                            base64
+xltm        application/vnd.ms-excel.template.macroEnabled.12                         base64
+eot         application/vnd.ms-fontobject                                             base64
+chm         application/vnd.ms-htmlhelp                                               base64
+ims         application/vnd.ms-ims                                                    base64
+lrm         application/vnd.ms-lrm                                                    base64
+thmx        application/vnd.ms-officetheme                                            base64
+msg         application/vnd.ms-outlook                                                base64
+cat         application/vnd.ms-pki.seccat                                             base64
+stl         application/vnd.ms-pki.stl                                                base64
+ppt         application/vnd.ms-powerpoint                                             base64
+ppam        application/vnd.ms-powerpoint.addin.macroEnabled.12                       base64
+pptm        application/vnd.ms-powerpoint.presentation.macroEnabled.12                base64
+sldm        application/vnd.ms-powerpoint.slide.macroEnabled.12                       base64
+ppsm        application/vnd.ms-powerpoint.slideshow.macroEnabled.12                   base64
+potm        application/vnd.ms-powerpoint.template.macroEnabled.12                    base64
+mpp         application/vnd.ms-project                                                base64
+docm        application/vnd.ms-word.document.macroEnabled.12                          base64
+dotm        application/vnd.ms-word.template.macroEnabled.12                          base64
+wcm         application/vnd.ms-works                                                  base64
+wpl         application/vnd.ms-wpl                                                    base64
+xps         application/vnd.ms-xpsdocument                                            8bit
+mseq        application/vnd.mseq                                                      base64
+mus         application/vnd.musician                                                  base64
+msty        application/vnd.muvee.style                                               base64
+taglet      application/vnd.mynfc                                                     base64
+ent         application/vnd.nervana                                                   base64
+nlu         application/vnd.neurolanguage.nlu                                         base64
+nitf        application/vnd.nitf                                                      base64
+nnd         application/vnd.noblenet-directory                                        base64
+nns         application/vnd.noblenet-sealer                                           base64
+nnw         application/vnd.noblenet-web                                              base64
+ngdat       application/vnd.nokia.n-gage.data                                         base64
+n-gage      application/vnd.nokia.n-gage.symbian.install                              base64
+rpst        application/vnd.nokia.radio-preset                                        base64
+rpss        application/vnd.nokia.radio-presets                                       base64
+edm         application/vnd.novadigm.EDM                                              base64
+edx         application/vnd.novadigm.EDX                                              base64
+ext         application/vnd.novadigm.EXT                                              base64
+odc         application/vnd.oasis.opendocument.chart                                  base64
+odc         application/vnd.oasis.opendocument.chart-template                         base64
+odb         application/vnd.oasis.opendocument.database                               base64
+odf         application/vnd.oasis.opendocument.formula                                base64
+odf         application/vnd.oasis.opendocument.formula-template                       base64
+odg         application/vnd.oasis.opendocument.graphics                               base64
+otg         application/vnd.oasis.opendocument.graphics-template                      base64
+odi         application/vnd.oasis.opendocument.image                                  base64
+odi         application/vnd.oasis.opendocument.image-template                         base64
+odp         application/vnd.oasis.opendocument.presentation                           base64
+otp         application/vnd.oasis.opendocument.presentation-template                  base64
+ods         application/vnd.oasis.opendocument.spreadsheet                            base64
+ots         application/vnd.oasis.opendocument.spreadsheet-template                   base64
+odt         application/vnd.oasis.opendocument.text                                   base64
+odm         application/vnd.oasis.opendocument.text-master                            base64
+ott         application/vnd.oasis.opendocument.text-template                          base64
+oth         application/vnd.oasis.opendocument.text-web                               base64
+xo          application/vnd.olpc-sugar                                                base64
+dd2         application/vnd.oma.dd2+xml                                               base64
+oxt         application/vnd.openofficeorg.extension                                   base64
+pptx        application/vnd.openxmlformats-officedocument.presentationml.presentation base64
+sldx        application/vnd.openxmlformats-officedocument.presentationml.slide        base64
+ppsx        application/vnd.openxmlformats-officedocument.presentationml.slideshow    base64
+potx        application/vnd.openxmlformats-officedocument.presentationml.template     base64
+xlsx        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet         base64
+xltx        application/vnd.openxmlformats-officedocument.spreadsheetml.template      base64
+docx        application/vnd.openxmlformats-officedocument.wordprocessingml.document   base64
+dotx        application/vnd.openxmlformats-officedocument.wordprocessingml.template   base64
+mgp         application/vnd.osgeo.mapguide.package                                    base64
+dp          application/vnd.osgi.dp                                                   base64
+esa         application/vnd.osgi.subsystem                                            base64
+prc         application/vnd.palm                                                      base64
+paw         application/vnd.pawaafile                                                 base64
+str         application/vnd.pg.format                                                 base64
+ei6         application/vnd.pg.osasli                                                 base64
+efif        application/vnd.picsel                                                    base64
+wg          application/vnd.pmi.widget                                                base64
+plf         application/vnd.pocketlearn                                               base64
+pbd         application/vnd.powerbuilder6                                             base64
+box         application/vnd.previewsystems.box                                        base64
+mgz         application/vnd.proteus.magazine                                          base64
+qps         application/vnd.publishare-delta-tree                                     base64
+pti         application/vnd.pvi.ptid1                                                 base64
+bed         application/vnd.realvnc.bed                                               base64
+mxl         application/vnd.recordare.musicxml                                        base64
+musicxml    application/vnd.recordare.musicxml+xml                                    base64
+cryptonote  application/vnd.rig.cryptonote                                            base64
+cod         application/vnd.rim.cod                                                   base64
+rm          application/vnd.rn-realmedia                                              base64
+rmvb        application/vnd.rn-realmedia-vbr                                          base64
+link66      application/vnd.route66.link66+xml                                        base64
+st          application/vnd.sailingtracker.track                                      base64
+sdoc        application/vnd.sealed.doc                                                base64
+seml        application/vnd.sealed.eml                                                base64
+smht        application/vnd.sealed.mht                                                base64
+sppt        application/vnd.sealed.ppt                                                base64
+sxls        application/vnd.sealed.xls                                                base64
+stml        application/vnd.sealedmedia.softseal.html                                 base64
+spdf        application/vnd.sealedmedia.softseal.pdf                                  base64
+see         application/vnd.seemail                                                   base64
+sema        application/vnd.sema                                                      base64
+semd        application/vnd.semd                                                      base64
+semf        application/vnd.semf                                                      base64
+ifm         application/vnd.shana.informed.formdata                                   base64
+itp         application/vnd.shana.informed.formtemplate                               base64
+iif         application/vnd.shana.informed.interchange                                base64
+ipk         application/vnd.shana.informed.package                                    base64
+mmf         application/vnd.smaf                                                      base64
+teacher     application/vnd.smart.teacher                                             base64
+sdkd        application/vnd.solent.sdkm+xml                                           base64
+dxp         application/vnd.spotfire.dxp                                              base64
+sfs         application/vnd.spotfire.sfs                                              base64
+sdc         application/vnd.stardivision.calc                                         base64
+sds         application/vnd.stardivision.chart                                        base64
+sda         application/vnd.stardivision.draw                                         base64
+sdd         application/vnd.stardivision.impress                                      base64
+sdf         application/vnd.stardivision.math                                         base64
+sdw         application/vnd.stardivision.writer                                       base64
+sgl         application/vnd.stardivision.writer-global                                base64
+smzip       application/vnd.stepmania.package                                         base64
+sm          application/vnd.stepmania.stepchart                                       base64
+sxc         application/vnd.sun.xml.calc                                              base64
+stc         application/vnd.sun.xml.calc.template                                     base64
+sxd         application/vnd.sun.xml.draw                                              base64
+std         application/vnd.sun.xml.draw.template                                     base64
+sxi         application/vnd.sun.xml.impress                                           base64
+sti         application/vnd.sun.xml.impress.template                                  base64
+sxm         application/vnd.sun.xml.math                                              base64
+sxw         application/vnd.sun.xml.writer                                            base64
+sxg         application/vnd.sun.xml.writer.global                                     base64
+stw         application/vnd.sun.xml.writer.template                                   base64
+sus         application/vnd.sus-calendar                                              base64
+svd         application/vnd.svd                                                       base64
+sis         application/vnd.symbian.install                                           base64
+xsm         application/vnd.syncml+xml                                                base64
+bdm         application/vnd.syncml.dm+wbxml                                           base64
+xdm         application/vnd.syncml.dm+xml                                             base64
+tao         application/vnd.tao.intent-module-archive                                 base64
+cap         application/vnd.tcpdump.pcap                                              base64
+tmo         application/vnd.tmobile-livetv                                            base64
+tpt         application/vnd.trid.tpt                                                  base64
+mxs         application/vnd.triscape.mxs                                              base64
+tra         application/vnd.trueapp                                                   base64
+ufd         application/vnd.ufdl                                                      base64
+utz         application/vnd.uiq.theme                                                 base64
+umj         application/vnd.umajin                                                    base64
+unityweb    application/vnd.unity                                                     base64
+uoml        application/vnd.uoml+xml                                                  base64
+vcx         application/vnd.vcx                                                       base64
+vsc         application/vnd.vidsoft.vidconference                                     8bit
+vsd         application/vnd.visio                                                     base64
+vis         application/vnd.visionary                                                 base64
+vsf         application/vnd.vsf                                                       base64
+sic         application/vnd.wap.sic                                                   base64
+slc         application/vnd.wap.slc                                                   base64
+wbxml       application/vnd.wap.wbxml                                                 base64
+wmlc        application/vnd.wap.wmlc                                                  base64
+wmlsc       application/vnd.wap.wmlscriptc                                            base64
+wtb         application/vnd.webturbo                                                  base64
+nbp         application/vnd.wolfram.player                                            base64
+wpd         application/vnd.wordperfect                                               base64
+wqd         application/vnd.wqd                                                       base64
+stf         application/vnd.wt.stf                                                    base64
+wv          application/vnd.wv.csp+wbxml                                              base64
+xar         application/vnd.xara                                                      base64
+xfdl        application/vnd.xfdl                                                      base64
+hvd         application/vnd.yamaha.hv-dic                                             base64
+hvs         application/vnd.yamaha.hv-script                                          base64
+hvp         application/vnd.yamaha.hv-voice                                           base64
+osf         application/vnd.yamaha.openscoreformat                                    base64
+osfpvg      application/vnd.yamaha.openscoreformat.osfpvg+xml                         base64
+saf         application/vnd.yamaha.smaf-audio                                         base64
+spf         application/vnd.yamaha.smaf-phrase                                        base64
+cmp         application/vnd.yellowriver-custom-menu                                   base64
+zir         application/vnd.zul                                                       base64
+zaz         application/vnd.zzazz.deck+xml                                            base64
+vxml        application/voicexml+xml                                                  base64
+wasm        application/wasm                                                          8bit
+wif         application/watcherinfo+xml                                               base64
+wgt         application/widget                                                        base64
+wp5         application/wordperfect5.1                                                base64
+wsdl        application/wsdl+xml                                                      base64
+wspolicy    application/wspolicy+xml                                                  base64
+wk          application/x-123                                                         base64
+7z          application/x-7z-compressed                                               base64
+bck         application/x-VMSBACKUP                                                   base64
+wz          application/x-Wingz                                                       base64
+abw         application/x-abiword                                                     base64
+ace         application/x-ace-compressed                                              base64
+dmg         application/x-apple-diskimage                                             base64
+aab         application/x-authorware-bin                                              base64
+aam         application/x-authorware-map                                              base64
+aas         application/x-authorware-seg                                              base64
+bcpio       application/x-bcpio                                                       base64
+torrent     application/x-bittorrent                                                  base64
+bleep       application/x-bleeper                                                     base64
+blb         application/x-blorb                                                       base64
+bz          application/x-bzip                                                        base64
+boz         application/x-bzip2                                                       base64
+cb7         application/x-cbr                                                         base64
+vcd         application/x-cdlink                                                      base64
+cfs         application/x-cfs-compressed                                              base64
+chat        application/x-chat                                                        base64
+pgn         application/x-chess-pgn                                                   base64
+crx         application/x-chrome-extension                                            base64
+z           application/x-compressed                                                  base64
+nsc         application/x-conference                                                  base64
+cpio        application/x-cpio                                                        base64
+csh         application/x-csh                                                         8bit
+csm         application/x-cu-seeme                                                    base64
+deb         application/x-debian-package                                              base64
+dgc         application/x-dgc-compressed                                              base64
+dcr         application/x-director                                                    base64
+wad         application/x-doom                                                        base64
+ncx         application/x-dtbncx+xml                                                  base64
+dtb         application/x-dtbook+xml                                                  base64
+res         application/x-dtbresource+xml                                             base64
+dvi         application/x-dvi                                                         base64
+evy         application/x-envoy                                                       base64
+eva         application/x-eva                                                         base64
+bdf         application/x-font-bdf                                                    base64
+gsf         application/x-font-ghostscript                                            base64
+psf         application/x-font-linux-psf                                              base64
+pcf         application/x-font-pcf                                                    base64
+snf         application/x-font-snf                                                    base64
+afm         application/x-font-type1                                                  base64
+arc         application/x-freearc                                                     base64
+spl         application/x-futuresplash                                                base64
+gca         application/x-gca-compressed                                              base64
+ulx         application/x-glulx                                                       base64
+gnumeric    application/x-gnumeric                                                    base64
+gramps      application/x-gramps-xml                                                  base64
+gtar        application/x-gtar                                                        base64
+hdf         application/x-hdf                                                         base64
+hep         application/x-hep                                                         base64
+rhtml       application/x-html+ruby                                                   8bit
+phtml       application/x-httpd-php                                                   8bit
+ibooks      application/x-ibooks+zip                                                  base64
+ica         application/x-ica                                                         base64
+imagemap    application/x-imagemap                                                    8bit
+install     application/x-install-instructions                                        base64
+iso         application/x-iso9660-image                                               base64
+key         application/x-iwork-keynote-sffkey                                        base64
+numbers     application/x-iwork-numbers-sffnumbers                                    base64
+pages       application/x-iwork-pages-sffpages                                        base64
+jnlp        application/x-java-jnlp-file                                              base64
+ltx         application/x-latex                                                       8bit
+cpt         application/x-mac-compactpro                                              base64
+mie         application/x-mie                                                         base64
+mobi        application/x-mobipocket-ebook                                            base64
+application application/x-ms-application                                              base64
+exe         application/x-ms-dos-executable                                           base64
+lnk         application/x-ms-shortcut                                                 base64
+wmd         application/x-ms-wmd                                                      base64
+wmz         application/x-ms-wmz                                                      base64
+xbap        application/x-ms-xbap                                                     base64
+mda         application/x-msaccess                                                    base64
+obd         application/x-msbinder                                                    base64
+crd         application/x-mscardfile                                                  base64
+clp         application/x-msclip                                                      base64
+cmd         application/x-msdos-program                                               base64
+exe         application/x-msdownload                                                  base64
+m13         application/x-msmediaview                                                 base64
+emf         application/x-msmetafile                                                  base64
+mny         application/x-msmoney                                                     base64
+pub         application/x-mspublisher                                                 base64
+scd         application/x-msschedule                                                  base64
+trm         application/x-msterminal                                                  base64
+wri         application/x-mswrite                                                     base64
+pac         application/x-ns-proxy-autoconfig                                         base64
+nzb         application/x-nzb                                                         base64
+oex         application/x-opera-extension                                             base64
+pm          application/x-pagemaker                                                   base64
+pl          application/x-perl                                                        8bit
+p12         application/x-pkcs12                                                      base64
+p7b         application/x-pkcs7-certificates                                          base64
+p7r         application/x-pkcs7-certreqresp                                           base64
+py          application/x-python                                                      8bit
+qtl         application/x-quicktimeplayer                                             base64
+rar         application/x-rar-compressed                                              base64
+ris         application/x-research-info-systems                                       base64
+rb          application/x-ruby                                                        8bit
+sh          application/x-sh                                                          8bit
+shar        application/x-shar                                                        8bit
+swf         application/x-shockwave-flash                                             base64
+xap         application/x-silverlight-app                                             base64
+notebook    application/x-smarttech-notebook                                          base64
+sav         application/x-spss                                                        base64
+sql         application/x-sql                                                         base64
+sit         application/x-stuffit                                                     base64
+sitx        application/x-stuffitx                                                    base64
+srt         application/x-subrip                                                      base64
+sv4cpio     application/x-sv4cpio                                                     base64
+sv4crc      application/x-sv4crc                                                      base64
+t3          application/x-t3vm-image                                                  base64
+gam         application/x-tads                                                        base64
+tar         application/x-tar                                                         base64
+tcl         application/x-tcl                                                         8bit
+tex         application/x-tex                                                         8bit
+tfm         application/x-tex-tfm                                                     base64
+texinfo     application/x-texinfo                                                     8bit
+obj         application/x-tgif                                                        base64
+tbk         application/x-toolbook                                                    base64
+ustar       application/x-ustar                                                       base64
+src         application/x-wais-source                                                 base64
+webapp      application/x-web-app-manifest+json                                       base64
+wp6         application/x-wordperfect6.1                                              base64
+crt         application/x-x509-ca-cert                                                base64
+fig         application/x-xfig                                                        base64
+xlf         application/x-xliff+xml                                                   base64
+xpi         application/x-xpinstall                                                   base64
+xz          application/x-xz                                                          base64
+z1          application/x-zmachine                                                    base64
+xaml        application/xaml+xml                                                      base64
+xdf         application/xcap-diff+xml                                                 base64
+xenc        application/xenc+xml                                                      base64
+xht         application/xhtml+xml                                                     8bit
+xml         application/xml                                                           8bit
+dtd         application/xml-dtd                                                       8bit
+xop         application/xop+xml                                                       base64
+xpl         application/xproc+xml                                                     base64
+xslt        application/xslt+xml                                                      base64
+xspf        application/xspf+xml                                                      base64
+mxml        application/xv+xml                                                        base64
+yang        application/yang                                                          base64
+yin         application/yin+xml                                                       base64
+zip         application/zip                                                           base64
+amr         audio/AMR                                                                 base64
+awb         audio/AMR-WB                                                              base64
+evc         audio/EVRC                                                                base64
+l16         audio/L16                                                                 base64
+smv         audio/SMV                                                                 base64
+adp         audio/adpcm                                                               base64
+au          audio/basic                                                               base64
+kar         audio/midi                                                                base64
+mp4         audio/mp4                                                                 base64
+mpga        audio/mpeg                                                                base64
+oga         audio/ogg                                                                 base64
+s3m         audio/s3m                                                                 base64
+sil         audio/silk                                                                base64
+uva         audio/vnd.dece.audio                                                      base64
+eol         audio/vnd.digital-winds                                                   7bit
+dra         audio/vnd.dra                                                             base64
+dts         audio/vnd.dts                                                             base64
+dtshd       audio/vnd.dts.hd                                                          base64
+plj         audio/vnd.everad.plj                                                      base64
+lvp         audio/vnd.lucent.voice                                                    base64
+pya         audio/vnd.ms-playready.media.pya                                          base64
+mxmf        audio/vnd.nokia.mobile-xmf                                                base64
+vbk         audio/vnd.nortel.vbk                                                      base64
+ecelp4800   audio/vnd.nuera.ecelp4800                                                 base64
+ecelp7470   audio/vnd.nuera.ecelp7470                                                 base64
+ecelp9600   audio/vnd.nuera.ecelp9600                                                 base64
+qcp         audio/vnd.qcelp                                                           base64
+rip         audio/vnd.rip                                                             base64
+smp3        audio/vnd.sealedmedia.softseal.mpeg                                       base64
+wav         audio/wav                                                                 base64
+weba        audio/webm                                                                base64
+aac         audio/x-aac                                                               base64
+aif         audio/x-aiff                                                              base64
+caf         audio/x-caf                                                               base64
+flac        audio/x-flac                                                              base64
+mka         audio/x-matroska                                                          base64
+m3u         audio/x-mpegurl                                                           base64
+wax         audio/x-ms-wax                                                            base64
+wma         audio/x-ms-wma                                                            base64
+wmv         audio/x-ms-wmv                                                            base64
+ra          audio/x-pn-realaudio                                                      base64
+rmp         audio/x-pn-realaudio-plugin                                               base64
+xm          audio/xm                                                                  base64
+cdx         chemical/x-cdx                                                            base64
+cif         chemical/x-cif                                                            base64
+cmdf        chemical/x-cmdf                                                           base64
+cml         chemical/x-cml                                                            base64
+csml        chemical/x-csml                                                           base64
+ttc         font/collection                                                           base64
+otf         font/otf                                                                  base64
+ttf         font/ttf                                                                  base64
+woff        font/woff                                                                 base64
+woff2       font/woff2                                                                base64
+avif        image/avif                                                                base64
+bmp         image/bmp                                                                 base64
+cgm         image/cgm                                                                 base64
+g3          image/g3fax                                                               base64
+gif         image/gif                                                                 base64
+heic        image/heic                                                                base64
+heics       image/heic-sequence                                                       base64
+heif        image/heif                                                                base64
+heifs       image/heif-sequence                                                       base64
+ief         image/ief                                                                 base64
+jp2         image/jp2                                                                 base64
+jpeg        image/jpeg                                                                base64
+jpm         image/jpm                                                                 base64
+jpx         image/jpx                                                                 base64
+ktx         image/ktx                                                                 base64
+png         image/png                                                                 base64
+btif        image/prs.btif                                                            base64
+sgi         image/sgi                                                                 base64
+svg         image/svg+xml                                                             8bit
+tiff        image/tiff                                                                base64
+psd         image/vnd.adobe.photoshop                                                 base64
+uvg         image/vnd.dece.graphic                                                    base64
+djvu        image/vnd.djvu                                                            base64
+sub         image/vnd.dvb.subtitle                                                    base64
+dwg         image/vnd.dwg                                                             base64
+dxf         image/vnd.dxf                                                             base64
+fbs         image/vnd.fastbidsheet                                                    base64
+fpx         image/vnd.fpx                                                             base64
+fst         image/vnd.fst                                                             base64
+mmr         image/vnd.fujixerox.edmics-mmr                                            base64
+rlc         image/vnd.fujixerox.edmics-rlc                                            base64
+pgb         image/vnd.globalgraphics.pgb                                              base64
+ico         image/vnd.microsoft.icon                                                  base64
+mdi         image/vnd.ms-modi                                                         base64
+wdp         image/vnd.ms-photo                                                        base64
+npx         image/vnd.net-fpx                                                         base64
+wbmp        image/vnd.wap.wbmp                                                        base64
+xif         image/vnd.xiff                                                            base64
+webp        image/webp                                                                base64
+3ds         image/x-3ds                                                               base64
+dng         image/x-adobe-dng                                                         base64
+cr2         image/x-canon-cr2                                                         base64
+crw         image/x-canon-crw                                                         base64
+ras         image/x-cmu-raster                                                        base64
+cmx         image/x-cmx                                                               base64
+xcfbz2      image/x-compressed-xcf                                                    base64
+erf         image/x-epson-erf                                                         base64
+fh          image/x-freehand                                                          base64
+raf         image/x-fuji-raf                                                          base64
+3fr         image/x-hasselblad-3fr                                                    base64
+k25         image/x-kodak-k25                                                         base64
+kdc         image/x-kodak-kdc                                                         base64
+mrw         image/x-minolta-mrw                                                       base64
+sid         image/x-mrsid-image                                                       base64
+nef         image/x-nikon-nef                                                         base64
+orf         image/x-olympus-orf                                                       base64
+psp         image/x-paintshoppro                                                      base64
+raw         image/x-panasonic-raw                                                     base64
+pcx         image/x-pcx                                                               base64
+pef         image/x-pentax-pef                                                        base64
+pct         image/x-pict                                                              base64
+pnm         image/x-portable-anymap                                                   base64
+pbm         image/x-portable-bitmap                                                   base64
+pgm         image/x-portable-graymap                                                  base64
+ppm         image/x-portable-pixmap                                                   base64
+rgb         image/x-rgb                                                               base64
+x3f         image/x-sigma-x3f                                                         base64
+arw         image/x-sony-arw                                                          base64
+sr2         image/x-sony-sr2                                                          base64
+srf         image/x-sony-srf                                                          base64
+tga         image/x-targa                                                             base64
+dgn         image/x-vnd.dgn                                                           base64
+xbm         image/x-xbitmap                                                           7bit
+xcf         image/x-xcf                                                               base64
+xpm         image/x-xpixmap                                                           8bit
+xwd         image/x-xwindowdump                                                       base64
+eml         message/rfc822                                                            8bit
+igs         model/iges                                                                base64
+msh         model/mesh                                                                base64
+dae         model/vnd.collada+xml                                                     base64
+dwf         model/vnd.dwf                                                             base64
+gdl         model/vnd.gdl                                                             base64
+gtw         model/vnd.gtw                                                             base64
+mts         model/vnd.mts                                                             base64
+x_b         model/vnd.parasolid.transmit.binary                                       base64
+x_t         model/vnd.parasolid.transmit.text                                         quoted-printable
+vtu         model/vnd.vtu                                                             base64
+wrl         model/vrml                                                                base64
+x3db        model/x3d+binary                                                          base64
+x3dv        model/x3d+vrml                                                            base64
+x3d         model/x3d+xml                                                             base64
+appcache    text/cache-manifest                                                       quoted-printable
+ics         text/calendar                                                             quoted-printable
+css         text/css                                                                  8bit
+csv         text/csv                                                                  8bit
+html        text/html                                                                 8bit
+markdown    text/markdown                                                             quoted-printable
+n3          text/n3                                                                   quoted-printable
+txt         text/plain                                                                quoted-printable
+dsc         text/prs.lines.tag                                                        quoted-printable
+rtx         text/richtext                                                             8bit
+sgml        text/sgml                                                                 quoted-printable
+tsv         text/tab-separated-values                                                 quoted-printable
+t           text/troff                                                                8bit
+ttl         text/turtle                                                               quoted-printable
+uri         text/uri-list                                                             quoted-printable
+vcard       text/vcard                                                                quoted-printable
+dcurl       text/vnd.curl.dcurl                                                       quoted-printable
+mcurl       text/vnd.curl.mcurl                                                       quoted-printable
+scurl       text/vnd.curl.scurl                                                       quoted-printable
+fly         text/vnd.fly                                                              quoted-printable
+flx         text/vnd.fmi.flexstor                                                     quoted-printable
+gv          text/vnd.graphviz                                                         quoted-printable
+3dml        text/vnd.in3d.3dml                                                        quoted-printable
+spot        text/vnd.in3d.spot                                                        quoted-printable
+ccc         text/vnd.net2phone.commcenter.command                                     quoted-printable
+jad         text/vnd.sun.j2me.app-descriptor                                          8bit
+si          text/vnd.wap.si                                                           quoted-printable
+sl          text/vnd.wap.sl                                                           quoted-printable
+wml         text/vnd.wap.wml                                                          quoted-printable
+wmls        text/vnd.wap.wmlscript                                                    quoted-printable
+vtt         text/vtt                                                                  quoted-printable
+asm         text/x-asm                                                                quoted-printable
+c           text/x-c                                                                  quoted-printable
+coffee      text/x-coffescript                                                        8bit
+htc         text/x-component                                                          8bit
+f           text/x-fortran                                                            quoted-printable
+java        text/x-java-source                                                        quoted-printable
+nfo         text/x-nfo                                                                quoted-printable
+opml        text/x-opml                                                               quoted-printable
+p           text/x-pascal                                                             quoted-printable
+etx         text/x-setext                                                             quoted-printable
+sfv         text/x-sfv                                                                quoted-printable
+uu          text/x-uuencode                                                           quoted-printable
+vcs         text/x-vcalendar                                                          8bit
+vcf         text/x-vcard                                                              8bit
+yaml        text/x-yaml                                                               8bit
+xml         text/xml                                                                  8bit
+3gp         video/3gpp                                                                base64
+3g2         video/3gpp2                                                               base64
+dv          video/DV                                                                  base64
+h261        video/H261                                                                base64
+h263        video/H263                                                                base64
+h264        video/H264                                                                base64
+jpgv        video/JPEG                                                                base64
+mj2         video/MJ2                                                                 base64
+ts          video/MP2T                                                                base64
+mp4         video/mp4                                                                 base64
+mp2         video/mpeg                                                                base64
+ogg         video/ogg                                                                 base64
+qt          video/quicktime                                                           base64
+uvh         video/vnd.dece.hd                                                         base64
+uvm         video/vnd.dece.mobile                                                     base64
+uvp         video/vnd.dece.pd                                                         base64
+uvs         video/vnd.dece.sd                                                         base64
+uvv         video/vnd.dece.video                                                      base64
+dvb         video/vnd.dvb.file                                                        base64
+fvt         video/vnd.fvt                                                             base64
+mxu         video/vnd.mpegurl                                                         8bit
+pyv         video/vnd.ms-playready.media.pyv                                          base64
+nim         video/vnd.nokia.interleaved-multimedia                                    base64
+mp4         video/vnd.objectvideo                                                     base64
+s11         video/vnd.sealed.mpeg1                                                    base64
+smpg        video/vnd.sealed.mpeg4                                                    base64
+sswf        video/vnd.sealed.swf                                                      base64
+smov        video/vnd.sealedmedia.softseal.mov                                        base64
+uvu         video/vnd.uvvu.mp4                                                        base64
+viv         video/vnd.vivo                                                            base64
+dl          video/x-dl                                                                base64
+fli         video/x-fli                                                               base64
+flv         video/x-flv                                                               base64
+gl          video/x-gl                                                                base64
+ivf         video/x-ivf                                                               base64
+mk3d        video/x-matroska                                                          base64
+mng         video/x-mng                                                               base64
+mjpg        video/x-motion-jpeg                                                       base64
+asf         video/x-ms-asf                                                            base64
+vob         video/x-ms-vob                                                            base64
+wm          video/x-ms-wm                                                             base64
+wmx         video/x-ms-wmx                                                            base64
+wvx         video/x-ms-wvx                                                            base64
+avi         video/x-msvideo                                                           base64
+movie       video/x-sgi-movie                                                         base64
+xyz         x-chemical/x-xyz                                                          base64
+ice         x-conference/x-cooltalk                                                   base64

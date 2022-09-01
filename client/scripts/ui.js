@@ -714,7 +714,7 @@ class PasteUI {
                 const lines = this.responseText.split(/\r?\n/);
                 for (let line of lines) {
                     if (!line.startsWith('#')) {
-                        let [mime, suffix] = line.split(/\s+/)
+                        let [suffix, mime] = line.split(/\s+/)
                         window.pasteMode.mimeTypeSuffixMap[mime] = suffix;
                     }
                 }
