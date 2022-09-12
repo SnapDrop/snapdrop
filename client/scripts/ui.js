@@ -22,7 +22,7 @@ class PeersUI {
         Events.on('peers', e => this._onPeers(e.detail));
         Events.on('file-progress', e => this._onFileProgress(e.detail));
         Events.on('paste', e => this._onPaste(e));
-        Events.on('activate-pastemode', e => this._activatePasteMode(() => this._getClipboardData()))
+        Events.on('activate-paste-mode', e => this._activatePasteMode(() => this._getClipboardData()))
     }
 
     _onPeerJoined(peer) {
@@ -726,7 +726,7 @@ class PasteUI {
         }
         // activate paste mode if 'paste' is true
         if(urlParams.get('paste') === 'true') {
-            Events.fire('activate async-clipboard')
+            Events.fire('activate-paste-mode')
         }
     }
 }
