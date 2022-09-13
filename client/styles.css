@@ -720,6 +720,7 @@ x-dialog x-paper {
 /* Image Preview */
 #img-preview{
     max-height: 50vh;
+    max-width: 100%;
     margin: auto;
     display: block;
 }
