@@ -35,4 +35,3 @@ services:
 # SAMPLE .env file content
 # STUN_SERVER_DOMAIN=stun.example.com
 # STUN_SERVER_UDP_PORT=3478
-# TZ=america/new_york
