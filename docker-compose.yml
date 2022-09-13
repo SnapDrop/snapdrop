@@ -6,7 +6,7 @@ services:
     working_dir: /home/node/app
     volumes:
       - ./server/:/home/node/app
-    command: ash -c "npm i && node index.js"
+    command: ash -c "sed -i 's/stun:stun.l.google.com:19302/stun:${STUN_SERVER_DOMAIN}:${STUN_SERVER_UDP_PORT}/g' client/scripts/network.js && npm i && node index.js"
   nginx:
     build:
       context: ./docker/
@@ -23,3 +23,16 @@ services:
     env_file: ./docker/fqdn.env
     entrypoint: /mnt/openssl/create.sh
     command: ["nginx", "-g", "daemon off;"]
+  coturn:
+    image: coturn/coturn:alpine
+    container_name: coturn_server
+    network_mode: bridge
+    ports:
+      - "0.0.0.0:${STUN_SERVER_UDP_PORT}:${STUN_SERVER_UDP_PORT}/udp"
+    restart: unless-stopped
+    command: ["--log-file=stdout", "--external-ip=$$(detect-external-ip)", "--no-auth", "--no-tcp", "--no-tls", "--no-dtls", "--no-cli", "--stun-only", "--listening-port=${STUN_SERVER_UDP_PORT}", "--realm=${STUN_SERVER_DOMAIN}"]
+
+# SAMPLE .env file content
+# STUN_SERVER_DOMAIN=stun.example.com
+# STUN_SERVER_UDP_PORT=3478
+# TZ=america/new_york
