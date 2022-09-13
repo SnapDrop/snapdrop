@@ -438,10 +438,10 @@ class Notifications {
         const visibilitychangeHandler = () => {                             
             if (document.visibilityState === 'visible') {    
                 notification.close();
-                document.removeEventListener('visibilitychange', visibilitychangeHandler);
+                Events.off('visibilitychange', visibilitychangeHandler);
             }                                                       
         };                                                                                
-        document.addEventListener('visibilitychange', visibilitychangeHandler);
+        Events.on('visibilitychange', visibilitychangeHandler);
 
         return notification;
     }
