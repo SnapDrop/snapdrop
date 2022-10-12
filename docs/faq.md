@@ -38,6 +38,19 @@ If you want to learn more about simplicity you can read [Insanely Simple: The Ob
 * Do security analysis and suggestions
 
 
+## "Inofficial" Instances
+Here's a list of other people hosting inofficial instances of Snapdrop:
+
+- https://snapdrop.k26.ch/
+- https://snapdrop.9pfs.repl.co/
+- https://filedrop.codext.de/
+- https://s.hoothin.com/
+- https://www.wulingate.com/
+- https://snapdrop.fairysoft.net/
+- https://airtransferer.web.app/
+
+DISCLAIMER: WE ARE NOT IN ANY WAY AFFILIATED WITH THE PEOPLE WHO RUN THESE INSTANCES. WE DO NOT KNOW THEM. WE CANNOT VERIFY THE CODE THEY ARE RUNNING!
+
 
 ## Third-Party Apps
 Here's a list of some third-party Snapdrop apps:
