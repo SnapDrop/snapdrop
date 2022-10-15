@@ -1,0 +1,13 @@
+[package]
+name = "snapdrop-server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+futures-util = "0.3.24"
+tokio = { version = "1.21.2", features = ["full"] }
+tokio-tungstenite = { version = "0.17.2", features = ["native-tls"] }
+tracing = "0.1.37"
+uuid = { version = "1.2.1", features = ["v4", "fast-rng"] }
