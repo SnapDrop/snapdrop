@@ -448,7 +448,8 @@ class FileChunker {
         this._offset += chunk.byteLength;
         this._partitionSize += chunk.byteLength;
         this._onChunk(chunk);
-        if (this._isPartitionEnd() || this.isFileEnd()) {
+        if (this.isFileEnd()) return;
+        if (this._isPartitionEnd()) {
             this._onPartitionEnd(this._offset);
             return;
         }
