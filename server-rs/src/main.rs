@@ -8,15 +8,52 @@
 //!
 //!     cargo run --example client ws://127.0.0.1:12345/
 
-use std::{env, io::Error};
+use std::{
+    collections::BTreeMap,
+    env,
+    io::Error,
+    net::SocketAddr,
+    sync::{Arc, RwLock},
+};
 
-use futures_util::{future, StreamExt, TryStreamExt};
+use futures_util::{future, stream::SplitSink, StreamExt, TryStreamExt};
+use lazy_static::lazy_static;
 use tokio::net::{TcpListener, TcpStream};
-use tokio_tungstenite::tungstenite::{
-    handshake::{client::Request, server::Response},
-    http::Response as HttpResponse,
+use tokio_tungstenite::{
+    tungstenite::{
+        handshake::{client::Request, server::Response},
+        http::Response as HttpResponse,
+        Message,
+    },
+    WebSocketStream,
 };
 use tracing::info;
+
+lazy_static! {
+    static ref ROOMS: Arc<RwLock<BTreeMap<SocketAddr, String>>> =
+        Arc::new(RwLock::new(BTreeMap::new()));
+}
+
+struct Peer {
+    socket: SplitSink<WebSocketStream<TcpStream>, Message>,
+
+    name: Name,
+    ip: SocketAddr,
+
+    rtc_supported: bool,
+    // timer: ,
+
+    // last_beat: ,
+}
+
+struct Name {
+    model: String,
+    os: String,
+    browser: String,
+    type_: String,
+    device_name: String,
+    device_type: String,
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
