@@ -12,6 +12,10 @@ use std::{env, io::Error};
 
 use futures_util::{future, StreamExt, TryStreamExt};
 use tokio::net::{TcpListener, TcpStream};
+use tokio_tungstenite::tungstenite::{
+    handshake::{client::Request, server::Response},
+    http::Response as HttpResponse,
+};
 use tracing::info;
 
 #[tokio::main]
@@ -32,24 +36,31 @@ async fn main() -> Result<(), Error> {
     Ok(())
 }
 
-async fn accept_connection(stream: TcpStream) {
-    let addr = stream
-        .peer_addr()
-        .expect("connected streams should have a peer address");
+fn header_callback(
+    request: &Request,
+    mut response: Response,
+) -> Result<Response, HttpResponse<Option<String>>> {
+    let headers = response.headers_mut();
+    let cookie = request.headers().get("cookie").unwrap();
+    if headers.contains_key("cookie") {
+        if let Ok(c) = cookie.to_str() {
+            if c.contains("peerid=") {
+                return Ok(response);
+            }
+        }
+    }
+
+    let new_cookie = format!("peerid={}; SameSite=Strict; Secure", uuid::Uuid::new_v4());
+    headers.append("Set-Cookie", new_cookie.parse().unwrap());
+
+    Ok(response)
+}
+
+async fn accept_connection(stream: TcpStream) -> anyhow::Result<()> {
+    let addr = stream.peer_addr()?;
     info!("Peer address: {}", addr);
 
-    let ws_stream = tokio_tungstenite::accept_hdr_async(stream, |request, response| {
-        let headers = response.headers();
-        if headers.contains_key("cookie") { // && request.headers().get("cookie").unwrap().contains("peerid=") {
-            return Ok(response);
-        }
-
-        headers.append("Set-Cookie", format!("{}; SameSite=Strict; Secure", uuid::Uuid::new_v4()));
-
-        Ok(response)
-    })
-        .await
-        .expect("Error during the websocket handshake occurred");
+    let ws_stream = tokio_tungstenite::accept_hdr_async(stream, header_callback).await?;
 
     info!("New WebSocket connection: {}", addr);
 
@@ -58,6 +69,7 @@ async fn accept_connection(stream: TcpStream) {
     // We should not forward messages other than text or binary.
     read.try_filter(|msg| future::ready(msg.is_text() || msg.is_binary()))
         .forward(write)
-        .await
-        .expect("Failed to forward messages")
+        .await?;
+
+    Ok(())
 }
