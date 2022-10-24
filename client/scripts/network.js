@@ -258,7 +258,6 @@ class RTCPeer extends Peer {
             ordered: true,
             reliable: true // Obsolete. See https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel/reliable
         });
-        channel.binaryType = 'arraybuffer';
         channel.onopen = e => this._onChannelOpened(e);
         this._conn.createOffer().then(d => this._onDescription(d)).catch(e => this._onError(e));
     }
@@ -295,6 +294,7 @@ class RTCPeer extends Peer {
     _onChannelOpened(event) {
         console.log('RTC: channel opened with', this._peerId);
         const channel = event.channel || event.target;
+        channel.binaryType = 'arraybuffer';
         channel.onmessage = e => this._onMessage(e.data);
         channel.onclose = e => this._onChannelClosed();
         this._channel = channel;
