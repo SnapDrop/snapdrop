@@ -1,3 +1,4 @@
+mod error;
 mod headers;
 mod peer;
 
@@ -61,7 +62,11 @@ async fn accept_connection(stream: TcpStream, peer_addr: SocketAddr) -> anyhow::
 
     let (write, read) = ws_stream.split();
 
-    let peer = Peer::new(write, peer_addr);
+    let peer = Peer::new(
+        write,
+        peer_addr,
+        user_agent.ok_or(error::SnapdropError::ClientNoUserAgent)?,
+    );
 
     Ok(())
 }
