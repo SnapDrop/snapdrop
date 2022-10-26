@@ -65,8 +65,14 @@ async fn accept_connection(stream: TcpStream, peer_addr: SocketAddr) -> anyhow::
     let peer = Peer::new(
         write,
         peer_addr,
+        x_forwarded_for,
         user_agent.ok_or(error::SnapdropError::ClientNoUserAgent)?,
+        webrtc,
     );
+
+    // TODO spawn read task
+
+    peer.keep_alive_timer().await;
 
     Ok(())
 }

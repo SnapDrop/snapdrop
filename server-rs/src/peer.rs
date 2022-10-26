@@ -1,4 +1,4 @@
-use std::net::SocketAddr;
+use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr};
 
 use futures_util::stream::SplitSink;
 use lazy_static::lazy_static;
@@ -10,6 +10,7 @@ type Socket = SplitSink<WebSocketStream<TcpStream>, Message>;
 
 lazy_static! {
     static ref UA_PARSER: UserAgentParser =
+        // TODO download at compile time?
         UserAgentParser::from_bytes(include_bytes!("../regexes.yaml")).expect("Parser creation failed");
 }
 
@@ -18,8 +19,9 @@ pub(crate) struct Peer {
 
     name: Name,
     ip: SocketAddr,
+
     rtc_supported: bool,
-    // timer: ,
+    // timer_task: tokio::task::JoinHandle<_> ,
 
     // last_beat: ,
 }
@@ -34,14 +36,29 @@ struct Name {
 }
 
 impl Peer {
-    pub(crate) fn new(socket: Socket, peer_addr: SocketAddr, user_agent: String) -> Peer {
+    pub(crate) fn new(
+        socket: Socket,
+        peer_addr: SocketAddr,
+        x_forwarded_for: Option<String>,
+        user_agent: String,
+        webrtc: bool,
+    ) -> Peer {
+        let mut ip = x_forwarded_for.and_then(|s| s.parse().ok()).unwrap_or(peer_addr);
+
+        // TODO check ip addresses for differently represented localhost addresses
+        if ip.is_ipv6() && ip.ip().eq(&IpAddr::V6(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1))) {
+            ip.set_ip(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)));
+        }
+
         Peer {
             socket,
             name: Name::new(user_agent),
-            ip: peer_addr,
-            rtc_supported: false,
+            ip,
+            rtc_supported: webrtc,
         }
     }
+
+    pub(crate) async fn keep_alive_timer(&self) {}
 }
 
 impl Name {
