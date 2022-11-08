@@ -18,7 +18,7 @@ You can [host your own instance with Docker](/docs/local-dev.md).
 ## Support the Snapdrop Community
 Snapdrop is free. Still, we have to pay for the server. If you want to contribute, please use PayPal:
 
-[<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTP9DXUR7LA7Q&source=url)
+[<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">](https://www.paypal.com/donate/?hosted_button_id=MG8GV7YCYT352)
 
 or Bitcoin:
 
