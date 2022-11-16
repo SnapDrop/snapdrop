@@ -16,6 +16,20 @@ Now point your browser to `http://localhost:8080`.
 - To debug the NodeJS server run `docker logs snapdrop_node_1`.
 
 
+## Run locally by pulling image from Docker Hub
+
+Have docker installed, then use the command:
+```
+    docker pull linuxserver/snapdrop
+```
+
+To run the image, type (if port 8080 is occupied by host use another random port <random port>:80):
+```
+    docker run -d -p 8080:80 linuxserver/snapdrop
+```
+
+
+
 
 
 
