@@ -9,10 +9,11 @@
 * [NodeJS](https://nodejs.org/en/) backend
 * [Progressive Web App](https://wikipedia.org/wiki/Progressive_Web_App)
 
-
 Have any questions? Read our [FAQ](/docs/faq.md).
 
 You can [host your own instance with Docker](/docs/local-dev.md).
+
+[![badge](https://github.com/Botspot/pi-apps/blob/master/icons/badge.png?raw=true)](https://github.com/Botspot/pi-apps)  
 
 
 ## Support the Snapdrop Community
