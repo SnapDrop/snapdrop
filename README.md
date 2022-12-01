@@ -7,18 +7,18 @@
 * Vanilla HTML5 / ES6 / CSS3 frontend
 * [WebRTC](http://webrtc.org/) / [WebSockets](http://www.websocket.org/)
 * [NodeJS](https://nodejs.org/en/) backend
-* [Progressive Web App](https://de.wikipedia.org/wiki/Progressive_Web_App)
+* [Progressive Web App](https://wikipedia.org/wiki/Progressive_Web_App)
 
 
 Have any questions? Read our [FAQ](/docs/faq.md).
 
-You can [host your own instance with docker](/docs/local-dev.md).
+You can [host your own instance with Docker](/docs/local-dev.md).
 
 
 ## Support the Snapdrop Community
 Snapdrop is free. Still, we have to pay for the server. If you want to contribute, please use PayPal:
 
-[<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTP9DXUR7LA7Q&source=url)
+[<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">](https://www.paypal.com/donate/?hosted_button_id=MG8GV7YCYT352)
 
 or Bitcoin:
 
@@ -29,4 +29,4 @@ Alternatively, you can become a [Github Sponsor](https://github.com/sponsors/Rob
 Thanks a lot for supporting free and open software!
 
 
-
+ 

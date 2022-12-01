@@ -80,6 +80,9 @@
                 <h3>File Received</h3>
                 <div class="font-subheading" id="fileName">Filename</div>
                 <div class="font-body2" id="fileSize"></div>
+                <div class='preview' style="visibility: hidden;">
+                    <img id='img-preview' src="">
+                </div>
                 <div class="row">
                     <label for="autoDownload" class="grow">Ask to save each file before downloading</label>
                     <input type="checkbox" id="autoDownload" checked="">
@@ -221,8 +224,8 @@
     <!-- no script -->
     <noscript>
         <x-noscript class="full center column">
-            <h1>Enable Javascript</h1>
-            <h3>Snapdrop works only with Javascript</h3>
+            <h1>Enable JavaScript</h1>
+            <h3>Snapdrop works only with JavaScript</h3>
         </x-noscript>
         <style>
         x-noscript {

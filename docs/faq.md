@@ -38,6 +38,20 @@ If you want to learn more about simplicity you can read [Insanely Simple: The Ob
 * Do security analysis and suggestions
 
 
+## "Inofficial" Instances
+Here's a list of other people hosting inofficial instances of Snapdrop:
+
+- https://snapdrop.k26.ch/
+- https://snapdrop.9pfs.repl.co/
+- https://filedrop.codext.de/
+- https://s.hoothin.com/
+- https://www.wulingate.com/
+- https://snapdrop.fairysoft.net/
+- https://airtransferer.web.app/
+- https://drop.wuyuan.dev
+
+DISCLAIMER: WE ARE NOT IN ANY WAY AFFILIATED WITH THE PEOPLE WHO RUN THESE INSTANCES. WE DO NOT KNOW THEM. WE CANNOT VERIFY THE CODE THEY ARE RUNNING!
+
 
 ## Third-Party Apps
 Here's a list of some third-party Snapdrop apps:
@@ -49,6 +63,10 @@ Here's a list of some third-party Snapdrop apps:
 1. [Snapdrop Flutter App](https://github.com/congnguyendinh0/snapdrop_flutter)
 
 1. [Snapdrop iOS App](https://github.com/CDsigma/Snapdrop-iOS-App)
+
+1. [Snapdrop Node App (with completely Node server)](https://github.com/Bellisario/node-snapdrop)
+
+1. [SnapDrop VSCode Extension](https://github.com/Yash-Garg/snapdrop-vsc)
 
 1. Feel free to make one :)
 

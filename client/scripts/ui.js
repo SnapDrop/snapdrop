@@ -27,6 +27,7 @@ class PeersUI {
         if ($(peer.id)) return; // peer already exists
         const peerUI = new PeerUI(peer);
         $$('x-peers').appendChild(peerUI.$el);
+        setTimeout(e => window.animateBackground(false), 1750); // Stop animation
     }
 
     _onPeers(peers) {
@@ -265,6 +266,11 @@ class ReceiveDialog extends Dialog {
             $a.click()
             return
         }
+        if(file.mime.split('/')[0] === 'image'){
+            console.log('the file is image');
+            this.$el.querySelector('.preview').style.visibility = 'inherit';
+            this.$el.querySelector("#img-preview").src = url;
+        }
 
         this.$el.querySelector('#fileName').textContent = file.name;
         this.$el.querySelector('#fileSize').textContent = this._formatFileSize(file.size);
@@ -291,6 +297,8 @@ class ReceiveDialog extends Dialog {
     }
 
     hide() {
+        this.$el.querySelector('.preview').style.visibility = 'hidden';
+        this.$el.querySelector("#img-preview").src = "";
         super.hide();
         this._dequeueFile();
     }
@@ -412,7 +420,7 @@ class Notifications {
         });
     }
 
-    _notify(message, body, closeTimeout = 20000) {
+    _notify(message, body) {
         const config = {
             body: body,
             icon: '/images/logo_transparent_128x128.png',
@@ -427,27 +435,35 @@ class Notifications {
         }
 
         // Notification is persistent on Android. We have to close it manually
-        if (closeTimeout) {
-            setTimeout(_ => notification.close(), closeTimeout);
-        }
+        const visibilitychangeHandler = () => {                             
+            if (document.visibilityState === 'visible') {    
+                notification.close();
+                Events.off('visibilitychange', visibilitychangeHandler);
+            }                                                       
+        };                                                                                
+        Events.on('visibilitychange', visibilitychangeHandler);
 
         return notification;
     }
 
     _messageNotification(message) {
-        if (isURL(message)) {
-            const notification = this._notify(message, 'Click to open link');
-            this._bind(notification, e => window.open(message, '_blank', null, true));
-        } else {
-            const notification = this._notify(message, 'Click to copy text');
-            this._bind(notification, e => this._copyText(message, notification));
+        if (document.visibilityState !== 'visible') {
+            if (isURL(message)) {
+                const notification = this._notify(message, 'Click to open link');
+                this._bind(notification, e => window.open(message, '_blank', null, true));
+            } else {
+                const notification = this._notify(message, 'Click to copy text');
+                this._bind(notification, e => this._copyText(message, notification));
+            }
         }
     }
 
     _downloadNotification(message) {
-        const notification = this._notify(message, 'Click to download');
-        if (!window.isDownloadSupported) return;
-        this._bind(notification, e => this._download(notification));
+        if (document.visibilityState !== 'visible') {
+            const notification = this._notify(message, 'Click to download');
+            if (!window.isDownloadSupported) return;
+            this._bind(notification, e => this._download(notification));
+        }
     }
 
     _download(notification) {
@@ -578,7 +594,7 @@ Events.on('load', () => {
     }
     window.onresize = init;
 
-    function drawCicrle(radius) {
+    function drawCircle(radius) {
         ctx.beginPath();
         let color = Math.round(255 * (1 - radius / Math.max(w, h)));
         ctx.strokeStyle = 'rgba(' + color + ',' + color + ',' + color + ',0.1)';
@@ -592,7 +608,7 @@ Events.on('load', () => {
     function drawCircles() {
         ctx.clearRect(0, 0, w, h);
         for (let i = 0; i < 8; i++) {
-            drawCicrle(dw * i + step % dw);
+            drawCircle(dw * i + step % dw);
         }
         step += 1;
     }
@@ -613,7 +629,6 @@ Events.on('load', () => {
     };
     init();
     animate();
-    setTimeout(e => window.animateBackground(false), 3000);
 });
 
 Notifications.PERMISSION_ERROR = `
