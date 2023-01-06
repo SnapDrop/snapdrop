@@ -407,8 +407,8 @@ class PeersManager {
     _onPeerLeft(peerId) {
         const peer = this.peers[peerId];
         delete this.peers[peerId];
-        if (!peer || !peer._peer) return;
-        peer._peer.close();
+        if (!peer || !peer._conn) return;
+        peer._conn.close();
     }
 
 }
