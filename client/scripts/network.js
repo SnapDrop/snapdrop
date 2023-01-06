@@ -15,10 +15,10 @@ class ServerConnection {
         if (this._isConnected() || this._isConnecting()) return;
         const ws = new WebSocket(this._endpoint());
         ws.binaryType = 'arraybuffer';
-        ws.onopen = e => console.log('WS: server connected');
+        ws.onopen = _ => console.log('WS: server connected');
         ws.onmessage = e => this._onMessage(e.data);
-        ws.onclose = e => this._onDisconnect();
-        ws.onerror = e => console.error(e);
+        ws.onclose = _ => this._onDisconnect();
+        ws.onerror = e => this._onError(e);
         this._socket = ws;
     }
 
@@ -66,13 +66,15 @@ class ServerConnection {
         this.send({ type: 'disconnect' });
         this._socket.onclose = null;
         this._socket.close();
+        Events.fire('disconnect');
     }
 
     _onDisconnect() {
         console.log('WS: server disconnected');
         Events.fire('notify-user', 'Connection lost. Retry in 5 seconds...');
         clearTimeout(this._reconnectTimer);
-        this._reconnectTimer = setTimeout(_ => this._connect(), 5000);
+        this._reconnectTimer = setTimeout(this._connect, 5000);
+        Events.fire('disconnect');
     }
 
     _onVisibilityChange() {
@@ -86,6 +88,11 @@ class ServerConnection {
 
     _isConnecting() {
         return this._socket && this._socket.readyState === this._socket.CONNECTING;
+    }
+
+    _onError(e) {
+        console.error(e);
+        this._connect();
     }
 }
 
@@ -369,6 +376,7 @@ class PeersManager {
         Events.on('files-selected', e => this._onFilesSelected(e.detail));
         Events.on('send-text', e => this._onSendText(e.detail));
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
+        Events.on('disconnect', this._clearPeers);
     }
 
     _onMessage(message) {
@@ -411,6 +419,11 @@ class PeersManager {
         peer._conn.close();
     }
 
+    _clearPeers() {
+        if (this.peers) {
+            Object.keys(this.peers).forEach(peerId => this._onPeerLeft(peerId));
+        }
+    }
 }
 
 class WSPeer {
