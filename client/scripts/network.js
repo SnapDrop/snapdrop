@@ -18,7 +18,7 @@ class ServerConnection {
         ws.onopen = _ => console.log('WS: server connected');
         ws.onmessage = e => this._onMessage(e.data);
         ws.onclose = _ => this._onDisconnect();
-        ws.onerror = e => this._onError(e);
+        ws.onerror = e => console.error(e);
         this._socket = ws;
     }
 
@@ -88,11 +88,6 @@ class ServerConnection {
 
     _isConnecting() {
         return this._socket && this._socket.readyState === this._socket.CONNECTING;
-    }
-
-    _onError(e) {
-        console.error(e);
-        this._connect();
     }
 }
 
