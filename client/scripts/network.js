@@ -303,13 +303,13 @@ class RTCPeer extends Peer {
         const channel = event.channel || event.target;
         channel.binaryType = 'arraybuffer';
         channel.onmessage = e => this._onMessage(e.data);
-        channel.onclose = e => this._onChannelClosed();
+        channel.onclose = _ => this._onChannelClosed();
         this._channel = channel;
     }
 
     _onChannelClosed() {
         console.log('RTC: channel closed', this._peerId);
-        if (!this._isCaller || !this._conn) return;
+        if (!this._isCaller) return;
         this._connect(this._peerId, true); // reopen the channel
     }
 
@@ -416,6 +416,7 @@ class PeersManager {
         const peer = this.peers[peerId];
         delete this.peers[peerId];
         if (!peer || !peer._conn) return;
+        peer._channel.onclose = null;
         peer._conn.close();
     }
 
