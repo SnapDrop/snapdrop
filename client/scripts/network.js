@@ -411,7 +411,7 @@ class PeersManager {
         const peer = this.peers[peerId];
         delete this.peers[peerId];
         if (!peer || !peer._conn) return;
-        peer._channel.onclose = null;
+        if (peer._channel) peer._channel.onclose = null;
         peer._conn.close();
     }
 
