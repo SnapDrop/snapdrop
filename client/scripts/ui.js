@@ -68,17 +68,7 @@ class PeersUI {
     }
 
     _onPaste(e) {
-        const dialogNodes = document.querySelectorAll('x-dialog');
-        let dialogIsOpen = false
-        dialogNodes.forEach(function (dialogNode) {
-            for(let i=0; i<dialogNode.attributes.length; i++){
-                if (dialogNode.attributes[i].name === "show") {
-                    dialogIsOpen = true;
-                    break
-                }
-            }
-        });
-        if(!dialogIsOpen) {
+        if(document.querySelectorAll('x-dialog[show]').length === 0) {
             // prevent send on paste when dialog is open
             e.preventDefault()
             const files = e.clipboardData.files;
