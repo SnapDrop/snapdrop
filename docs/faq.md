@@ -40,7 +40,7 @@ If you want to learn more about simplicity you can read [Insanely Simple: The Ob
 
 ## "Inofficial" Instances
 Here's a list of other people hosting inofficial instances of Snapdrop:
-
+- https://pairdrop.net/
 - https://snapdrop.k26.ch/
 - https://snapdrop.9pfs.repl.co/
 - https://filedrop.codext.de/
