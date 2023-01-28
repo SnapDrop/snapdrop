@@ -1,3 +1,4 @@
+const net = require('net');
 var process = require('process')
 // Handle SIGINT
 process.on('SIGINT', () => {
