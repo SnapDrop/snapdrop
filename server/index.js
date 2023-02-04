@@ -1,4 +1,3 @@
-const net = require('net');
 var process = require('process')
 // Handle SIGINT
 process.on('SIGINT', () => {
@@ -188,18 +187,21 @@ class Peer {
         } else {
             this.ip = request.connection.remoteAddress;
         }
+
+        // remove the prefix used for IPv4-translated addresses
+        if (this.ip.substring(0,7) === "::ffff:")
+            this.ip = this.ip.substring(7);
+
         // IPv4 and IPv6 use different values to refer to localhost
         // put all peers that are on the same network as the server into the same room as well
-        if (this.ip === '::1' || this.ip === '::ffff:127.0.0.1' || this.ip === '::1' || this.ipIsPrivate(this.ip)) {
+        if (this.ip === '::1' || this.ipIsPrivate(this.ip)) {
             this.ip = '127.0.0.1';
         }
     }
 
     ipIsPrivate(ip) {
-        if (ip.substring(0,7) === "::ffff:")
-            ip = ip.substring(7);
-
-        if (net.isIPv4(ip)) {
+        // if ip is IPv4
+        if (!ip.includes(":")) {
             //         10.0.0.0 - 10.255.255.255        ||   172.16.0.0 - 172.31.255.255                          ||    192.168.0.0 - 192.168.255.255
             return  /^(10)\.(.*)\.(.*)\.(.*)$/.test(ip) || /^(172)\.(1[6-9]|2[0-9]|3[0-1])\.(.*)\.(.*)$/.test(ip) || /^(192)\.(168)\.(.*)\.(.*)$/.test(ip)
         }
