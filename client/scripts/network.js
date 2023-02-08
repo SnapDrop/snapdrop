@@ -186,8 +186,8 @@ class Peer {
     }
 
     _onChunkReceived(chunk) {
-        if(!chunk.byteLength) return;
-        
+        if (!chunk.byteLength) return;
+
         this._digester.unchunk(chunk);
         const progress = this._digester.progress;
         this._onDownloadProgress(progress);
@@ -254,7 +254,7 @@ class RTCPeer extends Peer {
     }
 
     _openChannel() {
-        const channel = this._conn.createDataChannel('data-channel', { 
+        const channel = this._conn.createDataChannel('data-channel', {
             ordered: true,
             reliable: true // Obsolete. See https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel/reliable
         });
@@ -279,7 +279,7 @@ class RTCPeer extends Peer {
 
         if (message.sdp) {
             this._conn.setRemoteDescription(new RTCSessionDescription(message.sdp))
-                .then( _ => {
+                .then(_ => {
                     if (message.sdp.type === 'offer') {
                         return this._conn.createAnswer()
                             .then(d => this._onDescription(d));

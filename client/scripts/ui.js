@@ -262,11 +262,11 @@ class ReceiveDialog extends Dialog {
         $a.href = url;
         $a.download = file.name;
 
-        if(this._autoDownload()){
+        if (this._autoDownload()) {
             $a.click()
             return
         }
-        if(file.mime.split('/')[0] === 'image'){
+        if (file.mime.split('/')[0] === 'image') {
             console.log('the file is image');
             this.$el.querySelector('.preview').style.visibility = 'inherit';
             this.$el.querySelector("#img-preview").src = url;
@@ -304,7 +304,7 @@ class ReceiveDialog extends Dialog {
     }
 
 
-    _autoDownload(){
+    _autoDownload() {
         return !this.$el.querySelector('#autoDownload').checked
     }
 }
@@ -435,12 +435,12 @@ class Notifications {
         }
 
         // Notification is persistent on Android. We have to close it manually
-        const visibilitychangeHandler = () => {                             
-            if (document.visibilityState === 'visible') {    
+        const visibilitychangeHandler = () => {
+            if (document.visibilityState === 'visible') {
                 notification.close();
                 Events.off('visibilitychange', visibilitychangeHandler);
-            }                                                       
-        };                                                                                
+            }
+        };
         Events.on('visibilitychange', visibilitychangeHandler);
 
         return notification;
@@ -516,7 +516,7 @@ class WebShareTargetUI {
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
 
-        if(url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
+        if (url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
 
         if (!shareTargetText) return;
         window.shareTargetText = shareTargetText;
@@ -617,13 +617,13 @@ Events.on('load', () => {
 
     function animate() {
         if (loading || step % dw < dw - 5) {
-            requestAnimationFrame(function() {
+            requestAnimationFrame(function () {
                 drawCircles();
                 animate();
             });
         }
     }
-    window.animateBackground = function(l) {
+    window.animateBackground = function (l) {
         loading = l;
         animate();
     };
