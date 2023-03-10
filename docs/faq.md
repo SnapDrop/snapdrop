@@ -61,6 +61,8 @@ Here's a list of some third-party Snapdrop apps:
 
 1. [Snapdrop Android App](https://github.com/fm-sys/snapdrop-android) allows you to also send files directly from other apps via the share action.
 
+1. [Snapdrop WebExtension](https://github.com/ueen/SnapdropFirefoxAddon)
+
 1. [Snapdrop Flutter App](https://github.com/congnguyendinh0/snapdrop_flutter)
 
 1. [Snapdrop iOS App](https://github.com/CDsigma/Snapdrop-iOS-App)
