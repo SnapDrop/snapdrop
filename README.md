@@ -24,6 +24,8 @@ or Bitcoin:
 
 [<img src="https://coins.github.io/thx/logo-color-large-pill-320px.png" alt="CoinThx" width="200"/>](https://coins.github.io/thx/#1K9zQ8f4iTyhKyHWmiDKt21cYX2QSDckWB?label=Snapdrop&message=Thanks!%20Your%20contribution%20helps%20to%20keep%20Snapdrop%20free%20for%20everybody!) 
 
+[Bitcoin Lighting](https://tippin.me/@robin_linus)
+
 Alternatively, you can become a [Github Sponsor](https://github.com/sponsors/RobinLinus).
 
 Thanks a lot for supporting free and open software!
