@@ -315,6 +315,21 @@ class SendTextDialog extends Dialog {
         super('sendTextDialog');
         Events.on('text-recipient', e => this._onRecipient(e.detail))
         this.$text = this.$el.querySelector('#textInput');
+
+		// `textDouble`, an invisible element with `opacity: 0` and `aria-hidden="true"`,
+		// is kept in sync with `this.$text` to automatically expand the parent element size
+		// in line with the number of rows in the textarea. This approach is preferable to
+		// using a <div contenteditable> with `innerText` to avoid various issues in the
+		// `contentEditable` and `innerText` browser APIs, such as newlines being duplicated.
+		// See e.g. https://stackoverflow.com/questions/56535416/innertext-on-content-editable-doubling-some-line-breaks
+		const textDouble = this.$el.querySelector('#textDouble');
+
+		this.$text.addEventListener('input', e => {
+			// use `!` to preserve spacing when last line is empty
+			textDouble.textContent = e.currentTarget.value
+				.replace(/(^|\n)$/, '$1!');
+		});
+
         const button = this.$el.querySelector('form');
         button.addEventListener('submit', e => this._send(e));
     }
@@ -323,14 +338,6 @@ class SendTextDialog extends Dialog {
         this._recipient = recipient;
         this._handleShareTargetText();
         this.show();
-
-        const range = document.createRange();
-        const sel = window.getSelection();
-
-        range.selectNodeContents(this.$text);
-        sel.removeAllRanges();
-        sel.addRange(range);
-
     }
 
     _handleShareTargetText() {
@@ -343,7 +350,7 @@ class SendTextDialog extends Dialog {
         e.preventDefault();
         Events.fire('send-text', {
             to: this._recipient,
-            text: this.$text.innerText
+            text: this.$text.value
         });
     }
 }
