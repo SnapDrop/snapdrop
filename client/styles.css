@@ -548,7 +548,7 @@ button::-moz-focus-inner {
 }
 
 #about:target x-background {
-    transform: scale(10);
+    transform: scale(12);
 }
 
 #about .row a {
