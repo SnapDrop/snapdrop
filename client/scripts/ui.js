@@ -596,7 +596,7 @@ Events.on('load', () => {
 
     function drawCircle(radius) {
         ctx.beginPath();
-        let color = Math.round(255 * (1 - radius / Math.max(w, h)));
+        let color = Math.round(197 * (1 - radius / Math.max(w, h)));
         ctx.strokeStyle = 'rgba(' + color + ',' + color + ',' + color + ',0.1)';
         ctx.arc(x0, y0, radius, 0, 2 * Math.PI);
         ctx.stroke();
