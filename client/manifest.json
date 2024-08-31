@@ -25,7 +25,6 @@
         "type": "image/png"
     }],
     "background_color": "#efefef",
-    "start_url": "/",
     "display": "minimal-ui",
     "theme_color": "#3367d6",
     "share_target": {
