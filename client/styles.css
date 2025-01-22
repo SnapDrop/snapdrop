@@ -11,8 +11,8 @@
 
 /* Layout */
 @font-face {
-    font-family: 'futuru';
-    src: url('futuru.ttf') format('truetype');
+    font-family: 'syne';
+    src: url('syne.ttf') format('truetype');
 }
 html {
     height: 100%;
@@ -87,7 +87,7 @@ header {
 
 *{
     
-    font-family: 'futuru', sans-serif;
+    font-family: '', sans-serif;
    
 }
 
