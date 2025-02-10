@@ -197,7 +197,9 @@ class Peer {
         if (request.peerId) {
             this.id = request.peerId;
         } else {
-            this.id = request.headers.cookie.replace('peerid=', '');
+            const parts = request.headers.cookie.split(';').map(part => part.trim());
+            const peerIdPart = parts.find(part => part.startsWith('peerid='));
+            this.id = peerIdPart.replace('peerid=', '');
         }
     }
 
