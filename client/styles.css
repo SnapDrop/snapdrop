@@ -2,7 +2,7 @@
 
 :root {
     --icon-size: 24px;
-    --primary-color: #4285f4;
+    --primary-color: #0530AD;
     --peer-width: 120px;
     --text-color: #333;
     --bg-color: #fafafa;
@@ -10,7 +10,10 @@
 }
 
 /* Layout */
-
+@font-face {
+    font-family: 'syne';
+    src: url('syne.ttf') format('truetype');
+}
 html {
     height: 100%;
 }
@@ -82,10 +85,10 @@ header {
 
 /* Typography */
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+*{
+    
+    font-family: '', sans-serif;
+   
 }
 
 h1 {
@@ -118,13 +121,13 @@ h3 {
 
 .font-body1,
 body {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 400;
     line-height: 20px;
 }
 
 .font-body2 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 18px;
 }
 
