@@ -7,6 +7,8 @@ services:
     volumes:
       - ./server/:/home/node/app
     command: ash -c "npm i && node index.js"
+    ports:
+      - "3000:3000"
   nginx:
     build:
       context: ./docker/
